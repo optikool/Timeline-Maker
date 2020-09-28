@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "timeline-maker"
+    }
+  },
+  "defaultProject": "timeline-maker",
+  "cli": {
+    "analytics": false
+  }
 }
