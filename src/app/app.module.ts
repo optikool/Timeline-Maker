@@ -12,6 +12,7 @@ import { ResolversModule } from './resolvers/resolvers.module';
 import { ViewsModule } from './views/views.module';
 
 import { NgxElectronModule } from 'ngx-electron';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { NgxElectronModule } from 'ngx-electron';
     InterfacesModule,
     PipesModule,
     ResolversModule,
-    ViewsModule
+    ViewsModule,
+    BrowserAnimationsModule
   ],
   exports: [
     ComponentsModule
