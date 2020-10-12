@@ -1,5 +1,46 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router, Event, NavigationEnd } from '@angular/router';
+import { Observable } from 'rxjs';
+
+export interface Navigation {
+  id: number;
+  name: string;
+  url: Array<string>;
+  isActive: boolean;
+}
+
+const NAVI: Array<Navigation> = [
+  {
+    id: 1,
+    name: 'Home',
+    url: ['/'],
+    isActive: false
+  },
+  {
+    id: 2,
+    name: 'Timelines',
+    url: ['/time-lines'],
+    isActive: false
+  },
+  {
+    id: 3,
+    name: 'Members',
+    url: ['/members'],
+    isActive: false
+  },
+  {
+    id: 4,
+    name: 'Settings',
+    url: ['/settings'],
+    isActive: false
+  },
+  {
+    id: 1,
+    name: 'Help',
+    url: ['/help'],
+    isActive: false
+  }
+];
 
 @Component({
   selector: 'app-header',
@@ -7,21 +48,29 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  public url: Observable<string>;
+  public navigation: Array<Navigation>;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private router: Router
-  ) { }
+  ) {
+    this.navigation = NAVI;
+  }
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe((params) => {
-
+    this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationEnd) {
+        this.navigation =  this.navigation.map(n => {
+          return {
+            ...n,
+            isActive: n.url.includes(event.url)
+          }
+        });
+      }
     });
   }
 
   navigateToPage(page) {
-    console.log('navigating to page: ', page);
     this.router.navigate(page);
   }
-
 }

@@ -1,7 +1,15 @@
-<div id="header-bar">
-    <button mat-button routerLinkActive="active" (click)="navigateToPage([''])">Home</button>
-    <button mat-button routerLinkActive="active" (click)="navigateToPage(['/time-lines'])">Time Lines</button>
-    <button mat-button routerLinkActive="active" (click)="navigateToPage(['/members'])">Members</button>
-    <button mat-button routerLinkActive="active" (click)="navigateToPage(['/settings'])">Settings</button>
-    <button mat-button routerLinkActive="active" (click)="navigateToPage(['/help'])">Help</button>
-</div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" (click)="navigateToPage(['/'])">Timeline Maker</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li *ngFor="let nav of navigation" class="nav-item" [ngClass]="{'active': nav.isActive}">
+        <a class="nav-link" (click)="navigateToPage(nav.url)">
+            {{ nav.name }}
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
