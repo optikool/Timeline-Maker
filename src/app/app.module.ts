@@ -10,9 +10,11 @@ import { InterfacesModule } from './interfaces/interfaces.module';
 import { PipesModule } from './pipes/pipes.module';
 import { ResolversModule } from './resolvers/resolvers.module';
 import { ViewsModule } from './views/views.module';
-
+import { MaterialsModule } from './helpers/materials.module';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { NgxElectronModule } from 'ngx-electron';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -22,18 +24,22 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserModule,
     AppRoutingModule,
     NgxElectronModule,
+    MaterialsModule,
     ComponentsModule,
     DirectivesModule,
     InterfacesModule,
     PipesModule,
     ResolversModule,
     ViewsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgbModule
   ],
   exports: [
     ComponentsModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
+  ],
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

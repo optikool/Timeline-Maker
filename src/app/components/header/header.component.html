@@ -1,7 +1,7 @@
 <div id="header-bar">
-    <button mat-button (click)="navigateToPage([''])">Home</button>
-    <button mat-button (click)="navigateToPage(['/time-lines'])">Time Lines</button>
-    <button mat-button (click)="navigateToPage(['/members'])">Members</button>
-    <button mat-button (click)="navigateToPage(['/settings'])">Settings</button>
-    <button mat-button (click)="navigateToPage(['/help'])">Help</button>
+    <button mat-button routerLinkActive="active" (click)="navigateToPage([''])">Home</button>
+    <button mat-button routerLinkActive="active" (click)="navigateToPage(['/time-lines'])">Time Lines</button>
+    <button mat-button routerLinkActive="active" (click)="navigateToPage(['/members'])">Members</button>
+    <button mat-button routerLinkActive="active" (click)="navigateToPage(['/settings'])">Settings</button>
+    <button mat-button routerLinkActive="active" (click)="navigateToPage(['/help'])">Help</button>
 </div>
