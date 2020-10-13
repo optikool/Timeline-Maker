@@ -5,7 +5,7 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
-      <li *ngFor="let nav of navigation" class="nav-item" [ngClass]="{'active': nav.isActive}">
+      <li *ngFor="let nav of navigation" class="nav-item" [class.active]="nav.isActive">
         <a class="nav-link" (click)="navigateToPage(nav.url)">
             {{ nav.name }}
         </a>

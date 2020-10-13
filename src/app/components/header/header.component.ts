@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, Event, NavigationEnd } from '@angular/router';
 import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 export interface Navigation {
   id: number;
@@ -58,15 +59,15 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationEnd) {
-        this.navigation =  this.navigation.map(n => {
-          return {
-            ...n,
-            isActive: n.url.includes(event.url)
-          }
-        });
-      }
+    this.router.events
+    .pipe(filter(event => event instanceof NavigationEnd))  
+    .subscribe((event: NavigationEnd) => {
+      this.navigation =  this.navigation.map(link => {
+        return {
+          ...link,
+          isActive: link.url.includes(event.url)
+        }
+      });
     });
   }
 
