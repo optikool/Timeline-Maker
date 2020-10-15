@@ -10,9 +10,16 @@ import { SettingsComponent } from './views/settings/settings.component';
 import { TimeLineComponent } from './views/time-line/time-line.component';
 import { TimeLinesComponent } from './views/time-lines/time-lines.component';
 
+import { MembersResolverService } from './resolvers/members-resolver.service';
+
 
 const routes: Routes = [
-  { path: 'members', component: MembersComponent },
+  { path: 'members', 
+    component: MembersComponent, 
+    resolve: {
+      members: MembersResolverService
+    }
+  },
   { path: 'member', component: MemberComponent },
   { path: 'time-lines', component: TimeLinesComponent },
   { path: 'time-line', component: TimeLineComponent },

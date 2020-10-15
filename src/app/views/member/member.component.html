@@ -1,1 +1,99 @@
-<p>member works!</p>
+<div class="card m-3">
+    <h5 class="card-header pull-left">New Member</h5>
+    <div class="card-body">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <div class="form-row">
+                <div class="form-group col-5">
+                    <label for="memberName">Name</label>
+                    <input type="text" formControlName="memberName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.memberName.errors }" />
+                    <div *ngIf="submitted && f.memberName.errors" class="invalid-feedback">
+                        <div *ngIf="f.memberName.errors.required">Name is required</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-5">
+                    <label for="dateOfBirth">Date of Birth</label>
+                    <input type="text" formControlName="dateOfBirth" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.dateOfBirth.errors }" />
+                    <div *ngIf="submitted && f.dateOfBirth.errors" class="invalid-feedback">
+                        <div *ngIf="f.dateOfBirth.errors.required">Date of Birth is required</div>
+                    </div>
+                </div>
+                <div class="form-group col-5">
+                    <label for="dateOfDeath">Date of Death</label>
+                    <input type="text" formControlName="dateOfDeath" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.dateOfDeath.errors }" />
+                    <div *ngIf="submitted && f.dateOfDeath.errors" class="invalid-feedback">
+                        <div *ngIf="f.dateOfDeath.errors.required">Date of Death is required</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-5">
+                    <label for="fatherName">Father</label>
+                    <input type="text" formControlName="fatherName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.fatherName.errors }" />
+                    <div *ngIf="submitted && f.fatherName.errors" class="invalid-feedback">
+                        <div *ngIf="f.fatherName.errors.required">Father is required</div>
+                    </div>
+                </div>
+                <div class="form-group col-5">
+                    <label for="motherName">Mother</label>
+                    <input type="text" formControlName="motherName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.motherName.errors }" />
+                    <div *ngIf="submitted && f.motherName.errors" class="invalid-feedback">
+                        <div *ngIf="f.motherName.errors.required">Last Name is required</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-5">
+                    <label for="sonName">Son</label>
+                    <input type="text" formControlName="sonName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.sonName.errors }" />
+                    <div *ngIf="submitted && f.sonName.errors" class="invalid-feedback">
+                        <div *ngIf="f.sonName.errors.required">Son is required</div>
+                    </div>
+                </div>
+                <div class="form-group col-5">
+                    <label for="daughterName">Daughter</label>
+                    <input type="text" formControlName="daughterName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.daughterName.errors }" />
+                    <div *ngIf="submitted && f.daughterName.errors" class="invalid-feedback">
+                        <div *ngIf="f.daughterName.errors.required">Daughter is required</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-5">
+                    <label for="fatherAgeAtBirth">Father Age at Birth</label>
+                    <input type="text" formControlName="fatherAgeAtBirth" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.fatherAgeAtBirth.errors }" />
+                    <div *ngIf="submitted && f.fatherAgeAtBirth.errors" class="invalid-feedback">
+                        <div *ngIf="f.fatherAgeAtBirth.errors.required">Father Age at Birth is required</div>
+                    </div>
+                </div>
+                <div class="form-group col-5">
+                    <label for="fatherLivedTill">Lived Till</label>
+                    <input type="text" formControlName="fatherLivedTill" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.fatherLivedTill.errors }" />
+                    <div *ngIf="submitted && f.fatherLivedTill.errors" class="invalid-feedback">
+                        <div *ngIf="f.fatherLivedTill.errors.required">Lived Till is required</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-5">
+                    <label for="reference">Reference</label>
+                    <input type="text" formControlName="reference" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.reference.errors }" />
+                    <div *ngIf="submitted && f.reference.errors" class="invalid-feedback">
+                        <div *ngIf="f.reference.errors.required">Reference is required</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="description">Textarea</label>
+                    <textarea formControlName="description" class="form-control" id="description" placeholder=""></textarea>
+                </div>
+            </div>
+            <div class="text-right">
+                <button class="btn btn-primary mr-1">Create</button>
+                <button class="btn btn-secondary" type="reset" (click)="onReset()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>

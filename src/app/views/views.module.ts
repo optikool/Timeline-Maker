@@ -8,7 +8,8 @@ import { TimeLinesComponent } from './time-lines/time-lines.component';
 import { TimeLineComponent } from './time-line/time-line.component';
 import { MembersComponent } from './members/members.component';
 import { MemberComponent } from './member/member.component';
-import {MatTableModule, MatTableDataSource} from '@angular/material/table';
+// import {MatTableModule, MatTableDataSource} from '@angular/material/table';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import {MatTableModule, MatTableDataSource} from '@angular/material/table';
     MemberComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule
   ]
 })
 export class ViewsModule { }
