@@ -1,10 +1,14 @@
 # TimelineMaker
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.6.
+Timeline Maker is a Proof of Concept for building a Windows app using Angular 10, Electron, NodeJS and Sqlite3 as its base. 
+
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.6 and upgraded to 10.1.5.
 
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
+Run `npm run electron` for an electron dev server. The app will automatically open.
 
 ## Code scaffolding
 
@@ -14,13 +18,15 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
+Run `npm run electron-aot` to build project in Electron.
+
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
 ## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Run `npm run cypress:open` to execute the end-to-end tests via [Cypress](https://www.cypress.io/).
 
 ## Further help
 
