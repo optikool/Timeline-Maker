@@ -1,13 +1,12 @@
 <div class="card m-3">
-    <h5 class="card-header pull-left">New Member</h5>
     <div class="card-body">
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
             <div class="form-row">
                 <div class="form-group col-5">
-                    <label for="memberName">Name</label>
-                    <input type="text" formControlName="memberName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.memberName.errors }" />
-                    <div *ngIf="submitted && f.memberName.errors" class="invalid-feedback">
-                        <div *ngIf="f.memberName.errors.required">Name is required</div>
+                    <label for="characterName" placement="right" ngbTooltip="Tooltip on right">Name</label>
+                    <input type="text" formControlName="characterName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.characterName.errors }" />
+                    <div *ngIf="submitted && f.characterName.errors" class="invalid-feedback">
+                        <div *ngIf="f.characterName.errors.required">Name is required</div>
                     </div>
                 </div>
             </div>
@@ -51,13 +50,6 @@
                         <div *ngIf="f.sonName.errors.required">Son is required</div>
                     </div>
                 </div>
-                <div class="form-group col-5">
-                    <label for="daughterName">Daughter</label>
-                    <input type="text" formControlName="daughterName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.daughterName.errors }" />
-                    <div *ngIf="submitted && f.daughterName.errors" class="invalid-feedback">
-                        <div *ngIf="f.daughterName.errors.required">Daughter is required</div>
-                    </div>
-                </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-5">
@@ -68,10 +60,10 @@
                     </div>
                 </div>
                 <div class="form-group col-5">
-                    <label for="fatherLivedTill">Lived Till</label>
-                    <input type="text" formControlName="fatherLivedTill" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.fatherLivedTill.errors }" />
-                    <div *ngIf="submitted && f.fatherLivedTill.errors" class="invalid-feedback">
-                        <div *ngIf="f.fatherLivedTill.errors.required">Lived Till is required</div>
+                    <label for="fatherContinuedToLive">Lived Till</label>
+                    <input type="text" formControlName="fatherContinuedToLive" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.fatherContinuedToLive.errors }" />
+                    <div *ngIf="submitted && f.fatherContinuedToLive.errors" class="invalid-feedback">
+                        <div *ngIf="f.fatherContinuedToLive.errors.required">Lived Till is required</div>
                     </div>
                 </div>
             </div>
@@ -86,12 +78,12 @@
             </div>
             <div class="form-row">
                 <div class="form-group col">
-                    <label for="description">Textarea</label>
+                    <label for="description">Description</label>
                     <textarea formControlName="description" class="form-control" id="description" placeholder=""></textarea>
                 </div>
             </div>
             <div class="text-right">
-                <button class="btn btn-primary mr-1">Create</button>
+                <button class="btn btn-primary mr-1" [disabled]="registerForm.invalid">Create</button>
                 <button class="btn btn-secondary" type="reset" (click)="onReset()">Cancel</button>
             </div>
         </form>

@@ -25,8 +25,8 @@ const NAVI: Array<Navigation> = [
   },
   {
     id: 3,
-    name: 'Members',
-    url: ['/members'],
+    name: 'Characters',
+    url: ['/characters'],
     isActive: false
   },
   {

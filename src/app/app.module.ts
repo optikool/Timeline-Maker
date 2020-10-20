@@ -17,6 +17,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { HelperService } from './services/helper.service';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -42,6 +44,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   ],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
+    HelperService
   ],
   bootstrap: [AppComponent],
 })

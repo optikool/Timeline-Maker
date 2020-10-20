@@ -3,24 +3,36 @@ import { Routes, RouterModule } from '@angular/router';
 import { HelpComponent } from './views/help/help.component';
 
 import { HomeComponent } from './views/home/home.component';
-import { MemberComponent } from './views/member/member.component';
-import { MembersComponent } from './views/members/members.component';
+import { CharacterComponent } from './views/character/character.component';
+import { CharactersComponent } from './views/characters/characters.component';
 import { PageNotFoundComponent } from './views/page-not-found/page-not-found.component';
 import { SettingsComponent } from './views/settings/settings.component';
 import { TimeLineComponent } from './views/time-line/time-line.component';
 import { TimeLinesComponent } from './views/time-lines/time-lines.component';
 
-import { MembersResolverService } from './resolvers/members-resolver.service';
+import { CharactersResolverService } from './resolvers/characters-resolver.service';
+import { CharacterResolverService } from './resolvers/character-resolver.service';
+import { CharacterNewComponent } from './views/character-new/character-new.component';
 
 
 const routes: Routes = [
-  { path: 'members', 
-    component: MembersComponent, 
+  { path: 'characters', 
+    component: CharactersComponent, 
     resolve: {
-      members: MembersResolverService
+      characters: CharactersResolverService
     }
   },
-  { path: 'member', component: MemberComponent },
+  {
+    path: 'character/new',
+    component: CharacterNewComponent
+  },
+  { path: 'character/:id', 
+    component: CharacterComponent,
+    resolve: {
+      character: CharacterResolverService
+    },
+    pathMatch: 'full'
+  },
   { path: 'time-lines', component: TimeLinesComponent },
   { path: 'time-line', component: TimeLineComponent },
   { path: 'help', component: HelpComponent },
@@ -31,6 +43,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: []
 })
 export class AppRoutingModule { }

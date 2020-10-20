@@ -6,10 +6,12 @@ import { SettingsComponent } from './settings/settings.component';
 import { HelpComponent } from './help/help.component';
 import { TimeLinesComponent } from './time-lines/time-lines.component';
 import { TimeLineComponent } from './time-line/time-line.component';
-import { MembersComponent } from './members/members.component';
-import { MemberComponent } from './member/member.component';
+import { CharactersComponent } from './characters/characters.component';
+import { CharacterComponent } from './character/character.component';
 // import {MatTableModule, MatTableDataSource} from '@angular/material/table';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CharacterNewComponent } from './character-new/character-new.component';
+import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
   declarations: [
@@ -19,12 +21,14 @@ import { ReactiveFormsModule } from '@angular/forms';
     HelpComponent,
     TimeLinesComponent,
     TimeLineComponent,
-    MembersComponent,
-    MemberComponent
+    CharactersComponent,
+    CharacterComponent,
+    CharacterNewComponent
   ],
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ComponentsModule
   ]
 })
 export class ViewsModule { }

@@ -1,0 +1,38 @@
+<div class="container d-flex align-items-end"><button class="btn btn-primary" (click)="navigateToPage(['/character', 'new'])">New Character</button></div>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="col">Id</th>
+    <th scope="col">Name</th>
+    <th scope="col">Date of Birth</th>
+    <th scope="col">Date of Death</th>
+    <th scope="col">Father</th>
+    <th scope="col">Mother</th>
+    <th scope="col">Son</th>
+    <th scope="col">Father Age at Birth</th>
+    <th scope="col">Lived till</th>
+    <th scope="col">Total</th>
+    <th scope="col">Reference</th>
+    <th scope="col"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let character of dataSource">
+    <th scope="row">{{ character.id }}</th>
+    <td>{{ character.characterName }}</td>
+    <td>{{ character.dateOfBirth }}</td>
+    <td>{{ character.dateOfDeath }}</td>
+    <td>{{ character.fatherName }}</td>
+    <td>{{ character.motherName }}</td>
+    <td>{{ character.sonName }}</td>
+    <td>{{ character.fatherAgeAtBirth }}</td>
+    <td>{{ character.fatherContinuedToLive }}</td>
+    <td>{{ character.fatherContinuedToLive + character.fatherAgeAtBirth }}</td>
+    <td>{{ character.reference }}</td>
+    <td>
+        <button class="btn btn-success mr-1" (click)="navigateToPage(['/character', character.id])">Edit</button>
+        <button class="btn btn-danger" type="reset" (click)="deleteCharacter(character.id)">Delete</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
