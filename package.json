@@ -11,6 +11,7 @@
     "e2e": "ng e2e",
     "electron": "ng build && electron .",
     "electron-aot": "ng build --prod && electron .",
+    "electron:rebuild": "electron-rebuild -f -w sqlite3",
     "cypress:open": "cypress open",
     "postinstall": "electron-builder install-app-deps"
   },
