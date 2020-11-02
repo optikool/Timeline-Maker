@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
+import { Observable } from 'rxjs';
 import { Character } from '../interfaces/character';
 import { HelperService } from '../services/helper.service';
 
@@ -12,7 +13,7 @@ export class CharactersResolverService implements Resolve<Array<Character>> {
     private helperService: HelperService  
   ) { }
 
-  resolve() {
+  resolve(): Observable<Character[]> {
     return this.helperService.getCharacters();
   }
 }

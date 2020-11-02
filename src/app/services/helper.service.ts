@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { ElectronService } from 'ngx-electron';
+import { of, Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { Character } from '../interfaces/character';
 
 @Injectable({
@@ -7,72 +10,23 @@ import { Character } from '../interfaces/character';
 })
 export class HelperService {
 
-  constructor( private router: Router) { }
+  constructor( 
+    private router: Router,
+    private _electronService: ElectronService) { }
 
   navigateToPage(page) {
     this.router.navigate(page);
   }
 
-  getCharacter(id: number): Character {
-    return CHARACTERS.find(character => character.id === id);
+  getCharacter(id: number): Observable<Character> {
+    return of(
+      this._electronService.ipcRenderer.sendSync('get-character', id)
+    ).pipe(catchError((error: any) => Observable.throw(error.json)));
   }
 
-  getCharacters(): Array<Character> {
-    return CHARACTERS;
+  getCharacters(): Observable<Character[]> {
+    return of(this._electronService.ipcRenderer.sendSync('get-characters')).pipe(
+      catchError((error: any) => Observable.throw(error.json))
+    );
   }
 }
-
-const CHARACTERS: Array<Character> = [
-  {
-    id: 1,
-    characterName: 'Adam',
-    dateOfBirth: '50 BCE',
-    dateOfDeath: '3096 BCE',
-    fatherName: null,
-    motherName: null,
-    sonName: 3,
-    fatherAgeAtBirth: 130,
-    fatherContinuedToLive: 800,
-    reference: 'Gen 5:3-5',
-    description: ''
-  },
-  {
-    id: 2,
-    characterName: 'Eve',
-    dateOfBirth: '100 BCE',
-    dateOfDeath: '3096 BCE',
-    fatherName: null,
-    motherName: null,
-    sonName: 3,
-    fatherAgeAtBirth: 130,
-    fatherContinuedToLive: 800,
-    reference: 'Gen 5:3-5',
-    description: ''
-  },
-  {
-    id: 3,
-    characterName: 'Seth',
-    dateOfBirth: '2896 BCE',
-    dateOfDeath: '2984 BCE',
-    fatherName: 1,
-    motherName: 2,
-    sonName: 4,
-    fatherAgeAtBirth: 105,
-    fatherContinuedToLive: 807,
-    reference: 'Gen 5:6-8',
-    description: ''
-  },
-  {
-    id: 4,
-    characterName: 'E\'nosh',
-    dateOfBirth: '3791 BCE',
-    dateOfDeath: '2976 BCE',
-    fatherName: 1,
-    motherName: 2,
-    sonName: null,
-    fatherAgeAtBirth: 90,
-    fatherContinuedToLive: 815,
-    reference: 'Gen 5:12-14',
-    description: ''
-  }
-];

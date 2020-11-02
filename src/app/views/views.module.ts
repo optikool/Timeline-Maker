@@ -4,7 +4,6 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { HomeComponent } from './home/home.component';
 import { SettingsComponent } from './settings/settings.component';
 import { HelpComponent } from './help/help.component';
-import { TimeLinesComponent } from './time-lines/time-lines.component';
 import { TimeLineComponent } from './time-line/time-line.component';
 import { CharactersComponent } from './characters/characters.component';
 import { CharacterComponent } from './character/character.component';
@@ -19,7 +18,6 @@ import { ComponentsModule } from '../components/components.module';
     HomeComponent,
     SettingsComponent,
     HelpComponent,
-    TimeLinesComponent,
     TimeLineComponent,
     CharactersComponent,
     CharacterComponent,

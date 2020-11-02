@@ -2,13 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, Event, NavigationEnd } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-
-export interface Navigation {
-  id: number;
-  name: string;
-  url: Array<string>;
-  isActive: boolean;
-}
+import { Navigation } from 'src/app/interfaces/navigation';
 
 const NAVI: Array<Navigation> = [
   {
@@ -19,8 +13,8 @@ const NAVI: Array<Navigation> = [
   },
   {
     id: 2,
-    name: 'Timelines',
-    url: ['/time-lines'],
+    name: 'Timeline',
+    url: ['/time-line'],
     isActive: false
   },
   {
@@ -36,7 +30,7 @@ const NAVI: Array<Navigation> = [
     isActive: false
   },
   {
-    id: 1,
+    id: 5,
     name: 'Help',
     url: ['/help'],
     isActive: false
@@ -71,7 +65,7 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  navigateToPage(page) {
+  navigateToPage(page): void {
     this.router.navigate(page);
   }
 }

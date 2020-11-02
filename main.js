@@ -1,85 +1,184 @@
-let { app, BrowserWindow } = require('electron');
+
+// import { BrowserWindow } from 'electron';
+
+// export default class Main {
+//     static mainWindow: Electron.BrowserWindow;
+//     static application: Electron.App;
+//     static BrowserWindow;
+//     private static onWindowAllClosed() {
+//         if (process.platform !== 'darwin') {
+//             Main.application.quit();
+//         }
+//     }
+
+//     private static onClose() {
+//         // Dereference the window object. 
+//         Main.mainWindow = null;
+//     }
+
+//     private static onReady() {
+//         Main.mainWindow = new Main.BrowserWindow({ width: 800, height: 600 });
+//         Main.mainWindow
+//             .loadURL('file://' + __dirname + '/index.html');
+//         Main.mainWindow.on('closed', Main.onClose);
+//     }
+
+//     static main(app: Electron.App, browserWindow: typeof BrowserWindow) {
+//         // we pass the Electron.App object and the  
+//         // Electron.BrowserWindow into this function 
+//         // so this class has no dependencies. This 
+//         // makes the code easier to write tests for 
+//         Main.BrowserWindow = browserWindow;
+//         Main.application = app;
+//         Main.application.on('window-all-closed', Main.onWindowAllClosed);
+//         Main.application.on('ready', Main.onReady);
+//     }
+// }
+
+let { app, BrowserWindow, ipcMain } = require('electron');
+let { enableLiveReload } = require('electron-compile');
+// import { app, BrowserWindow, ipcMain } from 'electron';
+// import { enableLiveReload } from 'electron-compile';
 let url = require('url');
 let path = require('path');
 let win = null;
 
-app.on('ready', () => {
-    win = new BrowserWindow({
-        width: 1400,
-        height: 1000
+const knex = require('knex')({
+    client: 'sqlite3',
+    connection: {
+        filename: './assets/data/timeline.sqlite3.db'
+    }
+});
+const Characters = () => knex('Characters');
+
+let mainWindow = null;
+
+const isDevMode = process.execPath.match(/[\\/]electron/);
+
+// if (isDevMode) enableLiveReload();
+
+const createWindow = async () => {
+    // Create the browser window.
+    mainWindow = new BrowserWindow({
+        width: 1024,
+        height: 768,
+        webPreferences: { 
+            nodeIntegration: true 
+        }
     });
 
-    // win.loadURL('http://localhost:4200');
-
-    win.loadURL(url.format({
+    mainWindow.loadURL(url.format({
         pathname: path.join(__dirname, 'dist/timeline-maker/index.html'),
         protocol: 'file:',
         slashes: true
     }));
 
-    win.on('close', () => {
-        win = null;
+    // Open the DevTools.
+    // if (isDevMode) {
+    mainWindow.webContents.openDevTools();
+    // }
+
+    // Emitted when the window is closed.
+    mainWindow.on('closed', () => {
+        // Dereference the window object, usually you would store windows
+        // in an array if your app supports multi windows, this is the time
+        // when you should delete the corresponding element.
+        mainWindow = null;
     });
 
-    win.webContents.openDevTools();
-});
+    ipcMain.on('get-characters', async (event) => {
+        event.returnValue = await CHARACTERS;
+        // event.returnValue = Characters.select();
+    });
 
-app.on('activate', () => {
-    if (win == null) {
-        createWindow()
-    }
-});
+    ipcMain.on('get-character', async (event, id) => {
+        event.returnValue = await CHARACTERS.find(character => character.id === id);
+        // event.returnValue = Characters.select()
+        //     .where('id', id);
+    });
 
+    ipcMain.on('save-character', () => {
+
+    });
+
+    ipcMain.on('delete-character', () => {
+
+    });
+};
+
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
+// Some APIs can only be used after this event occurs.
+app.on('ready', createWindow);
+
+// Quit when all windows are closed.
 app.on('window-all-closed', () => {
-    if (process.platform != 'darwin') {
+    // On OS X it is common for applications and their menu bar
+    // to stay active until the user quits explicitly with Cmd + Q
+    if (process.platform !== 'darwin') {
         app.quit();
     }
 });
 
-// const { app, BrowserWindow } = require('electron');
-// let url = require('url');
-// let path = require('path');
+app.on('activate', () => {
+    // On OS X it's common to re-create a window in the app when the
+    // dock icon is clicked and there are no other windows open.
+    if (mainWindow === null) {
+        createWindow();
+    }
+});
 
-// function createWindow () {
-//   // Create the browser window.
-//   const win = new BrowserWindow({
-//     width: 1400,
-//         height: 1000
-//   });
-
-//   // and load the index.html of the app.
-//   win.loadFile(url.format({
-//       pathname: path.join(__dirname, 'dist/timeline-maker/index.html'),
-//       protocol: 'file',
-//       slashes: true
-
-//   }));
-
-//   // Open the DevTools.
-//   // win.webContents.openDevTools();
-// }
-
-// // This method will be called when Electron has finished
-// // initialization and is ready to create browser windows.
-// // Some APIs can only be used after this event occurs.
-// app.whenReady().then(createWindow);
-
-// // Quit when all windows are closed, except on macOS. There, it's common
-// // for applications and their menu bar to stay active until the user quits
-// // explicitly with Cmd + Q.
-// app.on('window-all-closed', () => {
-//   if (process.platform !== 'darwin') {
-//     app.quit();
-//   }
-// });
-
-// app.on('activate', () => {
-//   // On macOS it's common to re-create a window in the app when the
-//   // dock icon is clicked and there are no other windows open.
-//   if (BrowserWindow.getAllWindows().length === 0) {
-//     createWindow()
-//   }
-// })
-
-// // In this file you can include the rest of your app's specific main process
-// // code. You can also put them in separate files and require them here.
+const CHARACTERS = [
+    {
+        id: 1,
+        characterName: 'Adam',
+        dateOfBirth: '50 BCE',
+        dateOfDeath: '3096 BCE',
+        fatherName: null,
+        motherName: null,
+        sonName: 3,
+        fatherAgeAtBirth: 130,
+        fatherContinuedToLive: 800,
+        reference: 'Gen 5:3-5',
+        description: ''
+    },
+    {
+        id: 2,
+        characterName: 'Eve',
+        dateOfBirth: '100 BCE',
+        dateOfDeath: '3096 BCE',
+        fatherName: null,
+        motherName: null,
+        sonName: 3,
+        fatherAgeAtBirth: 130,
+        fatherContinuedToLive: 800,
+        reference: 'Gen 5:3-5',
+        description: ''
+    },
+    {
+        id: 3,
+        characterName: 'Seth',
+        dateOfBirth: '2896 BCE',
+        dateOfDeath: '2984 BCE',
+        fatherName: 1,
+        motherName: 2,
+        sonName: 4,
+        fatherAgeAtBirth: 105,
+        fatherContinuedToLive: 807,
+        reference: 'Gen 5:6-8',
+        description: ''
+    },
+    {
+        id: 4,
+        characterName: 'E\'nosh',
+        dateOfBirth: '3791 BCE',
+        dateOfDeath: '2976 BCE',
+        fatherName: 1,
+        motherName: 2,
+        sonName: null,
+        fatherAgeAtBirth: 90,
+        fatherContinuedToLive: 815,
+        reference: 'Gen 5:12-14',
+        description: ''
+    }
+];

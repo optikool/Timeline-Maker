@@ -35,7 +35,7 @@
     "@ngrx/store": "^10.0.0",
     "@ngrx/store-devtools": "^10.0.0",
     "bootstrap": "^4.5.0",
-    "knex": "^0.21.5",
+    "knex": "^0.21.9",
     "ngx-electron": "^2.2.0",
     "rxjs": "~6.5.4",
     "sqlite3": "^5.0.0",
@@ -43,7 +43,7 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.1001.6",
+    "@angular-devkit/build-angular": "^0.1002.0",
     "@angular/cli": "~10.1.6",
     "@angular/compiler-cli": "~10.1.5",
     "@ngrx/schematics": "^10.0.0",

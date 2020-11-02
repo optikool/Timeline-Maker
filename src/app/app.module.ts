@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 
 import { ComponentsModule } from './components/components.module';
 import { DirectivesModule } from './directives/directives.module';
-import { InterfacesModule } from './interfaces/interfaces.module';
 import { PipesModule } from './pipes/pipes.module';
 import { ResolversModule } from './resolvers/resolvers.module';
 import { ViewsModule } from './views/views.module';
@@ -16,6 +15,7 @@ import { NgxElectronModule } from 'ngx-electron';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
+
 
 import { HelperService } from './services/helper.service';
 
@@ -31,7 +31,6 @@ import { HelperService } from './services/helper.service';
     MaterialsModule,
     ComponentsModule,
     DirectivesModule,
-    InterfacesModule,
     PipesModule,
     ResolversModule,
     ViewsModule,

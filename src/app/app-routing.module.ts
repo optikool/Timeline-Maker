@@ -8,7 +8,6 @@ import { CharactersComponent } from './views/characters/characters.component';
 import { PageNotFoundComponent } from './views/page-not-found/page-not-found.component';
 import { SettingsComponent } from './views/settings/settings.component';
 import { TimeLineComponent } from './views/time-line/time-line.component';
-import { TimeLinesComponent } from './views/time-lines/time-lines.component';
 
 import { CharactersResolverService } from './resolvers/characters-resolver.service';
 import { CharacterResolverService } from './resolvers/character-resolver.service';
@@ -30,10 +29,8 @@ const routes: Routes = [
     component: CharacterComponent,
     resolve: {
       character: CharacterResolverService
-    },
-    pathMatch: 'full'
+    }
   },
-  { path: 'time-lines', component: TimeLinesComponent },
   { path: 'time-line', component: TimeLineComponent },
   { path: 'help', component: HelpComponent },
   { path: 'settings', component: SettingsComponent },
