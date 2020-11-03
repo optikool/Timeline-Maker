@@ -19,8 +19,7 @@ export class HelperService {
   }
 
   getCharacter(id: number): Observable<Character> {
-    return of(
-      this._electronService.ipcRenderer.sendSync('get-character', id)).pipe(
+    return of(this._electronService.ipcRenderer.sendSync('get-character', id)).pipe(
         catchError((error: any) => Observable.throw(error.json))
       );
   }

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
@@ -10,6 +12,7 @@ import { HelperService } from 'src/app/services/helper.service';
 export class CharacterNewComponent implements OnInit {
   controlsConfig;
   submitted = false;
+  ngOnDestroy$ = new Subject();
 
   constructor(private helperService: HelperService) { }
 
@@ -29,6 +32,11 @@ export class CharacterNewComponent implements OnInit {
     };
   }
 
+  ngOnDestroy(): void {
+    this.ngOnDestroy$.next(true);
+    this.ngOnDestroy$.complete();
+  }
+
   onSubmit(registerForm: FormGroup) {
     this.submitted = true;
 
@@ -39,6 +47,7 @@ export class CharacterNewComponent implements OnInit {
 
     console.log('CharacterNewComponent onSubmit New registerForm: ', registerForm.value);
     this.helperService.saveCharacter(registerForm.value)
+      .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe(data => {
         console.log('CharacterComponent Response: ', data);
         this.submitted = false;

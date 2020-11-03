@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Character } from 'src/app/interfaces/character';
 import { HelperService } from 'src/app/services/helper.service';
 
@@ -14,16 +16,19 @@ export class CharacterComponent implements OnInit {
   submitted = false;
   dataSource: Character;
   title: string;
+  ngDestroy$ = new Subject();
 
   constructor(
     private formBuilder: FormBuilder, 
     private route: ActivatedRoute, 
     private helperService: HelperService) {
-    this.route.data.subscribe((data) => {
-      console.log('data: ', data);
-      this.dataSource = data.character;
-      this.title = data.character.id === 'new' ? 'New Character' : 'Edit Character';
-    });
+    this.route.data
+      .pipe(takeUntil(this.ngDestroy$))
+      .subscribe((data) => {
+        console.log('data: ', data);
+        this.dataSource = data.character;
+        this.title = data.character.id === 'new' ? 'New Character' : 'Edit Character';
+      });
   }
 
   ngOnInit(): void {
@@ -41,6 +46,11 @@ export class CharacterComponent implements OnInit {
       description: [this.dataSource.description]
     };
   }
+  
+  ngOnDestroy(): void {
+    this.ngDestroy$.next(true);
+    this.ngDestroy$.complete();
+  }
 
   onSubmit(registerForm: FormGroup) {
     this.submitted = true;
@@ -52,6 +62,7 @@ export class CharacterComponent implements OnInit {
 
     console.log('CharacterComponent onSubmit registerForm: ', registerForm.value);
     this.helperService.updateCharacter(registerForm.value)
+      .pipe(takeUntil(this.ngDestroy$))
       .subscribe(data => {
         console.log('CharacterComponent Response: ', data);
         this.submitted = false;
