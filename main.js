@@ -1,44 +1,5 @@
-
-// import { BrowserWindow } from 'electron';
-
-// export default class Main {
-//     static mainWindow: Electron.BrowserWindow;
-//     static application: Electron.App;
-//     static BrowserWindow;
-//     private static onWindowAllClosed() {
-//         if (process.platform !== 'darwin') {
-//             Main.application.quit();
-//         }
-//     }
-
-//     private static onClose() {
-//         // Dereference the window object. 
-//         Main.mainWindow = null;
-//     }
-
-//     private static onReady() {
-//         Main.mainWindow = new Main.BrowserWindow({ width: 800, height: 600 });
-//         Main.mainWindow
-//             .loadURL('file://' + __dirname + '/index.html');
-//         Main.mainWindow.on('closed', Main.onClose);
-//     }
-
-//     static main(app: Electron.App, browserWindow: typeof BrowserWindow) {
-//         // we pass the Electron.App object and the  
-//         // Electron.BrowserWindow into this function 
-//         // so this class has no dependencies. This 
-//         // makes the code easier to write tests for 
-//         Main.BrowserWindow = browserWindow;
-//         Main.application = app;
-//         Main.application.on('window-all-closed', Main.onWindowAllClosed);
-//         Main.application.on('ready', Main.onReady);
-//     }
-// }
-
 let { app, BrowserWindow, ipcMain } = require('electron');
 let { enableLiveReload } = require('electron-compile');
-// import { app, BrowserWindow, ipcMain } from 'electron';
-// import { enableLiveReload } from 'electron-compile';
 let url = require('url');
 let path = require('path');
 let win = null;
@@ -52,16 +13,19 @@ const knex = require('knex')({
 const Characters = () => knex('Characters');
 
 let mainWindow = null;
+let characterIndex = 0;
 
 const isDevMode = process.execPath.match(/[\\/]electron/);
 
 // if (isDevMode) enableLiveReload();
 
 const createWindow = async () => {
+    let characters = CHARACTERS;
+    characterIndex = characters.length + 1;
     // Create the browser window.
     mainWindow = new BrowserWindow({
-        width: 1024,
-        height: 768,
+        width: 1920,
+        height: 1080,
         webPreferences: { 
             nodeIntegration: true 
         }
@@ -74,9 +38,9 @@ const createWindow = async () => {
     }));
 
     // Open the DevTools.
-    // if (isDevMode) {
-    mainWindow.webContents.openDevTools();
-    // }
+    if (isDevMode) {
+        mainWindow.webContents.openDevTools();
+    }
 
     // Emitted when the window is closed.
     mainWindow.on('closed', () => {
@@ -87,22 +51,34 @@ const createWindow = async () => {
     });
 
     ipcMain.on('get-characters', async (event) => {
-        event.returnValue = await CHARACTERS;
+        event.returnValue = await characters;
         // event.returnValue = Characters.select();
     });
 
     ipcMain.on('get-character', async (event, id) => {
-        event.returnValue = await CHARACTERS.find(character => character.id === id);
+        event.returnValue = await characters.find(character => character.id === id);
         // event.returnValue = Characters.select()
         //     .where('id', id);
     });
 
-    ipcMain.on('save-character', () => {
-
+    ipcMain.on('save-character', async (event, character) => {
+        character.id = characterIndex;
+        characterIndex++;
+        characters.push(character);
+        event.returnValue = await characters;
     });
 
-    ipcMain.on('delete-character', () => {
+    ipcMain.on('update-character', async (event, characterUpdate) => {
+        characters = characters.map((character => {
+            if (character.id !== characterUpdate.id) return character;
+            return characterUpdate;
+        }));
+        event.returnValue = await characters;
+    });
 
+    ipcMain.on('delete-character', async (event, id) => {
+        characters = characters.filter(character => character.id !== id);
+        event.returnValue = await characters;
     });
 };
 

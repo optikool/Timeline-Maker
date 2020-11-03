@@ -20,12 +20,31 @@ export class HelperService {
 
   getCharacter(id: number): Observable<Character> {
     return of(
-      this._electronService.ipcRenderer.sendSync('get-character', id)
-    ).pipe(catchError((error: any) => Observable.throw(error.json)));
+      this._electronService.ipcRenderer.sendSync('get-character', id)).pipe(
+        catchError((error: any) => Observable.throw(error.json))
+      );
   }
 
   getCharacters(): Observable<Character[]> {
     return of(this._electronService.ipcRenderer.sendSync('get-characters')).pipe(
+      catchError((error: any) => Observable.throw(error.json))
+    );
+  }
+
+  saveCharacter(character: Character): Observable<Character[]> {
+    return of(this._electronService.ipcRenderer.sendSync('save-character', character)).pipe(
+      catchError((error: any) => Observable.throw(error.json))
+    );
+  }
+
+  updateCharacter(character: Character): Observable<Character[]> {
+    return of(this._electronService.ipcRenderer.sendSync('update-character', character)).pipe(
+      catchError((error: any) => Observable.throw(error.json))
+    );
+  }
+
+  deleteCharacter(id: number): Observable<Character[]> {
+    return of(this._electronService.ipcRenderer.sendSync('delete-character', id)).pipe(
       catchError((error: any) => Observable.throw(error.json))
     );
   }

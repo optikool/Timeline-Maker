@@ -29,5 +29,10 @@ export class CharactersComponent implements OnInit {
 
   deleteCharacter(id: number) {
     console.log('Deleting character id: ', id);
+    this.helperService.deleteCharacter(id)
+      .subscribe(data => {
+        console.log('CharactersComponent Response: ', data);
+        this.dataSource = data;
+      });
   }
 }

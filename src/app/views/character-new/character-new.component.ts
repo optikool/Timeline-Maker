@@ -37,7 +37,14 @@ export class CharacterNewComponent implements OnInit {
       return;
     }
 
-    console.log('onSubmit registerForm: ', registerForm.value);
+    console.log('CharacterNewComponent onSubmit New registerForm: ', registerForm.value);
+    this.helperService.saveCharacter(registerForm.value)
+      .subscribe(data => {
+        console.log('CharacterComponent Response: ', data);
+        this.submitted = false;
+        registerForm.reset();
+        this.navigateToPage(['/characters']);
+      });
   }
 
   onReset(registerForm: FormGroup) {

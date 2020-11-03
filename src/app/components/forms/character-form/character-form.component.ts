@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-character-form',
@@ -22,7 +22,7 @@ export class CharacterFormComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.config);
     this.registerForm = this.formBuilder.group(this.config);
-    console.log('registerForm.valid: ', this.registerForm);
+    console.log('CharacterFormComponent registerForm.valid: ', this.registerForm);
   }
 
   get f() { return this.registerForm.controls; }
