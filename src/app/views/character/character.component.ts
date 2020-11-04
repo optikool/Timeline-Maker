@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -18,14 +18,12 @@ export class CharacterComponent implements OnInit {
   title: string;
   ngDestroy$ = new Subject();
 
-  constructor(
-    private formBuilder: FormBuilder, 
+  constructor( 
     private route: ActivatedRoute, 
     private helperService: HelperService) {
     this.route.data
       .pipe(takeUntil(this.ngDestroy$))
       .subscribe((data) => {
-        console.log('data: ', data);
         this.dataSource = data.character;
         this.title = data.character.id === 'new' ? 'New Character' : 'Edit Character';
       });
@@ -52,7 +50,7 @@ export class CharacterComponent implements OnInit {
     this.ngDestroy$.complete();
   }
 
-  onSubmit(registerForm: FormGroup) {
+  onSubmit(registerForm: FormGroup): void {
     this.submitted = true;
 
     // return if invalid
@@ -60,7 +58,6 @@ export class CharacterComponent implements OnInit {
       return;
     }
 
-    console.log('CharacterComponent onSubmit registerForm: ', registerForm.value);
     this.helperService.updateCharacter(registerForm.value)
       .pipe(takeUntil(this.ngDestroy$))
       .subscribe(data => {
@@ -71,14 +68,13 @@ export class CharacterComponent implements OnInit {
       });
   }
 
-  onReset(registerForm: FormGroup) {
-    console.log('CharacterComponent onReset registerForm: ', registerForm.value);
+  onReset(registerForm: FormGroup): void {
     this.submitted = false;
     registerForm.reset();
     this.navigateToPage(['/characters']);
   }
 
-  navigateToPage(page) {
+  navigateToPage(page): void {
     this.helperService.navigateToPage(page);
   }
 }

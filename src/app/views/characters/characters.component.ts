@@ -33,11 +33,11 @@ export class CharactersComponent implements OnInit {
     this.ngOnDestroy$.complete();
   }
 
-  navigateToPage(page) {
+  navigateToPage(page): void {
     this.helperService.navigateToPage(page);
   }
 
-  deleteCharacter(id: number) {
+  deleteCharacter(id: number): void {
     console.log('Deleting character id: ', id);
     this.helperService.deleteCharacter(id)
       .pipe(takeUntil(this.ngOnDestroy$))

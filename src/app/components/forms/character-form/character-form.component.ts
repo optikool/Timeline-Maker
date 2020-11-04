@@ -15,24 +15,21 @@ export class CharacterFormComponent implements OnInit {
   @Output() public submit = new EventEmitter<FormGroup>();
   @Output() public reset = new EventEmitter<FormGroup>();
 
-  constructor(private formBuilder: FormBuilder) {
-    console.log('CharacterFormComponent constructor');
-  }
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     console.log(this.config);
     this.registerForm = this.formBuilder.group(this.config);
-    console.log('CharacterFormComponent registerForm.valid: ', this.registerForm);
   }
 
   get f() { return this.registerForm.controls; }
 
-  onSubmit() {
+  onSubmit(): void {
     this.submitted = true;
     this.submit.emit(this.registerForm);
   }
 
-  onReset() {
+  onReset(): void {
     this.submitted = false;
     this.reset.emit(this.registerForm);
   }

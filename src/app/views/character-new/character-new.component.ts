@@ -37,7 +37,7 @@ export class CharacterNewComponent implements OnInit {
     this.ngOnDestroy$.complete();
   }
 
-  onSubmit(registerForm: FormGroup) {
+  onSubmit(registerForm: FormGroup): void {
     this.submitted = true;
 
     // return if invalid
@@ -45,7 +45,6 @@ export class CharacterNewComponent implements OnInit {
       return;
     }
 
-    console.log('CharacterNewComponent onSubmit New registerForm: ', registerForm.value);
     this.helperService.saveCharacter(registerForm.value)
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe(data => {
@@ -56,14 +55,13 @@ export class CharacterNewComponent implements OnInit {
       });
   }
 
-  onReset(registerForm: FormGroup) {
-    console.log('onReset registerForm: ', registerForm.value);
+  onReset(registerForm: FormGroup): void {
     this.submitted = false;
     registerForm.reset();
     this.navigateToPage(['/characters']);
   }
 
-  navigateToPage(page) {
+  navigateToPage(page): void {
     this.helperService.navigateToPage(page);
   }
 }

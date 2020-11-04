@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, Effect, ofType } from '@ngrx/effects';
-import { EMPTY } from 'rxjs';
-import { map, mergeMap, switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { HelperService } from 'src/app/services/helper.service';
 import { Character } from './character.model';
 
@@ -12,34 +12,23 @@ export class CharacterEffect {
         private helperService: HelperService
     ) {}
 
-    @Effect()
-    loadCharacters =  this.actions$
-        .pipe(
-            ofType('[Character] Get Characters'),
-            switchMap(() => this.helperService.getCharacters()),
-            mergeMap((data) => {
-                console.log('[Character] Get Characters: ', data);
-                return [{
-                    type: '[Character] Get Character Loaded',
-                    payload: data
-                }]
-            })
-            
-        );
+    loadCharacters$ = createEffect(() => this.actions$.pipe(
+        ofType('[Character] Get Characters'),
+        mergeMap(() => this.helperService.getCharacters()
+            .pipe(
+                map(characters => ({ type: '[Character] Get Characters Loaded', payload: characters })),
+                catchError(() => of({ type: '' }))
+            )
+        )
+    ));
 
-    @Effect()
-    loadCharacter = this.actions$
-        .pipe(
-            ofType('[Character] Get Character'),
-            switchMap((value: {payload: number, type: string}, index: number) => {
-                return this.helperService.getCharacter(value.payload);
-            }),
-            mergeMap((data: Character) => {
-                console.log('[Character] Get Character: ', data);
-                return [{
-                    type: '[Character] Get Characters Loaded',
-                    payload: data
-                }];
-            })
-        );
+    loadCharacter$ = createEffect(() => this.actions$.pipe(
+        ofType('[Character] Get Character'),
+        mergeMap((value) => this.helperService.getCharacter(value)
+            .pipe(
+                map(character => ({ type: '[Character] Get Character Loaded', payload: character })),
+                catchError(() => of({ type: '' }))
+            )
+        )
+    ));
 }
