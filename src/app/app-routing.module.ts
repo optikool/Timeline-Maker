@@ -8,11 +8,11 @@ import { CharactersComponent } from './views/characters/characters.component';
 import { PageNotFoundComponent } from './views/page-not-found/page-not-found.component';
 import { SettingsComponent } from './views/settings/settings.component';
 import { TimeLineComponent } from './views/time-line/time-line.component';
+import { CharacterNewComponent } from './views/character-new/character-new.component';
 
 import { CharactersResolverService } from './resolvers/characters-resolver.service';
 import { CharacterResolverService } from './resolvers/character-resolver.service';
-import { CharacterNewComponent } from './views/character-new/character-new.component';
-
+import { HomeResolverService } from './resolvers/home-resolver.service';
 
 const routes: Routes = [
   { path: 'characters', 
@@ -34,7 +34,12 @@ const routes: Routes = [
   { path: 'time-line', component: TimeLineComponent },
   { path: 'help', component: HelpComponent },
   { path: 'settings', component: SettingsComponent },
-  { path: '', component: HomeComponent },
+  { 
+    path: '', 
+    component: HomeComponent,
+    resolve: {
+      home: HomeResolverService
+    }},
   { path: '**', component: PageNotFoundComponent }
 ];
 

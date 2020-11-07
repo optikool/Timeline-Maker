@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { ComponentsModule } from './components/components.module';
 import { DirectivesModule } from './directives/directives.module';
 import { PipesModule } from './pipes/pipes.module';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { ResolversModule } from './resolvers/resolvers.module';
 import { ViewsModule } from './views/views.module';
 import { MaterialsModule } from './helpers/materials.module';
@@ -18,6 +20,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 
 import { HelperService } from './services/helper.service';
+import { CharacterEffect } from './store/character/character.effects';
+import { characterReducers } from './store/character/character.reducers';
 
 @NgModule({
   declarations: [
@@ -35,7 +39,9 @@ import { HelperService } from './services/helper.service';
     ResolversModule,
     ViewsModule,
     BrowserAnimationsModule,
-    NgbModule
+    NgbModule,
+    StoreModule.forRoot({ characters: characterReducers }),
+    EffectsModule.forRoot([CharacterEffect])
   ],
   exports: [
     ComponentsModule,

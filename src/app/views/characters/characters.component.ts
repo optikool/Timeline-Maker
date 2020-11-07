@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { HelperService } from 'src/app/services/helper.service';
 import { Character } from '../../interfaces/character';
@@ -13,19 +14,21 @@ import { Character } from '../../interfaces/character';
 export class CharactersComponent implements OnInit {
   public dataSource: Character[];
   private ngOnDestroy$ = new Subject();
+  public characters$: Observable<Character[]>;
 
   constructor(
     private route: ActivatedRoute, 
-    private helperService: HelperService) {
+    private helperService: HelperService,
+    private store: Store<{ characters: Character[] }>) {
     this.route.data
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe((data) => {
-        this.dataSource = data.characters;
+        console.log('CharactersComponent data: ', data);
+        this.dataSource = data.characters.Characters;
       });
   }
 
   ngOnInit(): void {
-    
   }
 
   ngOnDestroy(): void {
@@ -39,6 +42,7 @@ export class CharactersComponent implements OnInit {
 
   deleteCharacter(id: number): void {
     console.log('Deleting character id: ', id);
+    // this.store.dispatch(deleteCharacter(id));
     this.helperService.deleteCharacter(id)
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe(data => {

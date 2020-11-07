@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { ElectronService } from 'ngx-electron';
 import { of, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -9,10 +10,20 @@ import { Character } from '../interfaces/character';
   providedIn: 'root'
 })
 export class HelperService {
+  private _characters$: Observable<Character[]>;
+  private _storedCharacters: Array<Character>;
+  private _storedCharacter: Character;
 
   constructor( 
     private router: Router,
-    private _electronService: ElectronService) { }
+    private _electronService: ElectronService,
+    private _store: Store<{ characters: { Character: Character, Characters: Character[] } }>) {
+      this._store.select('characters')
+        .subscribe(data => {
+          this._storedCharacters = data.Characters;
+          this._storedCharacter = data.Character;
+        });
+    }
 
   navigateToPage(page) {
     this.router.navigate(page);

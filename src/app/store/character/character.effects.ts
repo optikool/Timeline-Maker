@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { HelperService } from 'src/app/services/helper.service';
+import { CharacterActionTypes }  from './character.actions';
 import { Character } from './character.model';
 
 @Injectable()
@@ -13,20 +14,20 @@ export class CharacterEffect {
     ) {}
 
     loadCharacters$ = createEffect(() => this.actions$.pipe(
-        ofType('[Character] Get Characters'),
+        ofType(CharacterActionTypes.GET_CHARACTERS),
         mergeMap(() => this.helperService.getCharacters()
             .pipe(
-                map(characters => ({ type: '[Character] Get Characters Loaded', payload: characters })),
+                map(characters => ({ type: CharacterActionTypes.GET_CHARACTERS_LOADED, payload: characters })),
                 catchError(() => of({ type: '' }))
             )
         )
     ));
 
     loadCharacter$ = createEffect(() => this.actions$.pipe(
-        ofType('[Character] Get Character'),
+        ofType(CharacterActionTypes.GET_CHARACTER),
         mergeMap((value) => this.helperService.getCharacter(value)
             .pipe(
-                map(character => ({ type: '[Character] Get Character Loaded', payload: character })),
+                map(character => ({ type: CharacterActionTypes.GET_CHARACTER_LOADED, payload: character })),
                 catchError(() => of({ type: '' }))
             )
         )

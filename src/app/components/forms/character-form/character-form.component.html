@@ -13,16 +13,26 @@
             <div class="form-row">
                 <div class="form-group col-5">
                     <label for="dateOfBirth">Date of Birth</label>
-                    <input type="text" formControlName="dateOfBirth" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.dateOfBirth.errors }" />
-                    <div *ngIf="submitted && f.dateOfBirth.errors" class="invalid-feedback">
-                        <div *ngIf="f.dateOfBirth.errors.required">Date of Birth is required</div>
+                    <div class="input-group">
+                        <input type="text" formControlName="dateOfBirth" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.dateOfBirth.errors }" />
+                        <div class="input-group-append">
+                            <div class="input-group-text">BCE</div>
+                        </div>
+                        <div *ngIf="submitted && f.dateOfBirth.errors" class="invalid-feedback">
+                            <div *ngIf="f.dateOfBirth.errors.required">Date of Birth is required</div>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group col-5">
                     <label for="dateOfDeath">Date of Death</label>
-                    <input type="text" formControlName="dateOfDeath" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.dateOfDeath.errors }" />
-                    <div *ngIf="submitted && f.dateOfDeath.errors" class="invalid-feedback">
-                        <div *ngIf="f.dateOfDeath.errors.required">Date of Death is required</div>
+                    <div class="input-group">
+                        <input type="text" formControlName="dateOfDeath" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.dateOfDeath.errors }" />
+                        <div class="input-group-append">
+                            <div class="input-group-text">BCE</div>
+                        </div>
+                        <div *ngIf="submitted && f.dateOfDeath.errors" class="invalid-feedback">
+                            <div *ngIf="f.dateOfDeath.errors.required">Date of Death is required</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -38,7 +48,7 @@
                     <label for="motherName">Mother</label>
                     <input type="text" formControlName="motherName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.motherName.errors }" />
                     <div *ngIf="submitted && f.motherName.errors" class="invalid-feedback">
-                        <div *ngIf="f.motherName.errors.required">Last Name is required</div>
+                        <div *ngIf="f.motherName.errors.required">Mother is required</div>
                     </div>
                 </div>
             </div>
@@ -54,16 +64,26 @@
             <div class="form-row">
                 <div class="form-group col-5">
                     <label for="fatherAgeAtBirth">Father Age at Birth</label>
-                    <input type="text" formControlName="fatherAgeAtBirth" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.fatherAgeAtBirth.errors }" />
-                    <div *ngIf="submitted && f.fatherAgeAtBirth.errors" class="invalid-feedback">
-                        <div *ngIf="f.fatherAgeAtBirth.errors.required">Father Age at Birth is required</div>
+                    <div class="input-group">
+                        <input type="text" formControlName="fatherAgeAtBirth" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.fatherAgeAtBirth.errors }" />
+                        <div class="input-group-append">
+                            <div class="input-group-text">BCE</div>
+                        </div>
+                        <div *ngIf="submitted && f.fatherAgeAtBirth.errors" class="invalid-feedback">
+                            <div *ngIf="f.fatherAgeAtBirth.errors.required">Father Age at Birth is required</div>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group col-5">
                     <label for="fatherContinuedToLive">Lived Till</label>
-                    <input type="text" formControlName="fatherContinuedToLive" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.fatherContinuedToLive.errors }" />
-                    <div *ngIf="submitted && f.fatherContinuedToLive.errors" class="invalid-feedback">
-                        <div *ngIf="f.fatherContinuedToLive.errors.required">Lived Till is required</div>
+                    <div class="input-group">
+                        <input type="text" formControlName="fatherContinuedToLive" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.fatherContinuedToLive.errors }" />
+                        <div class="input-group-append">
+                            <div class="input-group-text">BCE</div>
+                        </div>
+                        <div *ngIf="submitted && f.fatherContinuedToLive.errors" class="invalid-feedback">
+                            <div *ngIf="f.fatherContinuedToLive.errors.required">Lived Till is required</div>
+                        </div>
                     </div>
                 </div>
             </div>
