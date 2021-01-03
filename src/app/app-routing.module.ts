@@ -1,51 +1,69 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HelpComponent } from './views/help/help.component';
 
+// Components
 import { HomeComponent } from './views/home/home.component';
-import { CharacterComponent } from './views/character/character.component';
-import { CharactersComponent } from './views/characters/characters.component';
+import { CharacterEditComponent } from './views/characters/character-edit/character-edit.component';
+import { CharacterListComponent } from './views/characters/character-list/character-list.component';
+import { CharacterNewComponent } from './views/characters/character-new/character-new.component';
+import { HelpComponent } from './views/help/help.component';
+import { TimelineComponent } from './views/timeline/timeline.component';
 import { PageNotFoundComponent } from './views/page-not-found/page-not-found.component';
-import { SettingsComponent } from './views/settings/settings.component';
-import { TimeLineComponent } from './views/time-line/time-line.component';
-import { CharacterNewComponent } from './views/character-new/character-new.component';
 
-import { CharactersResolverService } from './resolvers/characters-resolver.service';
-import { CharacterResolverService } from './resolvers/character-resolver.service';
-import { HomeResolverService } from './resolvers/home-resolver.service';
+// Resolvers
+import { CharacterResolver } from './resolvers/character.resolver';
+import { CharactersResolver } from './resolvers/characters.resolver';
+import { HomeResolver } from './resolvers/home.resolver';
+import { TimelineResolver } from './resolvers/timeline.resolver';
 
 const routes: Routes = [
-  { path: 'characters', 
-    component: CharactersComponent, 
+  { 
+    path: 'characters', 
+    component: CharacterListComponent, 
     resolve: {
-      characters: CharactersResolverService
+      characters: CharactersResolver
     }
   },
   {
-    path: 'character/new',
-    component: CharacterNewComponent
-  },
-  { path: 'character/:id', 
-    component: CharacterComponent,
+    path: 'character-new',
+    component: CharacterNewComponent,
     resolve: {
-      character: CharacterResolverService
+      character: CharacterResolver
     }
   },
-  { path: 'time-line', component: TimeLineComponent },
-  { path: 'help', component: HelpComponent },
-  { path: 'settings', component: SettingsComponent },
+  { 
+    path: 'character-edit/:id', 
+    component: CharacterEditComponent,
+    resolve: {
+      character: CharacterResolver
+    }
+  },
+  { 
+    path: 'time-line',
+    component: TimelineComponent,
+    resolve: {
+      characters: TimelineResolver
+    }
+  },
+  { 
+    path: 'help',
+    component: HelpComponent
+  },
   { 
     path: '', 
     component: HomeComponent,
     resolve: {
-      home: HomeResolverService
-    }},
-  { path: '**', component: PageNotFoundComponent }
+      home: HomeResolver
+    }
+  },
+  {
+    path: '**',
+    component: PageNotFoundComponent
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
-  providers: []
+  exports: [RouterModule]
 })
 export class AppRoutingModule { }

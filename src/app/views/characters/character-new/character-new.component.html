@@ -1,0 +1,10 @@
+<mat-toolbar>
+  <span>New Character</span>
+</mat-toolbar>
+<app-character-form 
+    [configData]="controlsConfig"
+    [childrenData]="children"
+    [isNew]="isNew"
+    (submit)="onSubmit($event)" 
+    (reset)="onReset($event)">
+</app-character-form>

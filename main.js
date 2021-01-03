@@ -1,14 +1,20 @@
-let { app, BrowserWindow, ipcMain } = require('electron');
-let { enableLiveReload } = require('electron-compile');
+let {
+  app,
+  BrowserWindow,
+  ipcMain
+} = require('electron');
+let {
+  enableLiveReload
+} = require('electron-compile');
 let url = require('url');
 let path = require('path');
 let win = null;
 
 const knex = require('knex')({
-    client: 'sqlite3',
-    connection: {
-        filename: './assets/data/timeline.sqlite3.db'
-    }
+  client: 'sqlite3',
+  connection: {
+    filename: './assets/data/timeline.sqlite3.db'
+  }
 });
 const Characters = () => knex('Characters');
 
@@ -19,67 +25,99 @@ const isDevMode = process.execPath.match(/[\\/]electron/);
 
 // if (isDevMode) enableLiveReload();
 
-const createWindow = async () => {
-    let characters = CHARACTERS;
-    characterIndex = characters.length + 1;
-    // Create the browser window.
-    mainWindow = new BrowserWindow({
-        width: 1280,
-        height: 720,
-        webPreferences: { 
-            nodeIntegration: true 
-        }
-    });
+function getParent(id) {
+  return this.characters.map(item => {
+    return {
+      id: item.id,
+      name: item.characterName,
+      gender: item.gender
+    }
+  }).find(item => id === item.id);
+}
 
-    mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'dist/timeline-maker/index.html'),
-        protocol: 'file:',
-        slashes: true
+const createWindow = async () => {
+  let characters = CHARACTERS;
+  characterIndex = characters.length + 1;
+  // Create the browser window.
+  mainWindow = new BrowserWindow({
+    width: 1280,
+    height: 720,
+    webPreferences: {
+      nodeIntegration: true
+    }
+  });
+
+  mainWindow.loadURL(url.format({
+    pathname: path.join(__dirname, 'dist/timeline-maker/index.html'),
+    protocol: 'file:',
+    slashes: true
+  }));
+
+  // Open the DevTools.
+  if (isDevMode) {
+    mainWindow.webContents.openDevTools();
+  }
+
+  // Emitted when the window is closed.
+  mainWindow.on('closed', () => {
+    // Dereference the window object, usually you would store windows
+    // in an array if your app supports multi windows, this is the time
+    // when you should delete the corresponding element.
+    mainWindow = null;
+  });
+
+  ipcMain.on('get-characters', async (event) => {
+    event.returnValue = await characters;
+    // event.returnValue = Characters.select();
+  });
+
+  ipcMain.on('get-character', async (event, id) => {
+    const character = characters.find((data) => id === data.id);
+    const parentFather = getParent(character.fatherId);
+    const parentMother = getParent(character.motherId);
+    const children = characters.filter(child => id === child.fatherId || id === child.motherId);
+
+    event.returnValue = await {
+      ...character,
+      mother: parentMother,
+      father: parentFather,
+      children
+    };
+
+    // event.returnValue = Characters.select()
+    //     .where('id', id);
+  });
+
+  ipcMain.on('save-character', async (event, character) => {
+    character.id = characterIndex;
+    characterIndex++;
+    characters.push(character);
+    event.returnValue = await characters;
+  });
+
+  ipcMain.on('update-character', async (event, characterUpdate) => {
+    characters = characters.map((character => {
+      if (character.id !== characterUpdate.id) return character;
+      return Object.assign(character, characterUpdate);
     }));
 
-    // Open the DevTools.
-    if (isDevMode) {
-        mainWindow.webContents.openDevTools();
-    }
+    event.returnValue = await characters;
+  });
 
-    // Emitted when the window is closed.
-    mainWindow.on('closed', () => {
-        // Dereference the window object, usually you would store windows
-        // in an array if your app supports multi windows, this is the time
-        // when you should delete the corresponding element.
-        mainWindow = null;
-    });
+  ipcMain.on('delete-character', async (event, data) => {
+    characters = characters.filter(character => character.id !== data.id);
+    event.returnValue = await characters;
+  });
 
-    ipcMain.on('get-characters', async (event) => {
-        event.returnValue = await characters;
-        // event.returnValue = Characters.select();
+  ipcMain.on('get-gender-characters', async (event, data) => {
+    const result = characters.filter((character) => character.gender.toLowerCase() === data.toLowerCase());
+    event.returnValue = await result.map(data => {
+      return {
+        id: data.id,
+        characterName: data.characterName
+      }
     });
-
-    ipcMain.on('get-character', async (event, id) => {
-        event.returnValue = await characters.find(character => character.id === id);
-        // event.returnValue = Characters.select()
-        //     .where('id', id);
-    });
-
-    ipcMain.on('save-character', async (event, character) => {
-        character.id = characterIndex;
-        characterIndex++;
-        characters.push(character);
-        event.returnValue = await characters;
-    });
-
-    ipcMain.on('update-character', async (event, characterUpdate) => {
-        characters = characters.map((character => {
-            if (character.id !== characterUpdate.id) return character;
-            return characterUpdate;
-        }));
-        event.returnValue = await characters;
-    });
-
-    ipcMain.on('delete-character', async (event, id) => {
-        characters = characters.filter(character => character.id !== id);
-        event.returnValue = await characters;
-    });
+  });
 };
 
 // This method will be called when Electron has finished
@@ -89,72 +127,124 @@ app.on('ready', createWindow);
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
-    // On OS X it is common for applications and their menu bar
-    // to stay active until the user quits explicitly with Cmd + Q
-    if (process.platform !== 'darwin') {
-        app.quit();
-    }
+  // On OS X it is common for applications and their menu bar
+  // to stay active until the user quits explicitly with Cmd + Q
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
 });
 
 app.on('activate', () => {
-    // On OS X it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (mainWindow === null) {
-        createWindow();
-    }
+  // On OS X it's common to re-create a window in the app when the
+  // dock icon is clicked and there are no other windows open.
+  if (mainWindow === null) {
+    createWindow();
+  }
 });
 
-const CHARACTERS = [
-    {
-        id: 1,
-        characterName: 'Adam',
-        gender: 'M',
-        dateOfBirth: '50',
-        dateOfDeath: '3096',
-        fatherId: null,
-        motherId: null,
-        fatherAgeAtBirth: 130,
-        fatherContinuedToLive: 800,
-        reference: 'Gen 5:3-5',
-        description: ''
-    },
-    {
-        id: 2,
-        characterName: 'Eve',
-        gender: 'F',
-        dateOfBirth: '100',
-        dateOfDeath: '3096',
-        fatherId: null,
-        motherId: null,
-        fatherAgeAtBirth: 130,
-        fatherContinuedToLive: 800,
-        reference: 'Gen 5:3-5',
-        description: ''
-    },
-    {
-        id: 3,
-        characterName: 'Seth',
-        gender: 'M',
-        dateOfBirth: '2896',
-        dateOfDeath: '2984',
-        fatherId: 1,
-        motherId: 2,
-        fatherAgeAtBirth: 105,
-        fatherContinuedToLive: 807,
-        reference: 'Gen 5:6-8',
-        description: ''
-    },
-    {
-        id: 4,
-        characterName: 'E\'nosh',
-        gender: 'M',
-        dateOfBirth: '3791',
-        dateOfDeath: '2976',
-        fatherName: 1,
-        motherName: 2,
-        fatherAgeAtBirth: 90,
-        fatherContinuedToLive: 815,
-        reference: 'Gen 5:12-14',
-        description: ''
-    }
+// : Character[]
+const CHARACTERS = [{
+    id: 1,
+    characterName: 'Adam',
+    gender: 'M',
+    dateOfBirth: '50',
+    dateOfDeath: '3096',
+    fatherId: 0,
+    motherId: 0,
+    fatherAgeAtBirth: 130,
+    fatherContinuedToLive: 800,
+    reference: 'Gen 5:3-5',
+    description: ''
+  },
+  {
+    id: 2,
+    characterName: 'Eve',
+    gender: 'F',
+    dateOfBirth: '100',
+    dateOfDeath: '3096',
+    fatherId: 0,
+    motherId: 0,
+    fatherAgeAtBirth: 130,
+    fatherContinuedToLive: 800,
+    reference: 'Gen 5:3-5',
+    description: ''
+  },
+  {
+    id: 3,
+    characterName: 'Seth',
+    gender: 'M',
+    dateOfBirth: '2896',
+    dateOfDeath: '2984',
+    fatherId: 1,
+    motherId: 2,
+    fatherAgeAtBirth: 105,
+    fatherContinuedToLive: 807,
+    reference: 'Gen 5:6-8',
+    description: ''
+  },
+  {
+    id: 4,
+    characterName: 'E\'nosh',
+    gender: 'M',
+    dateOfBirth: '3791',
+    dateOfDeath: '2976',
+    fatherId: 3,
+    motherId: 0,
+    fatherAgeAtBirth: 90,
+    fatherContinuedToLive: 815,
+    reference: 'Gen 5:9-11',
+    description: ''
+  },
+  {
+    id: 5,
+    characterName: 'Ca-l\nan',
+    gender: 'M',
+    dateOfBirth: '3701',
+    dateOfDeath: '2861',
+    fatherId: 4,
+    motherId: 0,
+    fatherAgeAtBirth: 70,
+    fatherContinuedToLive: 840,
+    reference: 'Gen 5:12-14',
+    description: ''
+  },
+  {
+    id: 6,
+    characterName: 'Ma-ha\'la-le-el',
+    gender: 'M',
+    dateOfBirth: '3631',
+    dateOfDeath: '2801',
+    fatherId: 5,
+    motherId: 0,
+    fatherAgeAtBirth: 65,
+    fatherContinuedToLive: 830,
+    reference: 'Gen 5:15-17',
+    description: ''
+  },
+  {
+    id: 7,
+    characterName: 'Ja\'red',
+    gender: 'M',
+    dateOfBirth: '3566',
+    dateOfDeath: '2604',
+    fatherId: 6,
+    motherId: 0,
+    fatherAgeAtBirth: 162,
+    fatherContinuedToLive: 800,
+    reference: 'Gen 5:18-20',
+    description: ''
+  },
+  {
+    id: 8,
+    characterName: 'E\'noch',
+    gender: 'M',
+    dateOfBirth: '3404',
+    dateOfDeath: '2039',
+    fatherId: 7,
+    motherId: 0,
+    fatherAgeAtBirth: 65,
+    fatherContinuedToLive: 300,
+    reference: 'Gen 5:21-23',
+    description: ''
+  }
 ];

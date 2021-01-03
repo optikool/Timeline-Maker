@@ -1,0 +1,80 @@
+<mat-toolbar>
+  <div class="character-list-header" fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxflex="80">
+      Characters
+    </div>
+    <div fxflex="20" fxlayoutalign="center right">
+      <button mat-flat-button color="primary" (click)="navigateToPage(['/character-new'])">New Character</button>
+    </div>
+  </div>
+</mat-toolbar>
+<mat-card class="mat-elevation-z">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> ID </th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="characterName">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.characterName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="dateOfBirth">
+      <th mat-header-cell *matHeaderCellDef> Date of Birth </th>
+      <td mat-cell *matCellDef="let element"> {{element.dateOfBirth}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="dateOfDeath">
+      <th mat-header-cell *matHeaderCellDef> Date of Death </th>
+      <td mat-cell *matCellDef="let element"> {{element.dateOfDeath}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="fatherName">
+      <th mat-header-cell *matHeaderCellDef> Father </th>
+      <td mat-cell *matCellDef="let element"> {{element.fatherName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="motherName">
+      <th mat-header-cell *matHeaderCellDef> Mother </th>
+      <td mat-cell *matCellDef="let element"> {{element.motherName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="sonName">
+      <th mat-header-cell *matHeaderCellDef> Son(s) </th>
+      <td mat-cell *matCellDef="let element"> {{element.sonName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="fatherAgeAtBirth">
+      <th mat-header-cell *matHeaderCellDef> Father Age at Birth </th>
+      <td mat-cell *matCellDef="let element"> {{element.fatherAgeAtBirth}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="fatherContinuedToLive">
+      <th mat-header-cell *matHeaderCellDef> Lived till </th>
+      <td mat-cell *matCellDef="let element"> {{element.fatherContinuedToLive}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="">
+      <th mat-header-cell *matHeaderCellDef> Total </th>
+      <td mat-cell *matCellDef="let element"> {{element.fatherContinuedToLive + element.fatherAgeAtBirth}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="reference">
+      <th mat-header-cell *matHeaderCellDef> Reference </th>
+      <td mat-cell *matCellDef="let element"> {{element.reference}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-flat-button color="primary"
+          (click)="navigateToPage(['/character-edit', element.id])">Edit</button>&nbsp;
+        <button mat-flat-button color="warn" (click)="deleteCharacter(element.id)">Delete</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</mat-card>

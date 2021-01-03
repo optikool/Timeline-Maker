@@ -1,12 +1,10 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" (click)="navigateToPage(['/'])">Timeline Maker</a>
-  <div id="navbarNav">
-    <ul class="navbar-nav">
-      <li *ngFor="let nav of navigation" class="nav-item" [class.active]="nav.isActive">
-        <a class="nav-link" (click)="navigateToPage(nav.url)">
-            {{ nav.name }}
-        </a>
-      </li>
-    </ul>
-  </div>
-</nav>
+<mat-toolbar color="primary" class="mat-elevation-z6">
+  <button mat-icon-button (click)="navigateToPage(['/'])">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>Timeline Maker</span>
+  <span class="header-spacer"></span>
+  <button mat-button [class.active]="nav.isActive" *ngFor="let nav of navigation" (click)="navigateToPage(nav.url)">
+    {{ nav.name }}
+  </button>
+</mat-toolbar>

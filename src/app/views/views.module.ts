@@ -1,32 +1,29 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { MaterialsModule } from '../materials/materials.module';
+import { CharactersModule } from './characters/characters.module';
 import { HomeComponent } from './home/home.component';
-import { SettingsComponent } from './settings/settings.component';
 import { HelpComponent } from './help/help.component';
-import { TimeLineComponent } from './time-line/time-line.component';
-import { CharactersComponent } from './characters/characters.component';
-import { CharacterComponent } from './character/character.component';
-// import {MatTableModule, MatTableDataSource} from '@angular/material/table';
-import { ReactiveFormsModule } from '@angular/forms';
-import { CharacterNewComponent } from './character-new/character-new.component';
-import { ComponentsModule } from '../components/components.module';
+import { TimelineComponent } from './timeline/timeline.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
-    PageNotFoundComponent,
-    HomeComponent,
-    SettingsComponent,
     HelpComponent,
-    TimeLineComponent,
-    CharactersComponent,
-    CharacterComponent,
-    CharacterNewComponent
+    PageNotFoundComponent,
+    TimelineComponent,
+    HomeComponent
   ],
   imports: [
     CommonModule,
-    ReactiveFormsModule,
-    ComponentsModule
+    MaterialsModule,
+    CharactersModule
+  ],
+  exports: [
+    HelpComponent,
+    PageNotFoundComponent,
+    TimelineComponent,
+    HomeComponent
   ]
 })
 export class ViewsModule { }

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { Navigation } from 'src/app/interfaces/navigation';
+import { Navigation } from 'src/app/models/navigation.model.';
 
 const NAVI: Array<Navigation> = [
   {
@@ -25,12 +24,6 @@ const NAVI: Array<Navigation> = [
   },
   {
     id: 4,
-    name: 'Settings',
-    url: ['/settings'],
-    isActive: false
-  },
-  {
-    id: 5,
     name: 'Help',
     url: ['/help'],
     isActive: false
@@ -43,7 +36,6 @@ const NAVI: Array<Navigation> = [
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  public url: Observable<string>;
   public navigation: Array<Navigation>;
 
   constructor(
@@ -54,18 +46,20 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.router.events
-    .pipe(filter(event => event instanceof NavigationEnd))  
-    .subscribe((event: NavigationEnd) => {
-      this.navigation =  this.navigation.map(link => {
-        return {
-          ...link,
-          isActive: link.url.includes(event.url)
-        }
-      });
+    .pipe(filter((event) => event instanceof NavigationEnd))  
+    .subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.navigation = this.navigation.map(link => {
+          return {
+            ...link,
+            isActive: link.url.includes(event.url)
+          }
+        });
+      }
     });
   }
 
-  navigateToPage(page): void {
+  navigateToPage(page: string[]): void {
     this.router.navigate(page);
   }
 }
