@@ -14,15 +14,15 @@ import * as fromActions from '../views/characters/store/character.actions';
 @Injectable({
   providedIn: 'root'
 })
-export class CharacterResolver implements Resolve<boolean> {
+export class CharacterResolver implements Resolve<string> {
   constructor(
     private readonly store: Store<CharacterState>
   ) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<string> {
     const id: number =  parseInt(route.paramMap.get('id'));
     this.store.dispatch(fromActions.loadCharacters());
     this.store.dispatch(fromActions.loadCharacter({id: id}));
-    return of(true);
+    return of('NONE');
   }
 }

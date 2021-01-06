@@ -1,0 +1,247 @@
+[90m                                                                                [39m
+[90m [39m                      === npm audit security report ===                       [90m [39m
+[90m                                                                                [39m
+[90m                                                                                [39m
+[90m [39m                                Manual Review                                 [90m [39m
+[90m [39m            Some vulnerabilities require your attention to resolve            [90m [39m
+[90m [39m                                                                              [90m [39m
+[90m [39m         Visit https://go.npm.me/audit-guide for additional guidance          [90m [39m
+[90m                                                                                [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Low           [90m [39m Incorrect Handling of Non-Boolean Comparisons During         [90m [39m
+[90m [39m               [90m [39m Minification                                                 [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Package       [90m [39m uglify-js                                                    [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Patched in    [90m [39m >= 2.4.24                                                    [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Dependency of [90m [39m electron-prebuilt-compile [dev]                              [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Path          [90m [39m electron-prebuilt-compile > electron-compilers > jade >      [90m [39m
+[90m [39m               [90m [39m transformers > uglify-js                                     [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m More info     [90m [39m https://npmjs.com/advisories/39                              [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Low           [90m [39m Regular Expression Denial of Service                         [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Package       [90m [39m uglify-js                                                    [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Patched in    [90m [39m >=2.6.0                                                      [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Dependency of [90m [39m electron-prebuilt-compile [dev]                              [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Path          [90m [39m electron-prebuilt-compile > electron-compilers > jade >      [90m [39m
+[90m [39m               [90m [39m transformers > uglify-js                                     [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m More info     [90m [39m https://npmjs.com/advisories/48                              [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Moderate      [90m [39m Prototype Pollution                                          [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Package       [90m [39m hoek                                                         [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Patched in    [90m [39m > 4.2.0 < 5.0.0 || >= 5.0.3                                  [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Dependency of [90m [39m electron-prebuilt-compile [dev]                              [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Path          [90m [39m electron-prebuilt-compile > electron-compilers > less >      [90m [39m
+[90m [39m               [90m [39m request > hawk > boom > hoek                                 [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m More info     [90m [39m https://npmjs.com/advisories/566                             [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Moderate      [90m [39m Prototype Pollution                                          [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Package       [90m [39m hoek                                                         [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Patched in    [90m [39m > 4.2.0 < 5.0.0 || >= 5.0.3                                  [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Dependency of [90m [39m electron-prebuilt-compile [dev]                              [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Path          [90m [39m electron-prebuilt-compile > electron-compilers > less >      [90m [39m
+[90m [39m               [90m [39m request > hawk > cryptiles > boom > hoek                     [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m More info     [90m [39m https://npmjs.com/advisories/566                             [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Moderate      [90m [39m Prototype Pollution                                          [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Package       [90m [39m hoek                                                         [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Patched in    [90m [39m > 4.2.0 < 5.0.0 || >= 5.0.3                                  [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Dependency of [90m [39m electron-prebuilt-compile [dev]                              [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Path          [90m [39m electron-prebuilt-compile > electron-compilers > less >      [90m [39m
+[90m [39m               [90m [39m request > hawk > hoek                                        [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m More info     [90m [39m https://npmjs.com/advisories/566                             [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Moderate      [90m [39m Prototype Pollution                                          [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Package       [90m [39m hoek                                                         [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Patched in    [90m [39m > 4.2.0 < 5.0.0 || >= 5.0.3                                  [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Dependency of [90m [39m electron-prebuilt-compile [dev]                              [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Path          [90m [39m electron-prebuilt-compile > electron-compilers > less >      [90m [39m
+[90m [39m               [90m [39m request > hawk > sntp > hoek                                 [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m More info     [90m [39m https://npmjs.com/advisories/566                             [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Critical      [90m [39m Sandbox Bypass Leading to Arbitrary Code Execution           [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Package       [90m [39m constantinople                                               [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Patched in    [90m [39m >=3.1.1                                                      [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Dependency of [90m [39m electron-prebuilt-compile [dev]                              [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Path          [90m [39m electron-prebuilt-compile > electron-compilers > jade >      [90m [39m
+[90m [39m               [90m [39m constantinople                                               [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m More info     [90m [39m https://npmjs.com/advisories/568                             [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Low           [90m [39m Regular Expression Denial of Service                         [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Package       [90m [39m clean-css                                                    [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Patched in    [90m [39m >=4.1.11                                                     [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Dependency of [90m [39m electron-prebuilt-compile [dev]                              [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Path          [90m [39m electron-prebuilt-compile > electron-compilers > jade >      [90m [39m
+[90m [39m               [90m [39m clean-css                                                    [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m More info     [90m [39m https://npmjs.com/advisories/785                             [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Moderate      [90m [39m Denial of Service                                            [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Package       [90m [39m js-yaml                                                      [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Patched in    [90m [39m >=3.13.0                                                     [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Dependency of [90m [39m electron-prebuilt-compile [dev]                              [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Path          [90m [39m electron-prebuilt-compile > electron-compilers >             [90m [39m
+[90m [39m               [90m [39m @paulcbetts/vueify > cssnano > postcss-svgo > svgo > js-yaml [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m More info     [90m [39m https://npmjs.com/advisories/788                             [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m High          [90m [39m Code Injection                                               [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Package       [90m [39m js-yaml                                                      [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Patched in    [90m [39m >=3.13.1                                                     [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Dependency of [90m [39m electron-prebuilt-compile [dev]                              [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Path          [90m [39m electron-prebuilt-compile > electron-compilers >             [90m [39m
+[90m [39m               [90m [39m @paulcbetts/vueify > cssnano > postcss-svgo > svgo > js-yaml [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m More info     [90m [39m https://npmjs.com/advisories/813                             [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Low           [90m [39m Prototype Pollution                                          [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Package       [90m [39m minimist                                                     [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Patched in    [90m [39m >=0.2.1 <1.0.0 || >=1.2.3                                    [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Dependency of [90m [39m electron-prebuilt-compile [dev]                              [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Path          [90m [39m electron-prebuilt-compile > electron-compilers >             [90m [39m
+[90m [39m               [90m [39m detective-sass > gonzales-pe > minimist                      [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m More info     [90m [39m https://npmjs.com/advisories/1179                            [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Low           [90m [39m Prototype Pollution                                          [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Package       [90m [39m minimist                                                     [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Patched in    [90m [39m >=0.2.1 <1.0.0 || >=1.2.3                                    [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Dependency of [90m [39m electron-prebuilt-compile [dev]                              [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Path          [90m [39m electron-prebuilt-compile > electron-compilers >             [90m [39m
+[90m [39m               [90m [39m detective-scss > gonzales-pe > minimist                      [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m More info     [90m [39m https://npmjs.com/advisories/1179                            [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m High          [90m [39m Insufficient Entropy                                         [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Package       [90m [39m cryptiles                                                    [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Patched in    [90m [39m >=4.1.2                                                      [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Dependency of [90m [39m electron-prebuilt-compile [dev]                              [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Path          [90m [39m electron-prebuilt-compile > electron-compilers > less >      [90m [39m
+[90m [39m               [90m [39m request > hawk > cryptiles                                   [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m More info     [90m [39m https://npmjs.com/advisories/1464                            [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Low           [90m [39m Prototype Pollution                                          [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Package       [90m [39m yargs-parser                                                 [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Patched in    [90m [39m >=13.1.2 <14.0.0 || >=15.0.1 <16.0.0 || >=18.1.2             [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Dependency of [90m [39m electron-prebuilt-compile [dev]                              [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Path          [90m [39m electron-prebuilt-compile > electron-compile > yargs >       [90m [39m
+[90m [39m               [90m [39m yargs-parser                                                 [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m More info     [90m [39m https://npmjs.com/advisories/1500                            [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Low           [90m [39m Prototype Pollution                                          [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Package       [90m [39m yargs-parser                                                 [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Patched in    [90m [39m >=13.1.2 <14.0.0 || >=15.0.1 <16.0.0 || >=18.1.2             [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Dependency of [90m [39m electron-prebuilt-compile [dev]                              [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Path          [90m [39m electron-prebuilt-compile > yargs > yargs-parser             [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m More info     [90m [39m https://npmjs.com/advisories/1500                            [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Low           [90m [39m Prototype Pollution                                          [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Package       [90m [39m ini                                                          [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Patched in    [90m [39m >1.3.6                                                       [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Dependency of [90m [39m @angular/cli [dev]                                           [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Path          [90m [39m @angular/cli > @schematics/update > ini                      [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m More info     [90m [39m https://npmjs.com/advisories/1589                            [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Low           [90m [39m Prototype Pollution                                          [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Package       [90m [39m ini                                                          [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Patched in    [90m [39m >1.3.6                                                       [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Dependency of [90m [39m @angular/cli [dev]                                           [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m Path          [90m [39m @angular/cli > ini                                           [90m [39m
+[90m                [39m[90m                                                                [39m
+[90m [39m More info     [90m [39m https://npmjs.com/advisories/1589                            [90m [39m
+[90m                [39m[90m                                                                [39m
+found 17 vulnerabilities (9 low, 5 moderate, 2 high, 1 critical) in 2231 scanned packages
+  17 vulnerabilities require manual review. See the full report for details.

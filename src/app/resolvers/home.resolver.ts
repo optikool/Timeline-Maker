@@ -13,13 +13,13 @@ import { HomeComponent } from '../views/home/home.component';
 @Injectable({
   providedIn: 'root'
 })
-export class HomeResolver implements Resolve<boolean> {
+export class HomeResolver implements Resolve<string> {
   constructor(
     private readonly store: Store<CharacterState>
   ) { }
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<string> {
     this.store.dispatch(fromActions.loadCharacters());
-    return of(true);
+    return of('NONE');
   }
 }

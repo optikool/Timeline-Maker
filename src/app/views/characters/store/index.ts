@@ -1,8 +1,4 @@
-import {
-  createReducer,
-  MetaReducer,
-  on
-} from '@ngrx/store';
+import { createReducer, MetaReducer, on } from '@ngrx/store';
 import { Character, CharacterGenderList, Family } from 'src/app/models/character.model';
 import { environment } from '../../../../environments/environment';
 import * as fromCharacterActions from './character.actions';

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Character } from 'src/app/models/character.model';
 import { CharacterService } from 'src/app/services/character.service';
@@ -31,7 +30,6 @@ export class CharacterListComponent implements OnInit {
 
   constructor(
     private characerService: CharacterService,
-    private router: Router,
     private store: Store<CharacterState>) {
       this.dataSource = [];
     }

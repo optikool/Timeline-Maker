@@ -13,13 +13,13 @@ import { TimelineComponent } from '../views/timeline/timeline.component';
 @Injectable({
   providedIn: 'root'
 })
-export class TimelineResolver implements Resolve<boolean> {
+export class TimelineResolver implements Resolve<string> {
   constructor(
     private readonly store: Store<CharacterState>
   ) { }
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<string> {
     this.store.dispatch(fromActions.loadCharacters());
-    return of(true);
+    return of('NONE');
   }
 }

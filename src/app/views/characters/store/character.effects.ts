@@ -3,8 +3,8 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CharacterActionTypes }  from './character.actions';
 import * as fromCharacterActions from './character.actions';
 import { CharacterService } from 'src/app/services/character.service';
-import { from, of } from 'rxjs';
-import { mergeMap, map, catchError, concatMap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { mergeMap, map, catchError } from 'rxjs/operators';
 import { Character } from 'src/app/models/character.model';
 
 @Injectable()

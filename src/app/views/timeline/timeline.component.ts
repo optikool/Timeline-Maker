@@ -25,7 +25,6 @@ export class TimelineComponent implements OnInit {
     this.store.pipe(select(selectCharacterTree))
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe(data => {
-        console.log('TimelineComponent data: ', data);
         this.dataSource = data;
       });
   }

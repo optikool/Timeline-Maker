@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { Character, Family } from 'src/app/models/character.model';
+import { Character } from 'src/app/models/character.model';
 import { CharacterService } from 'src/app/services/character.service';
 import { CharacterState } from '../store';
 import * as fromActions from '../store/character.actions';
-import { selectCharacter } from '../store/character.selectors';
 
 @Component({
   selector: 'app-character-new',
@@ -56,15 +55,12 @@ export class CharacterNewComponent implements OnInit {
     registerForm.value.fatherId = !registerForm.value.fatherId ? 0 : registerForm.value.fatherId;
     registerForm.value.motherId = !registerForm.value.motherId ? 0 : registerForm.value.motherId;
 
-    console.log('onSubmit: ', registerForm.value);
     this.store.dispatch(fromActions.createCharacter(registerForm.value))
     this.store
       .pipe(takeUntil(this.ngOnDestroy$))
       .pipe(take(1))
       .subscribe((response) => {
-        console.log('Response: ', response)
         if (!response.error) {
-          console.log('Error occured: ', response.error);
           this.submitted = false;
           registerForm.reset();
           this.navigateToPage(['/characters']);
@@ -81,5 +77,4 @@ export class CharacterNewComponent implements OnInit {
   navigateToPage(page: string[]): void {
     this.characerService.navigateToPage(page);
   }
-
 }

@@ -125,7 +125,6 @@ let myCharacters: Character[] = [
 })
 export class CharacterService {
   private characters: Character[] = [];
-  private characterIndex: number = 0;
   private isElectron: boolean = false;
 
   constructor(
@@ -185,7 +184,7 @@ export class CharacterService {
       };
 
       this.characters = this.characters.concat(newCharacter);
-      return of(this.characters.concat(newCharacter));
+      return of(this.characters);
     }
   }
 
@@ -195,7 +194,6 @@ export class CharacterService {
         catchError((error: any) => throwError(error.json))
       );
     } else {
-      // return throwError('An error occured');
       this.characters = this.characters.map((data => {
         if (data.id !== character.id) return data;
         return {
@@ -237,6 +235,12 @@ export class CharacterService {
     }
   }
 
+  generateTree(characterList: { characters: Character[], type: '' }, parent: number): Observable<Character[]> {
+    let out: Character[] = [];
+    out = this.getNewTree(characterList.characters, parent);
+    return of(out);
+  }
+
   private getParent(id: number): Parent {
     return this.characters.map(item => {
       return {
@@ -269,11 +273,5 @@ export class CharacterService {
     }
 
     return out;
-  }
-
-  generateTree(characterList: {characters: Character[], type: ''}, parent: number): Observable<Character[]> {
-    let out: Character[] = [];
-    out = this.getNewTree(characterList.characters, parent);
-    return of(out);
   }
 }
