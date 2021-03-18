@@ -142,7 +142,7 @@ export class CharacterService {
     this.router.navigate(page);
   }
 
-  getCharacter(action: { id: number, type: string }): Observable<Character | undefined> {
+  getCharacter(action: { id: number, type: string }): Observable<Family | undefined> {
     if (this.isElectron) {
       return of(this._electronService.ipcRenderer.sendSync('get-character', action.id)).pipe(
           catchError((error: any) => throwError(error.json))

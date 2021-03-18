@@ -25,8 +25,8 @@ const isDevMode = process.execPath.match(/[\\/]electron/);
 
 // if (isDevMode) enableLiveReload();
 
-function getParent(id) {
-  return this.characters.map(item => {
+function getParent(id, characters) {
+  return characters.map(item => {
     return {
       id: item.id,
       name: item.characterName,
@@ -73,8 +73,8 @@ const createWindow = async () => {
 
   ipcMain.on('get-character', async (event, id) => {
     const character = characters.find((data) => id === data.id);
-    const parentFather = getParent(character.fatherId);
-    const parentMother = getParent(character.motherId);
+    const parentFather = getParent(character?.fatherId, characters);
+    const parentMother = getParent(character?.motherId, characters);
     const children = characters.filter(child => id === child.fatherId || id === child.motherId);
 
     event.returnValue = await {
@@ -96,10 +96,10 @@ const createWindow = async () => {
   });
 
   ipcMain.on('update-character', async (event, characterUpdate) => {
-    characters = characters.map((character => {
+    characters = characters.map(character => {
       if (character.id !== characterUpdate.id) return character;
       return Object.assign(character, characterUpdate);
-    }));
+    });
 
     event.returnValue = await characters;
   });
@@ -143,7 +143,8 @@ app.on('activate', () => {
 });
 
 // : Character[]
-const CHARACTERS = [{
+const CHARACTERS = [
+  {
     id: 1,
     characterName: 'Adam',
     gender: 'M',
@@ -151,100 +152,108 @@ const CHARACTERS = [{
     dateOfDeath: '3096',
     fatherId: 0,
     motherId: 0,
+    children: [],
     fatherAgeAtBirth: 130,
     fatherContinuedToLive: 800,
     reference: 'Gen 5:3-5',
-    description: ''
+    description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat.'
   },
   {
-    id: 2,
-    characterName: 'Eve',
-    gender: 'F',
-    dateOfBirth: '100',
-    dateOfDeath: '3096',
-    fatherId: 0,
-    motherId: 0,
-    fatherAgeAtBirth: 130,
-    fatherContinuedToLive: 800,
-    reference: 'Gen 5:3-5',
-    description: ''
+      id: 2,
+      characterName: 'Eve',
+      gender: 'F',
+      dateOfBirth: '100',
+      dateOfDeath: '3096',
+      fatherId: 0,
+      motherId: 0,
+      children: [],
+      fatherAgeAtBirth: 130,
+      fatherContinuedToLive: 800,
+      reference: 'Gen 5:3-5',
+      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis.'
   },
   {
-    id: 3,
-    characterName: 'Seth',
-    gender: 'M',
-    dateOfBirth: '2896',
-    dateOfDeath: '2984',
-    fatherId: 1,
-    motherId: 2,
-    fatherAgeAtBirth: 105,
-    fatherContinuedToLive: 807,
-    reference: 'Gen 5:6-8',
-    description: ''
+      id: 3,
+      characterName: 'Seth',
+      gender: 'M',
+      dateOfBirth: '2896',
+      dateOfDeath: '2984',
+      fatherId: 1,
+      motherId: 2,
+      children: [],
+      fatherAgeAtBirth: 105,
+      fatherContinuedToLive: 807,
+      reference: 'Gen 5:6-8',
+      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus'
   },
   {
-    id: 4,
-    characterName: 'E\'nosh',
-    gender: 'M',
-    dateOfBirth: '3791',
-    dateOfDeath: '2976',
-    fatherId: 3,
-    motherId: 0,
-    fatherAgeAtBirth: 90,
-    fatherContinuedToLive: 815,
-    reference: 'Gen 5:9-11',
-    description: ''
+      id: 4,
+      characterName: 'E\'nosh',
+      gender: 'M',
+      dateOfBirth: '3791',
+      dateOfDeath: '2976',
+      fatherId: 3,
+      motherId: 0,
+      children: [],
+      fatherAgeAtBirth: 90,
+      fatherContinuedToLive: 815,
+      reference: 'Gen 5:9-11',
+      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui.'
   },
   {
-    id: 5,
-    characterName: 'Ca-l\nan',
-    gender: 'M',
-    dateOfBirth: '3701',
-    dateOfDeath: '2861',
-    fatherId: 4,
-    motherId: 0,
-    fatherAgeAtBirth: 70,
-    fatherContinuedToLive: 840,
-    reference: 'Gen 5:12-14',
-    description: ''
+      id: 5,
+      characterName: 'Ca-l\nan',
+      gender: 'M',
+      dateOfBirth: '3701',
+      dateOfDeath: '2861',
+      fatherId: 4,
+      motherId: 0,
+      children: [],
+      fatherAgeAtBirth: 70,
+      fatherContinuedToLive: 840,
+      reference: 'Gen 5:12-14',
+      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat.'
   },
   {
-    id: 6,
-    characterName: 'Ma-ha\'la-le-el',
-    gender: 'M',
-    dateOfBirth: '3631',
-    dateOfDeath: '2801',
-    fatherId: 5,
-    motherId: 0,
-    fatherAgeAtBirth: 65,
-    fatherContinuedToLive: 830,
-    reference: 'Gen 5:15-17',
-    description: ''
+      id: 6,
+      characterName: 'Ma-ha\'la-le-el',
+      gender: 'M',
+      dateOfBirth: '3631',
+      dateOfDeath: '2801',
+      fatherId: 5,
+      motherId: 0,
+      children: [],
+      fatherAgeAtBirth: 65,
+      fatherContinuedToLive: 830,
+      reference: 'Gen 5:15-17',
+      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus'
   },
   {
-    id: 7,
-    characterName: 'Ja\'red',
-    gender: 'M',
-    dateOfBirth: '3566',
-    dateOfDeath: '2604',
-    fatherId: 6,
-    motherId: 0,
-    fatherAgeAtBirth: 162,
-    fatherContinuedToLive: 800,
-    reference: 'Gen 5:18-20',
-    description: ''
+      id: 7,
+      characterName: 'Ja\'red',
+      gender: 'M',
+      dateOfBirth: '3566',
+      dateOfDeath: '2604',
+      fatherId: 6,
+      motherId: 0,
+      children: [],
+      fatherAgeAtBirth: 162,
+      fatherContinuedToLive: 800,
+      reference: 'Gen 5:18-20',
+      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus'
   },
   {
-    id: 8,
-    characterName: 'E\'noch',
-    gender: 'M',
-    dateOfBirth: '3404',
-    dateOfDeath: '2039',
-    fatherId: 7,
-    motherId: 0,
-    fatherAgeAtBirth: 65,
-    fatherContinuedToLive: 300,
-    reference: 'Gen 5:21-23',
-    description: ''
+      id: 8,
+      characterName: 'E\'noch',
+      gender: 'M',
+      dateOfBirth: '3404',
+      dateOfDeath: '2039',
+      fatherId: 7,
+      motherId: 0,
+      children: [],
+      fatherAgeAtBirth: 65,
+      fatherContinuedToLive: 300,
+      reference: 'Gen 5:21-23',
+      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis.'
   }
 ];
