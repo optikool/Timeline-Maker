@@ -1,0 +1,76 @@
+<h2 mat-dialog-title>{{characterProfile.characterName}}</h2>
+<mat-divider></mat-divider>
+<mat-dialog-content class="mat-typography">
+  <mat-grid-list cols="4" rowHeight="fit">
+    <mat-grid-list cols="4" rows="1" gutterSize="10px" rowHeight="25px">
+      <strong>Gender: </strong> <span>{{characterProfile.gender}}</span>
+    </mat-grid-list>
+    <mat-grid-list cols="4" rows="1" gutterSize="10px" rowHeight="25px">
+      <strong>Lived: </strong> <span>{{characterProfile.dateOfBirth}}</span> to <span>{{characterProfile.dateOfDeath}} BCE</span>
+    </mat-grid-list>
+    <mat-grid-list cols="2" rows="1" gutterSize="10px" rowHeight="40px" *ngIf="characterProfile.father">
+      <strong>Father: </strong> 
+      <span><mat-chip color="accent" (click)="loadProfile(characterProfile.father.id)">{{characterProfile.father.name}}</mat-chip></span>
+    </mat-grid-list>
+    <mat-grid-list cols="2" rows="1" gutterSize="10px" rowHeight="40px" *ngIf="characterProfile.mother">
+      <strong>Mother: </strong> 
+      <span><mat-chip color="accent" mat-flat-button (click)="loadProfile(characterProfile.mother.id)">{{characterProfile.mother.name}}</mat-chip></span>
+    </mat-grid-list>
+    <mat-grid-list 
+      cols="2" 
+      rows="1" 
+      gutterSize="10px" 
+      rowHeight="65px" 
+      *ngIf="characterProfile.children.length > 0">
+      <strong>Children: </strong>
+      <mat-chip-list aria-label="Children">
+        <mat-chip 
+          *ngFor="let child of characterProfile.children"
+          color="accent"
+          (click)="loadProfile(child.id)">
+          {{child.characterName}}
+        </mat-chip>
+      </mat-chip-list>
+    </mat-grid-list>
+    <mat-grid-list cols="4" rows="1" gutterSize="10px" rowHeight="25px">
+      <strong>Father's age at birth: </strong> <span>{{characterProfile.fatherAgeAtBirth}}</span>
+    </mat-grid-list>
+    <mat-grid-list cols="4" rows="1" gutterSize="10px" rowHeight="25px">
+      <strong>Father continued to live for: </strong> <span>{{characterProfile.fatherContinuedToLive}}</span>
+    </mat-grid-list>
+    <mat-grid-list cols="4" rows="1" gutterSize="10px" rowHeight="25px">
+      <strong>Bible Reference: </strong> <span>{{characterProfile.reference}}</span>
+    </mat-grid-list>
+    <mat-grid-list cols="4" rows="1" gutterSize="10px">
+      <div><strong>Description: </strong></div>
+      <div class="description">{{characterProfile.description}}</div>
+    </mat-grid-list>
+  </mat-grid-list>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions align="end">
+  <button mat-flat-button color="primary" (click)="closeDialog()">Close</button>
+</mat-dialog-actions>
+
+<!-- 
+Character
+id: number;
+characterName: string;
+gender: string;
+dateOfBirth: string;
+dateOfDeath: string;
+fatherId: number;
+motherId: number;
+children: Character[];
+fatherAgeAtBirth: number | null;
+fatherContinuedToLive: number | null;
+reference: string;
+description: string;
+father: Parent;
+mother: Parent;
+
+Parent
+id: number;
+name: string;
+gender: string; 
+-->

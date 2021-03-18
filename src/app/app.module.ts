@@ -10,6 +10,7 @@ import { reducers, metaReducers } from './store/reducers';
 import { AnimationsModule } from './animations/animations.module';
 import { ComponentsModule } from './components/components.module';
 import { MaterialsModule } from './materials/materials.module';
+import { ModalsModule } from './modals/modals.module';
 import { ViewsModule } from './views/views.module';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
@@ -30,6 +31,7 @@ import { NgxElectronModule } from 'ngx-electron';
     AppRoutingModule,
     AnimationsModule,
     MaterialsModule,
+    ModalsModule,
     FlexLayoutModule,
     ComponentsModule,
     NgxElectronModule,

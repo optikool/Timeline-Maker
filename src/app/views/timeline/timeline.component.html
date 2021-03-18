@@ -5,11 +5,11 @@
   <div class="tree mat-elevation-z8" layout="row" layout-align="center start">
     <ul>
       <li *ngFor="let character of dataSource">
-        <mat-card>
+        <mat-card (click)="openDialog(character.id)">
           <div>{{ character.characterName }}</div>
           <div>{{ character.dateOfBirth }} to {{ character.dateOfDeath }}</div>
         </mat-card>
-        <ng-container *ngIf="character.children.length > 0">
+        <ng-container *ngIf="character.children && character.children.length > 0">
           <ng-container *ngTemplateOutlet="characterTemplate;context:character"></ng-container>
         </ng-container>
       </li>
@@ -17,11 +17,11 @@
     <ng-template #characterTemplate let-childCharacters="children">
       <ul>
         <li *ngFor="let child of childCharacters">
-          <mat-card>
+          <mat-card (click)="openDialog(child.id)">
             <div>{{ child.characterName }}</div>
             <div>{{ child.dateOfBirth }} - {{ child.dateOfDeath }}</div>
           </mat-card>
-          <ng-container *ngIf="child.children.length > 0">
+          <ng-container *ngIf="child.children && child.children.length > 0">
             <ng-container *ngTemplateOutlet="characterTemplate;context:child"></ng-container>
           </ng-container>
         </li>
