@@ -39,7 +39,6 @@ export class TimelineComponent implements OnInit {
   }
 
   openDialog(id: number): void {
-    console.log('openDialog id: ', id);
     this.store.dispatch(fromActions.loadCharacter({id: id}));
     const dialogRef = this.dialog.open(CharacterProfileDialogComponent, {
       width: '600px',

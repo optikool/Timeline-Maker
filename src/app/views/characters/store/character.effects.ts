@@ -4,13 +4,17 @@ import { CharacterActionTypes }  from './character.actions';
 import * as fromCharacterActions from './character.actions';
 import { CharacterService } from 'src/app/services/character.service';
 import { of } from 'rxjs';
-import { mergeMap, map, catchError } from 'rxjs/operators';
+import { mergeMap, map, catchError, withLatestFrom } from 'rxjs/operators';
 import { Character } from 'src/app/models/character.model';
+import { Store } from '@ngrx/store';
+import { CharacterState } from './index';
+import { selectCharacters } from './character.selectors';
 
 @Injectable()
 export class CharacterEffects {
   constructor(
     private actions$: Actions,
+    private store$: Store<CharacterState>,
     private characterService: CharacterService
   ) {}
 
@@ -33,7 +37,8 @@ export class CharacterEffects {
 
   loadCharacter$ = createEffect(() => this.actions$.pipe(
     ofType(CharacterActionTypes.LOAD_CHARACTER),
-    mergeMap((action) => this.characterService.getCharacter(action)
+    withLatestFrom(this.store$.select(selectCharacters)),
+    mergeMap(([action, storeState]) => this.characterService.getCharacter(action, storeState)
       .pipe(
         map(character => fromCharacterActions.loadCharacterSuccess({character})),
         catchError(error => of(fromCharacterActions.loadCharacterFailure({error})))

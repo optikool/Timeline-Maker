@@ -4,6 +4,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { ElectronService } from 'ngx-electron';
 import { Character, CharacterGenderList, Family, Parent } from '../models/character.model';
 import { catchError } from 'rxjs/operators';
+import { CharacterState } from '../views/characters/store';
 
 let myCharacters: Character[] = [
   {
@@ -142,24 +143,18 @@ export class CharacterService {
     this.router.navigate(page);
   }
 
-  getCharacter(action: { id: number, type: string }): Observable<Family | undefined> {
-    if (this.isElectron) {
-      return of(this._electronService.ipcRenderer.sendSync('get-character', action.id)).pipe(
-          catchError((error: any) => throwError(error.json))
-        );
-    } else {
-      const character = this.characters.find((data: Character) => action.id === data.id);
-      const parentFather: Parent = this.getParent(character?.fatherId);
-      const parentMother: Parent = this.getParent(character?.motherId);
-      const children: Character[] = this.characters.filter(child => action.id === child.fatherId || action.id === child.motherId);
-
-      return of({
-        ...character,
-        mother: parentMother,
-        father: parentFather,
-        children
-      });
-    }
+  getCharacter(action: { id: number, type: string }, currentCharacters: Character[]): Observable<Family | undefined> {
+    const character = currentCharacters.find((data: Character) => action.id === data.id);
+    const parentFather: Parent = this.getParent(character?.fatherId, currentCharacters);
+    const parentMother: Parent = this.getParent(character?.motherId, currentCharacters);
+    const children: Character[] = currentCharacters.filter(child => action.id === child.fatherId || action.id === child.motherId);
+      
+    return of({
+      ...character,
+      mother: parentMother,
+      father: parentFather,
+      children
+    });
   }
 
   getCharacters(): Observable<Character[]> {
@@ -173,6 +168,7 @@ export class CharacterService {
   }
 
   createCharacter(character: Character): Observable<Character[]> {
+    console.log('createCharacter character: ', character);
     if (this.isElectron) {
       return of(this._electronService.ipcRenderer.sendSync('save-character', character)).pipe(
         catchError((error: any) => throwError(error.json))
@@ -189,6 +185,7 @@ export class CharacterService {
   }
 
   updateCharacter(character: Character): Observable<Character[]> {
+    console.log('updateCharacter character: ', character);
     if (this.isElectron) {
       return of(this._electronService.ipcRenderer.sendSync('update-character', character)).pipe(
         catchError((error: any) => throwError(error.json))
@@ -207,9 +204,12 @@ export class CharacterService {
   }
 
   deleteCharacter(data: { id: number, type: string}): Observable<Character[]> {
+    console.log('deleteCharacter data: ', data);
     if (this.isElectron) {
       return of(this._electronService.ipcRenderer.sendSync('delete-character', data)).pipe(
-        catchError((error: any) => Observable.throw(error.json))
+        catchError((error: any) => {
+          console.log(`deleteCharacter error: ${error}`);
+          return Observable.throw(error.json)})
       );
     } else {
       this.characters = this.characters.filter((character: Character) => character.id !== data.id);
@@ -238,11 +238,12 @@ export class CharacterService {
   generateTree(characterList: { characters: Character[], type: '' }, parent: number): Observable<Character[]> {
     let out: Character[] = [];
     out = this.getNewTree(characterList.characters, parent);
+  
     return of(out);
   }
 
-  private getParent(id: number): Parent {
-    return this.characters.map(item => {
+  private getParent(id: number, currentCharacters: Character[]): Parent {
+    return currentCharacters.map(item => {
       return {
         id: item.id,
         name: item.characterName,

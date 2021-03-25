@@ -1,4 +1,5 @@
 import { createReducer, MetaReducer, on } from '@ngrx/store';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 import { Character, CharacterGenderList, Family } from 'src/app/models/character.model';
 import { environment } from '../../../../environments/environment';
 import * as fromCharacterActions from './character.actions';

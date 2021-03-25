@@ -54,7 +54,7 @@ export class CharacterNewComponent implements OnInit {
     this.submitted = true;
     registerForm.value.fatherId = !registerForm.value.fatherId ? 0 : registerForm.value.fatherId;
     registerForm.value.motherId = !registerForm.value.motherId ? 0 : registerForm.value.motherId;
-
+    console.log(`CharacterNewComponent onSubmit: ${registerForm.value}`);
     this.store.dispatch(fromActions.createCharacter(registerForm.value))
     this.store
       .pipe(takeUntil(this.ngOnDestroy$))

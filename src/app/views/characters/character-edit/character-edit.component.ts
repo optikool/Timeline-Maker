@@ -59,7 +59,7 @@ export class CharacterEditComponent implements OnInit {
 
   onSubmit(registerForm: FormGroup): void {
     this.submitted = true;
-
+    console.log(`CharacterEditComponent onSubmit: ${registerForm.value}`);
     this.store.dispatch(fromActions.updateCharacter(registerForm.value))
     this.store
       .pipe(takeUntil(this.ngDestroy$))
