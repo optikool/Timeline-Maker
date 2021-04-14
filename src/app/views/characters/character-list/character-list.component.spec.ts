@@ -1,13 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MaterialsModule } from 'src/app/materials/materials.module';
 
 import { CharacterListComponent } from './character-list.component';
 
-describe('CharacterListComponent', () => {
+fdescribe('CharacterListComponent', () => {
   let component: CharacterListComponent;
   let fixture: ComponentFixture<CharacterListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [
+        MaterialsModule
+      ],
       declarations: [ CharacterListComponent ]
     })
     .compileComponents();

@@ -110,36 +110,42 @@ export const reducers = createReducer(
     }
   }),
   on(fromCharacterActions.createCharacterSuccess, (state: CharacterState, action) => {
+    console.log('createCharacterSuccess action.characters: ', action.characters);
     return {
       ...state,
       characters: action.characters
     }
   }),
   on(fromCharacterActions.createCharacterFailure, (state: CharacterState, action) => {
+    console.log('createCharacterFailure action.characters: ', action.error);
     return {
       ...state,
       error: action.error
     }
   }),
   on(fromCharacterActions.updateCharacterSuccess, (state: CharacterState, action) => {
+    console.log('updateCharacterSuccess action.characters: ', action.characters);
     return {
       ...state,
       characters: action.characters
     }
   }),
   on(fromCharacterActions.updateCharacterFailure, (state: CharacterState, action) => {
+    console.log('updateCharacterFailure action.characters: ', action.error);
     return {
       ...state,
       error: action.error
     }
   }),
   on(fromCharacterActions.deleteCharacterSuccess, (state: CharacterState, action) => {
+    console.log('deleteCharacterSuccess action.characters: ', action.characters);
     return {
       ...state,
       characters: action.characters
     }
   }),
   on(fromCharacterActions.deleteCharacterFailure, (state: CharacterState, action) => {
+    console.log('deleteCharacterFailure action.characters: ', action.error);
     return {
       ...state,
       error: action.error

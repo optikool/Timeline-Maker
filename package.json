@@ -1,14 +1,45 @@
 {
-  "name": "timeline-maker",
+  "name": "Timeline-Maker",
   "author": "Dana Harris",
   "version": "1.0.0",
   "description": "Timeline Maker is a Proof of Concept for building a Windows app using Angular 10, Electron, NodeJS and Sqlite3 as its base.",
   "main": "main.js",
+  "packageManager": "npm",
+  "build": {
+    "appId": "com.eyenetdesigns.timelinemaker",
+    "copyright": "Copyright eyenetdesigns.com",
+    "files": [
+      "main.js",
+      "dist/timeline-maker/**/*"
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "asar": false,
+      "certificateFile": "private/eyenetdesigns.pfx",
+      "certificatePassword": "",
+      "publisherName": "eyenetdesigns"
+    },
+    "nsis": {
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": "always",
+      "installerHeaderIcon": "build/installerIcon.ico",
+      "installerIcon": "build/installerIcon.ico",
+      "oneClick": false,
+      "uninstallerIcon": "build/uninstallerIcon.ico"
+    },
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": "dmg"
+    },
+    "linux": {}
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "test": "ng test",
+    "test": "ng test  --code-coverage",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "generate": "node ./server/generate.js > ./server/database.json",
@@ -17,6 +48,8 @@
     "electron": "ng build && electron .",
     "electron-aot": "ng build --prod && electron .",
     "electron:rebuild": "electron-rebuild -f -w sqlite3",
+    "electron:build": "electron-builder -w",
+    "electron:wincert": "electron-builder create-self-signed-cert -p eyenetdesigns",
     "cypress:open": "cypress open",
     "cypress:clear": "cypress cache clear",
     "cypress:verify": "cypress verify",
@@ -41,6 +74,7 @@
     "@ngrx/store": "^11.0.1",
     "@ngrx/store-devtools": "^11.0.1",
     "concurrently": "^5.3.0",
+    "electron-compile": "^6.4.4",
     "knex": "^0.21.19",
     "ngx-electron": "^2.2.0",
     "rxjs": "^6.6.6",
@@ -58,12 +92,14 @@
     "codelyzer": "^6.0.0",
     "cypress": "^6.8.0",
     "electron": "^11.3.0",
+    "electron-builder": "^22.10.5",
     "electron-prebuilt-compile": "^8.2.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~6.2.0",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage": "~2.0.3",
+    "karma-coverage-istanbul-reporter": "^3.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
     "protractor": "~7.0.0",

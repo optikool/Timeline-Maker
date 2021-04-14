@@ -10,7 +10,10 @@ let url = require('url');
 let path = require('path');
 let win = null;
 
-const dbPath = path.resolve(__dirname, 'dist/timeline-maker/assets/data/timeline.sqlite3.db')
+const userData = app.getPath('userData');
+
+const dbPath = path.resolve(__dirname, 'dist/timeline-maker/assets/data/timeline.sqlite3.db');
+// const dbPath = path.resolve(userData, 'dist/timeline-maker/assets/data/timeline.sqlite3.db');
 const knex = require('knex')({
   client: 'sqlite3',
   connection: {
@@ -18,15 +21,12 @@ const knex = require('knex')({
   }
 });
 
-console.log('file path to db: ', dbPath);
-const Characters = () => knex('timeline');
+// const Characters = () => knex('timeline');
 
 let mainWindow = null;
 let characterIndex = 0;
 
 const isDevMode = process.execPath.match(/[\\/]electron/);
-
-// if (isDevMode) enableLiveReload();
 
 function getParent(id, characters) {
   return characters.map(item => {
@@ -39,8 +39,6 @@ function getParent(id, characters) {
 }
 
 const createWindow = async () => {
-  // let characters = CHARACTERS;
-  // characterIndex = characters.length + 1;
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 1280,

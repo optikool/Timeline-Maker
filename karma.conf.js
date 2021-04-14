@@ -15,13 +15,11 @@ module.exports = function (config) {
     client: {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
-    coverageReporter: {
+    
+    coverageIstanbulReporter: {
       dir: require('path').join(__dirname, './coverage/timeline-maker'),
-      subdir: '.',
-      reporters: [
-        { type: 'html' },
-        { type: 'text-summary' }
-      ]
+      reports: ['html', 'lcovonly', 'text-summary'],
+      fixWebpackSourcePaths: true
     },
     reporters: ['progress', 'kjhtml'],
     port: 9876,
