@@ -6,10 +6,12 @@ let {
 let {
   enableLiveReload
 } = require('electron-compile');
+
 let url = require('url');
 let path = require('path');
 let win = null;
 
+const updater = require('./updater');
 const userData = app.getPath('userData');
 
 const dbPath = path.resolve(__dirname, 'dist/timeline-maker/assets/data/timeline.sqlite3.db');
@@ -48,16 +50,29 @@ const createWindow = async () => {
     }
   });
 
+  updater.setMainWindow(mainWindow);
+  updater.loadListeners();
+
+  // Check for updates after 3 seconds
+  setTimeout(updater.checkForUpdates, 3000);
+
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'dist/timeline-maker/index.html'),
     protocol: 'file:',
     slashes: true
   }));
 
+  
+
   // Open the DevTools.
-  if (isDevMode) {
-    mainWindow.webContents.openDevTools();
-  }
+  // if (isDevMode) {
+  //   mainWindow.webContents.openDevTools();
+  // }
+
+  mainWindow.on('ready-to-show', () => {
+    
+    
+  });
 
   // Emitted when the window is closed.
   mainWindow.on('closed', () => {
