@@ -52,7 +52,7 @@
     "server": "json-server --watch ./server/database.json",
     "dev": "concurrently \"npm run server\" \"npm run start\"",
     "electron": "ng build && electron .",
-    "electron-aot": "ng build --prod && electron .",
+    "electron-aot": "ng build --configuration production && electron .",
     "electron:rebuild": "electron-rebuild -f -w sqlite3",
     "electron:build": "electron-builder -w",
     "electron:wincert": "electron-builder create-self-signed-cert -p eyenetdesigns",
@@ -94,7 +94,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~13.0.3",
-    "@angular/cli": "~11.2.5",
+    "@angular/cli": "~12.2.13",
     "@angular/compiler-cli": "~13.0.2",
     "@types/jasmine": "^3.6.7",
     "@types/node": "^12.20.6",
