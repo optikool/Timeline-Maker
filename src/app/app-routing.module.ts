@@ -16,7 +16,7 @@ import { CharactersResolver } from './resolvers/characters.resolver';
 import { HomeResolver } from './resolvers/home.resolver';
 import { TimelineResolver } from './resolvers/timeline.resolver';
 
-const routes: Routes = [
+export const routes: Routes = [
   { 
     path: 'characters', 
     component: CharacterListComponent, 

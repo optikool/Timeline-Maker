@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { StoreModule } from '@ngrx/store';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -95,8 +95,8 @@ fdescribe('TimelineComponent', () => {
     }
   ]
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
         MatDialogModule,
@@ -112,18 +112,17 @@ fdescribe('TimelineComponent', () => {
      ],
       declarations: [ TimelineComponent ]
     })
-    .compileComponents();
+    .compileComponents()
+    .then(() => {
+      
+      fixture = TestBed.createComponent(TimelineComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
 
     store = TestBed.inject(MockStore);
-
     mockCharacterTree = store.overrideSelector(selectCharacterTree, treeList);
-  });
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TimelineComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  }));
 
   it('should create component', () => {
     expect(component).toBeTruthy();

@@ -6,7 +6,7 @@ import { Character, CharacterGenderList, Family, Parent } from '../models/charac
 import { catchError } from 'rxjs/operators';
 import { CharacterState } from '../views/characters/store';
 
-let myCharacters: Character[] = [
+export let myCharacters: Character[] = [
   {
       id: 1,
       characterName: 'Adam',
@@ -148,7 +148,7 @@ export class CharacterService {
     const parentFather: Parent = this.getParent(character?.fatherId, currentCharacters);
     const parentMother: Parent = this.getParent(character?.motherId, currentCharacters);
     const children: Character[] = currentCharacters.filter(child => action.id === child.fatherId || action.id === child.motherId);
-      
+
     return of({
       ...character,
       mother: parentMother,
@@ -168,7 +168,6 @@ export class CharacterService {
   }
 
   createCharacter(character: Character): Observable<Character[]> {
-    console.log('createCharacter character: ', character);
     if (this.isElectron) {
       return of(this._electronService.ipcRenderer.sendSync('save-character', character)).pipe(
         catchError((error: any) => throwError(error.json))
@@ -185,7 +184,7 @@ export class CharacterService {
   }
 
   updateCharacter(character: Character): Observable<Character[]> {
-    console.log('updateCharacter character: ', character);
+
     if (this.isElectron) {
       return of(this._electronService.ipcRenderer.sendSync('update-character', character)).pipe(
         catchError((error: any) => throwError(error.json))

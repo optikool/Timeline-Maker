@@ -1,25 +1,66 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { DebugElement } from '@angular/core';
+import { ComponentFixture, fakeAsync, flushMicrotasks, TestBed, waitForAsync } from '@angular/core/testing';
+import { Router, RouterEvent } from '@angular/router';
+import { of, ReplaySubject } from 'rxjs';
+import {By} from '@angular/platform-browser';
+import { MaterialsModule } from '../../materials/materials.module';
 import { HeaderComponent } from './header.component';
 
-describe('HeaderComponent', () => {
+fdescribe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
+  let el: DebugElement;
+  let routerMock: any;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ HeaderComponent ]
+  beforeEach(waitForAsync(() => {
+    const routerEventRelaySubject = new ReplaySubject<RouterEvent>(1);
+    routerMock = {
+      events: routerEventRelaySubject.asObservable(),
+      navigate:  jasmine.createSpy()
+    };
+    
+
+    TestBed.configureTestingModule({
+      declarations: [ 
+        HeaderComponent,
+      ],
+      imports: [
+        MaterialsModule,
+      ],
+      providers: [
+        MaterialsModule,
+        { provide: Router, useValue: routerMock },
+      ]
     })
-    .compileComponents();
-  });
+    .compileComponents()
+    .then(() => {
+      fixture = TestBed.createComponent(HeaderComponent);
+      component = fixture.componentInstance;
+      el = fixture.debugElement;
+    });
+  }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(HeaderComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
+  it('should create HeaderComponent', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call navigate to page', fakeAsync(() => {
+    const path = ['/character-edit', '4'];
+    
+    fixture.detectChanges();
+    
+    component.navigateToPage(path);
+    flushMicrotasks();
+    expect(routerMock.navigate).toHaveBeenCalled();
+  }));
+
+  it('should show full menu', () => {
+    fixture.detectChanges();
+    const items = el.queryAll(By.css('.mat-button'));
+    expect(items.length).toBe(4);
+    expect(items[0].nativeElement.innerText).toBe('Home');
+    expect(items[1].nativeElement.innerText).toBe('Timeline');
+    expect(items[2].nativeElement.innerText).toBe('Characters');
+    expect(items[3].nativeElement.innerText).toBe('Help');
   });
 });

@@ -1,25 +1,33 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 
 import { FooterComponent } from './footer.component';
 
-describe('FooterComponent', () => {
+fdescribe('FooterComponent', () => {
   let component: FooterComponent;
   let fixture: ComponentFixture<FooterComponent>;
+  let el: DebugElement;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
       declarations: [ FooterComponent ]
     })
-    .compileComponents();
-  });
+    .compileComponents()
+    .then(() => {
+      fixture = TestBed.createComponent(FooterComponent);
+      component = fixture.componentInstance;
+      el = fixture.debugElement;
+    });
+  }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(FooterComponent);
-    component = fixture.componentInstance;
+  it('should create FooterComponent', () => {
     fixture.detectChanges();
+    expect(component).toBeTruthy();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should contain text footer works!', () => {
+    const text = el.query(By.css('.footer'));
+    expect(text.nativeElement.textContent).toBe('footer works!');
   });
 });

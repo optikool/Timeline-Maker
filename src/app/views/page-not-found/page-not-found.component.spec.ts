@@ -1,25 +1,34 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { By } from '@angular/platform-browser';
 
 import { PageNotFoundComponent } from './page-not-found.component';
 
-describe('PageNotFoundComponent', () => {
+fdescribe('PageNotFoundComponent', () => {
   let component: PageNotFoundComponent;
   let fixture: ComponentFixture<PageNotFoundComponent>;
+  let el: DebugElement;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ PageNotFoundComponent ]
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ PageNotFoundComponent ],
+      imports: [ MatToolbarModule ]
     })
-    .compileComponents();
-  });
+    .compileComponents()
+    .then(() => {
+      fixture = TestBed.createComponent(PageNotFoundComponent);
+      component = fixture.componentInstance;
+      el = fixture.debugElement;
+    });
+  }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(PageNotFoundComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
+  it('should create PageNotFoundComponent', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should contain text Page Not Found', () => {
+    const text = el.query(By.css('.page-not-found'));
+    expect(text.nativeElement.textContent).toBe('Page Not Found');
   });
 });
