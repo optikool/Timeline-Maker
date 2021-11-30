@@ -11,7 +11,7 @@ import { Character } from 'src/app/models/character.model';
 import * as fromActions from '../characters/store/character.actions';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-fdescribe('TimelineComponent', () => {
+describe('TimelineComponent', () => {
   let component: TimelineComponent;
   let fixture: ComponentFixture<TimelineComponent>;
   let store: MockStore;

@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 
 import { FooterComponent } from './footer.component';
 
-fdescribe('FooterComponent', () => {
+describe('FooterComponent', () => {
   let component: FooterComponent;
   let fixture: ComponentFixture<FooterComponent>;
   let el: DebugElement;
