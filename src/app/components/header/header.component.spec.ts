@@ -6,7 +6,7 @@ import {By} from '@angular/platform-browser';
 import { MaterialsModule } from '../../materials/materials.module';
 import { HeaderComponent } from './header.component';
 
-fdescribe('HeaderComponent', () => {
+describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
   let el: DebugElement;

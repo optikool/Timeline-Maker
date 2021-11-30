@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 
 import { PageNotFoundComponent } from './page-not-found.component';
 
-fdescribe('PageNotFoundComponent', () => {
+describe('PageNotFoundComponent', () => {
   let component: PageNotFoundComponent;
   let fixture: ComponentFixture<PageNotFoundComponent>;
   let el: DebugElement;
@@ -28,6 +28,7 @@ fdescribe('PageNotFoundComponent', () => {
   });
 
   it('should contain text Page Not Found', () => {
+    fixture.detectChanges();
     const text = el.query(By.css('.page-not-found'));
     expect(text.nativeElement.textContent).toBe('Page Not Found');
   });

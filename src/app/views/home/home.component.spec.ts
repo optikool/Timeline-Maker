@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 
@@ -21,16 +21,21 @@ describe('HomeComponent', () => {
     .then(() => {
       fixture = TestBed.createComponent(HomeComponent);
       component = fixture.componentInstance;
-      fixture.detectChanges();
+      el = fixture.debugElement;
     });
   }));
 
-  it('should create HomeComponent', () => {
-    expect(component).toBeTruthy();
-  });
+  it('should create HomeComponent', fakeAsync(() => {
+    spyOn(component, 'ngOnInit');
 
-  it('should have image', () => {
+    fixture.detectChanges();
+    expect(component).toBeTruthy();
+    expect(component.homeLogo).toContain('assets/images/family-tree-02.png');
+  }));
+
+  it('should have image', fakeAsync(() => {
+    fixture.detectChanges();
     const img = el.query(By.css('.mat-card-image'));
-    expect(el.nativeElement.src).toBe(component.homeLogo);
-  });
+    expect(img.nativeElement.src).toContain(component.homeLogo);
+  }));
 });
