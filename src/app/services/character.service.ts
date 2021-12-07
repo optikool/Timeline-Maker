@@ -139,7 +139,7 @@ export class CharacterService {
 
    }
 
-  navigateToPage(page: string[]) {
+  navigateToPage(page: string[]): void {
     this.router.navigate(page);
   }
 
