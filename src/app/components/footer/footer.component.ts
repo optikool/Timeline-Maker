@@ -6,10 +6,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./footer.component.css']
 })
 export class FooterComponent implements OnInit {
+  createUpdate = 'Create';
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  isDisabled(): boolean {
+    return true;
+  }
+
+  onReset(): void {
+
+  }
 }

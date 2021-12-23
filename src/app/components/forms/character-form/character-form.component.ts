@@ -94,14 +94,13 @@ export class CharacterFormComponent implements OnInit {
       reference: this.configData.reference,
       description: this.configData.description
     };
+
     this.registerForm.reset(this.controlsConfig);
-    console.log('configData: ', this.configData);
   }
 
   get f() { return this.registerForm && this.registerForm.controls; }
 
   onSubmit(): void {
-    console.log('CharacterFormComponent onSubmit was called...');
     if (this.registerForm.invalid) {
       return;
     }
@@ -110,7 +109,6 @@ export class CharacterFormComponent implements OnInit {
   }
 
   onReset(): void {
-    console.log('CharacterFormComponent onReset was called...');
     this.reset.emit(this.registerForm);
   }
 }

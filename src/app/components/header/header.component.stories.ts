@@ -8,7 +8,7 @@ let routerMock = {
     navigate:  () => {}
   };
 
-storiesOf('Header', module).addDecorator(moduleMetadata({
+storiesOf('Header Component', module).addDecorator(moduleMetadata({
     declarations: [HeaderComponent],
     imports: [MaterialsModule],
     providers: [{ provide: Router, useValue: routerMock }]
