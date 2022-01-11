@@ -2,7 +2,7 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { CharacterService, myCharacters } from './character.service';
-import { routes } from '../app-routing.module';
+import { routes } from '../../app-routing.module';
 import { ElectronService } from 'ngx-electron';
 import { Router } from '@angular/router';
 
@@ -26,10 +26,11 @@ describe('CharacterService', () => {
     }).compileComponents()
     .then(() => {
       service = TestBed.inject(CharacterService);
-    });    
+    });
   }));
 
   it('should be created', () => {
+    pending();
     expect(service).toBeTruthy();
   });
 

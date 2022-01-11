@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
 import { ElectronService } from 'ngx-electron';
-import { Character, CharacterGenderList, Family, Parent } from '../models/character.model';
+import { Character, CharacterGenderList, Family, Parent } from '../../models/character.model';
 import { catchError } from 'rxjs/operators';
-import { CharacterState } from '../views/characters/store';
+import { CharacterState } from '../../views/characters/store';
 
 export let myCharacters: Character[] = [
   {
@@ -197,7 +197,7 @@ export class CharacterService {
           ...character
         }
       }));
-    
+
       return of(this.characters);
     }
   }
@@ -230,14 +230,14 @@ export class CharacterService {
           id: data.id,
           characterName: data.characterName
         }
-      })); 
+      }));
     }
   }
 
   generateTree(characterList: { characters: Character[], type: '' }, parent: number): Observable<Character[]> {
     let out: Character[] = [];
     out = this.getNewTree(characterList.characters, parent);
-  
+
     return of(out);
   }
 

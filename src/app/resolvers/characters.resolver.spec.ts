@@ -1,7 +1,7 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRouteSnapshot, convertToParamMap, RouterStateSnapshot } from '@angular/router';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { myCharacters } from '../services/character.service';
+import { myCharacters } from '../core/services/character.service';
 import { initialState } from '../views/characters/store';
 
 import { CharactersResolver } from './characters.resolver';

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CharacterActionTypes }  from './character.actions';
 import * as fromCharacterActions from './character.actions';
-import { CharacterService } from 'src/app/services/character.service';
+import { CharacterService } from 'src/app/core/services/character.service';
 import { of } from 'rxjs';
 import { mergeMap, map, catchError, withLatestFrom } from 'rxjs/operators';
 import { Character } from 'src/app/models/character.model';

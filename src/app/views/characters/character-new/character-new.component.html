@@ -1,10 +1,11 @@
 <mat-toolbar>
-  <span>New Character</span>
+  <span class="character-new-header">New Character</span>
 </mat-toolbar>
-<app-character-form 
+<app-character-form
     [configData]="controlsConfig"
-    [childrenData]="children"
-    [isNew]="isNew"
-    (submit)="onSubmit($event)" 
-    (reset)="onReset($event)">
+    [childrenData]="children">
 </app-character-form>
+<app-footer
+  [isNew]="isNew"
+  (submit)="onSubmit($event)"
+  (reset)="onReset($event)"></app-footer>

@@ -8,7 +8,11 @@ storiesOf('Footer Component', module).addDecorator(moduleMetadata({
     providers: []
 }))
 .add('Default Footer View', () => {
+    const isNew = true;
+
     return {
-        template: '<app-footer></app-footer>',
+        template: `
+            <app-footer 
+                [isNew]='isNew'></app-footer>`,
     }
 });

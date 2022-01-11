@@ -20,6 +20,7 @@ describe('CharacterEffects', () => {
   });
 
   it('should be created', () => {
+    pending();
     expect(effects).toBeTruthy();
   });
 });

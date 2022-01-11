@@ -1,9 +1,9 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, fakeAsync, flushMicrotasks, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router, RouterEvent } from '@angular/router';
-import { of, ReplaySubject } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 import {By} from '@angular/platform-browser';
-import { MaterialsModule } from '../../materials/materials.module';
+import { MaterialsModule } from '../../../materials/materials.module';
 import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
@@ -18,10 +18,10 @@ describe('HeaderComponent', () => {
       events: routerEventRelaySubject.asObservable(),
       navigate:  jasmine.createSpy()
     };
-    
+
 
     TestBed.configureTestingModule({
-      declarations: [ 
+      declarations: [
         HeaderComponent,
       ],
       imports: [
@@ -46,9 +46,9 @@ describe('HeaderComponent', () => {
 
   it('should call navigate to page', fakeAsync(() => {
     const path = ['/character-edit', '4'];
-    
+
     fixture.detectChanges();
-    
+
     component.navigateToPage(path);
     flushMicrotasks();
     expect(routerMock.navigate).toHaveBeenCalled();

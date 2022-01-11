@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Character } from 'src/app/models/character.model';
-import { CharacterService } from 'src/app/services/character.service';
+import { CharacterService } from '../../../core/services/character.service';
 import { CharacterState } from '../store';
 import * as fromActions from '../store/character.actions'
 import { selectCharacters } from '../store/character.selectors';
@@ -15,8 +15,8 @@ export class CharacterListComponent implements OnInit {
   public dataSource: Character[];
   public displayedColumns: string[] = [
     'id',
-    'characterName', 
-    'dateOfBirth', 
+    'characterName',
+    'dateOfBirth',
     'dateOfDeath',
     'fatherName',
     'motherName',
@@ -35,7 +35,7 @@ export class CharacterListComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    
+
     this.loadCharacters();
   }
 
@@ -47,6 +47,7 @@ export class CharacterListComponent implements OnInit {
   }
 
   navigateToPage(page: string[]): void {
+    console.log('navigateToPage page: ', page);
     this.characerService.navigateToPage(page);
   }
 

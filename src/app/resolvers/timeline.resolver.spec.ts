@@ -3,7 +3,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { TimelineResolver } from './timeline.resolver';
 import { initialState } from '../views/characters/store';
-import { myCharacters } from '../services/character.service';
+import { myCharacters } from '../core/services/character.service';
 import { ActivatedRouteSnapshot, convertToParamMap, RouterStateSnapshot } from '@angular/router';
 
 describe('TimelineResolver', () => {
@@ -31,7 +31,7 @@ describe('TimelineResolver', () => {
       });
       store.refreshState();
     });
-    
+
   }));
 
   it('should be created', () => {

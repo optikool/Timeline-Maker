@@ -29,9 +29,7 @@ export class CharacterFormComponent implements OnInit {
 
   @Input() public configData: { [key: string]: any; };
   @Input() public childrenData: Character[];
-  @Input() public isNew: boolean;
   @Output() public submit = new EventEmitter<FormGroup>();
-  @Output() public reset = new EventEmitter<FormGroup>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -79,7 +77,7 @@ export class CharacterFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.createUpdate = this.isNew ? 'Create' : 'Update';
+    // this.createUpdate = this.isNew ? 'Create' : 'Update';
     this.children = this.childrenData;
     this.controlsConfig = {
       id: this.configData.id,
@@ -108,7 +106,7 @@ export class CharacterFormComponent implements OnInit {
     this.submit.emit(this.registerForm);
   }
 
-  onReset(): void {
-    this.reset.emit(this.registerForm);
-  }
+  // onReset(): void {
+  //   this.reset.emit(this.registerForm);
+  // }
 }

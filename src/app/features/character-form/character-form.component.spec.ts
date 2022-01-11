@@ -19,7 +19,8 @@ describe('CharacterFormComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create CharacterFormComponent', () => {
+    pending();
     expect(component).toBeTruthy();
   });
 });
