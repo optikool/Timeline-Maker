@@ -7,7 +7,7 @@ import { CharacterNewComponent } from './character-new/character-new.component';
 import { CharacterEditComponent } from './character-edit/character-edit.component';
 import { EffectsModule } from '@ngrx/effects';
 import { CharacterEffects } from './store/character.effects';
-import { MaterialsModule } from '../../materials/materials.module';
+import { MaterialsModule } from '../../core/materials/materials.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { SharedModule } from 'src/app/shared/shared.module';

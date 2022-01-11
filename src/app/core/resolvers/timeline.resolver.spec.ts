@@ -1,13 +1,13 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { ActivatedRouteSnapshot, convertToParamMap, RouterStateSnapshot } from '@angular/router';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { myCharacters } from '../core/services/character.service';
-import { initialState } from '../views/characters/store';
 
-import { HomeResolver } from './home.resolver';
+import { TimelineResolver } from './timeline.resolver';
+import { initialState } from '../../views/characters/store';
+import { myCharacters } from '../services/character.service';
+import { ActivatedRouteSnapshot, convertToParamMap, RouterStateSnapshot } from '@angular/router';
 
-describe('HomeResolver', () => {
-  let homeResolver: HomeResolver;
+describe('TimelineResolver', () => {
+  let timelineResolver: TimelineResolver;
   let store: MockStore;
   let route: ActivatedRouteSnapshot;
   let state: RouterStateSnapshot;
@@ -22,7 +22,7 @@ describe('HomeResolver', () => {
     })
     .compileComponents()
     .then(() => {
-      homeResolver = TestBed.inject(HomeResolver);
+      timelineResolver = TestBed.inject(TimelineResolver);
       route = TestBed.inject(ActivatedRouteSnapshot);
       state = TestBed.inject(RouterStateSnapshot);
       store = TestBed.inject(MockStore);
@@ -31,20 +31,21 @@ describe('HomeResolver', () => {
       });
       store.refreshState();
     });
+
   }));
 
   it('should be created', () => {
-    expect(homeResolver).toBeTruthy();
+    expect(timelineResolver).toBeTruthy();
   });
 
   it('should call store dispach', () => {
     spyOn(store, 'dispatch');
-    homeResolver.resolve(route, state);
+    timelineResolver.resolve(route, state);
     expect(store.dispatch).toHaveBeenCalledTimes(1);
   });
 
   it('should return NONE Observable', () => {
-    homeResolver.resolve(route, state).subscribe(result => {
+    timelineResolver.resolve(route, state).subscribe(result => {
       expect(result).toEqual('NONE');
     });
   });

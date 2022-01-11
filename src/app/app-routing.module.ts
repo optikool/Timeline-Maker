@@ -11,15 +11,15 @@ import { TimelineComponent } from './views/timeline/timeline.component';
 import { PageNotFoundComponent } from './views/page-not-found/page-not-found.component';
 
 // Resolvers
-import { CharacterResolver } from './resolvers/character.resolver';
-import { CharactersResolver } from './resolvers/characters.resolver';
-import { HomeResolver } from './resolvers/home.resolver';
-import { TimelineResolver } from './resolvers/timeline.resolver';
+import { CharacterResolver } from './core/resolvers/character.resolver';
+import { CharactersResolver } from './core/resolvers/characters.resolver';
+import { HomeResolver } from './core/resolvers/home.resolver';
+import { TimelineResolver } from './core/resolvers/timeline.resolver';
 
 export const routes: Routes = [
-  { 
-    path: 'characters', 
-    component: CharacterListComponent, 
+  {
+    path: 'characters',
+    component: CharacterListComponent,
     resolve: {
       characters: CharactersResolver
     }
@@ -31,26 +31,26 @@ export const routes: Routes = [
       character: CharacterResolver
     }
   },
-  { 
-    path: 'character-edit/:id', 
+  {
+    path: 'character-edit/:id',
     component: CharacterEditComponent,
     resolve: {
       character: CharacterResolver
     }
   },
-  { 
+  {
     path: 'time-line',
     component: TimelineComponent,
     resolve: {
       characters: TimelineResolver
     }
   },
-  { 
+  {
     path: 'help',
     component: HelpComponent
   },
-  { 
-    path: '', 
+  {
+    path: '',
     component: HomeComponent,
     resolve: {
       home: HomeResolver

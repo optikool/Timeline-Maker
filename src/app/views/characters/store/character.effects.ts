@@ -5,7 +5,7 @@ import * as fromCharacterActions from './character.actions';
 import { CharacterService } from 'src/app/core/services/character.service';
 import { of } from 'rxjs';
 import { mergeMap, map, catchError, withLatestFrom } from 'rxjs/operators';
-import { Character } from 'src/app/models/character.model';
+import { Character } from 'src/app/core/models/character.model';
 import { Store } from '@ngrx/store';
 import { CharacterState } from './index';
 import { selectCharacters } from './character.selectors';

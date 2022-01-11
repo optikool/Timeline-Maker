@@ -4,9 +4,9 @@ import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { Character, CharacterGenderList } from 'src/app/models/character.model';
-import { CharacterState } from 'src/app/views/characters/store';
-import { selectFatherList, selectMotherList } from 'src/app/views/characters/store/character.selectors';
+import { Character, CharacterGenderList } from '../../core/models/character.model';
+import { CharacterState } from '../../views/characters/store';
+import { selectFatherList, selectMotherList } from '../../views/characters/store/character.selectors';
 
 interface GenderType {
   value: string;

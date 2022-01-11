@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CharacterFormComponent } from './character-form/character-form.component';
-import { MaterialsModule } from '../materials/materials.module';
+import { MaterialsModule } from '../core/materials/materials.module';
 import { ReactiveFormsModule } from '@angular/forms';
 
 

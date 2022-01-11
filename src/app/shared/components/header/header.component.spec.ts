@@ -3,7 +3,7 @@ import { ComponentFixture, fakeAsync, flushMicrotasks, TestBed, waitForAsync } f
 import { Router, RouterEvent } from '@angular/router';
 import { ReplaySubject } from 'rxjs';
 import {By} from '@angular/platform-browser';
-import { MaterialsModule } from '../../../materials/materials.module';
+import { MaterialsModule } from '../../../core/materials/materials.module';
 import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {

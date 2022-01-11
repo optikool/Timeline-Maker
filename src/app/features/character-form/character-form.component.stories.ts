@@ -1,12 +1,10 @@
 import { storiesOf, moduleMetadata } from '@storybook/angular';
 import { CharacterFormComponent } from './character-form.component';
-import { Router, RouterEvent } from '@angular/router';
-import { MaterialsModule } from 'src/app/materials/materials.module';
+import { MaterialsModule } from '../../core/materials/materials.module';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { initialState } from 'src/app/views/characters/store';
-import { Character } from 'src/app/models/character.model';
+import { Character } from 'src/app/core/models/character.model';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 storiesOf('Character Form', module)
@@ -37,7 +35,7 @@ storiesOf('Character Form', module)
     const isNew = true;
 
     return {
-      template: 
+      template:
       `<app-character-form
             [configData]='configData'
             [childrenData]='childrenData'
@@ -59,14 +57,14 @@ storiesOf('Character Form', module)
         description:
           'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis.',
     };
-      
+
       const childrenData: Character[] = [];
-      
+
       const isNew = false;
 
     return {
       template: `
-        <app-character-form 
+        <app-character-form
             [configData]='configData'
             [childrenData]='childrenData'
             [isNew]='isNew'></app-character-form>`,

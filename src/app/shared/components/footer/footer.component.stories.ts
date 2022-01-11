@@ -1,10 +1,10 @@
 import { storiesOf, moduleMetadata } from "@storybook/angular";
 import { FooterComponent } from "./footer.component";
-import { MaterialsModule } from "src/app/materials/materials.module";
+import { CoreModule } from "../../../core/core.module";
 
 storiesOf('Footer Component', module).addDecorator(moduleMetadata({
     declarations: [FooterComponent],
-    imports: [MaterialsModule],
+    imports: [CoreModule],
     providers: []
 }))
 .add('Default Footer View', () => {
@@ -12,7 +12,7 @@ storiesOf('Footer Component', module).addDecorator(moduleMetadata({
 
     return {
         template: `
-            <app-footer 
+            <app-footer
                 [isNew]='isNew'></app-footer>`,
     }
 });

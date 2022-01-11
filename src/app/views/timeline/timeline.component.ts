@@ -3,8 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { select, Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { CharacterProfileDialogComponent } from 'src/app/modals/character-profile-dialog/character-profile-dialog.component';
-import { Character } from 'src/app/models/character.model';
+import { CharacterProfileDialogComponent } from '../../core/modals/character-profile-dialog/character-profile-dialog.component';
+import { Character } from 'src/app/core/models/character.model';
 import { CharacterState } from '../characters/store';
 import { selectCharacterTree } from '../characters/store/character.selectors';
 import * as fromActions from '../characters/store/character.actions';
@@ -17,7 +17,7 @@ import * as fromActions from '../characters/store/character.actions';
 export class TimelineComponent implements OnInit {
   public dataSource: Character[];
   ngOnDestroy$ = new Subject();
-  
+
   constructor(
     private store: Store<CharacterState>,
     private dialog: MatDialog

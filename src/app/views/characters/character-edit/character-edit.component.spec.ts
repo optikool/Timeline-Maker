@@ -6,7 +6,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
 import { FooterComponent } from '../../../shared/components/footer/footer.component';
 import { CharacterFormComponent } from '../../../features/character-form/character-form.component';
-import { MaterialsModule } from 'src/app/materials/materials.module';
+import { MaterialsModule } from '../../../core/materials/materials.module';
 import { CharacterService } from 'src/app/core/services/character.service';
 import { initialState } from '../store';
 

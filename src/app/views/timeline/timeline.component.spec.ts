@@ -5,10 +5,7 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { TimelineComponent } from './timeline.component';
 import { selectCharacterTree } from '../characters/store/character.selectors';
 import { CharacterState } from '../characters/store';
-import { MaterialsModule } from 'src/app/materials/materials.module';
-import { Subject } from 'rxjs';
-import { Character } from 'src/app/models/character.model';
-import * as fromActions from '../characters/store/character.actions';
+import { MaterialsModule } from '../../core/materials/materials.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('TimelineComponent', () => {
@@ -114,7 +111,7 @@ describe('TimelineComponent', () => {
     })
     .compileComponents()
     .then(() => {
-      
+
       fixture = TestBed.createComponent(TimelineComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -128,7 +125,7 @@ describe('TimelineComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  
+
   it('should unsubscribe when destoryed', () => {
     spyOn(component['ngOnDestroy$'], 'complete');
     fixture.detectChanges();

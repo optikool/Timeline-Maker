@@ -1,7 +1,7 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { MaterialsModule } from 'src/app/materials/materials.module';
+import { MaterialsModule } from '../../../core/materials/materials.module';
 
 import { FooterComponent } from './footer.component';
 

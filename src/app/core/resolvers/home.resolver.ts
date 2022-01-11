@@ -6,17 +6,17 @@ import {
 } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { CharacterState } from '../views/characters/store';
-import * as fromActions from '../views/characters/store/character.actions';
-import { CharacterListComponent } from '../views/characters/character-list/character-list.component';
+import { CharacterState } from '../../views/characters/store';
+import * as fromActions from '../../views/characters/store/character.actions';
+import { HomeComponent } from '../../views/home/home.component';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CharactersResolver implements Resolve<string> {
+export class HomeResolver implements Resolve<string> {
   constructor(
     private readonly store: Store<CharacterState>
-  ) {}
+  ) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<string> {
     this.store.dispatch(fromActions.loadCharacters());

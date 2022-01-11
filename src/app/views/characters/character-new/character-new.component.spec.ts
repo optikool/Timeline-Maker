@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MockComponent } from 'ng-mocks';
 import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore } from '@ngrx/store/testing';
-import { MaterialsModule } from 'src/app/materials/materials.module';
+import { MaterialsModule } from '../../../core/materials/materials.module';
 import { CharacterService } from 'src/app/core/services/character.service';
 import { initialState } from '../store';
 

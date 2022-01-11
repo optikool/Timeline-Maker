@@ -6,14 +6,13 @@ import {
 } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { CharacterState } from '../views/characters/store';
-import * as fromActions from '../views/characters/store/character.actions';
-import { HomeComponent } from '../views/home/home.component';
+import { CharacterState } from '../../views/characters/store';
+import * as fromActions from '../../views/characters/store/character.actions';
 
 @Injectable({
   providedIn: 'root'
 })
-export class HomeResolver implements Resolve<string> {
+export class TimelineResolver implements Resolve<string> {
   constructor(
     private readonly store: Store<CharacterState>
   ) { }

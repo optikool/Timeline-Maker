@@ -1,7 +1,6 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, fakeAsync, flush, TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
-import { MaterialsModule } from 'src/app/materials/materials.module';
 import { CharacterService } from '../../../core/services/character.service';
 import { CharacterState, initialState } from '../store';
 
@@ -21,7 +20,6 @@ describe('CharacterListComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ CharacterListComponent ],
       imports: [
-        MaterialsModule,
         RouterTestingModule
       ],
       providers: [

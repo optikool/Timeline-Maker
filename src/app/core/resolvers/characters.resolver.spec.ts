@@ -1,13 +1,13 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-
-import { TimelineResolver } from './timeline.resolver';
-import { initialState } from '../views/characters/store';
-import { myCharacters } from '../core/services/character.service';
 import { ActivatedRouteSnapshot, convertToParamMap, RouterStateSnapshot } from '@angular/router';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { myCharacters } from '../services/character.service';
+import { initialState } from '../../views/characters/store';
 
-describe('TimelineResolver', () => {
-  let timelineResolver: TimelineResolver;
+import { CharactersResolver } from './characters.resolver';
+
+describe('CharactersResolver', () => {
+  let charactersResolver: CharactersResolver;
   let store: MockStore;
   let route: ActivatedRouteSnapshot;
   let state: RouterStateSnapshot;
@@ -22,7 +22,7 @@ describe('TimelineResolver', () => {
     })
     .compileComponents()
     .then(() => {
-      timelineResolver = TestBed.inject(TimelineResolver);
+      charactersResolver = TestBed.inject(CharactersResolver);
       route = TestBed.inject(ActivatedRouteSnapshot);
       state = TestBed.inject(RouterStateSnapshot);
       store = TestBed.inject(MockStore);
@@ -31,21 +31,20 @@ describe('TimelineResolver', () => {
       });
       store.refreshState();
     });
-
   }));
 
   it('should be created', () => {
-    expect(timelineResolver).toBeTruthy();
+    expect(charactersResolver).toBeTruthy();
   });
 
   it('should call store dispach', () => {
     spyOn(store, 'dispatch');
-    timelineResolver.resolve(route, state);
+    charactersResolver.resolve(route, state);
     expect(store.dispatch).toHaveBeenCalledTimes(1);
   });
 
   it('should return NONE Observable', () => {
-    timelineResolver.resolve(route, state).subscribe(result => {
+    charactersResolver.resolve(route, state).subscribe(result => {
       expect(result).toEqual('NONE');
     });
   });

@@ -3,10 +3,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { select, Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Family } from 'src/app/models/character.model';
-import { CharacterState } from 'src/app/views/characters/store';
-import { selectCharacter } from 'src/app/views/characters/store/character.selectors';
-import * as fromActions from '../../views/characters/store/character.actions';
+import { Family } from '../../models/character.model';
+import { CharacterState } from '../../../views/characters/store';
+import { selectCharacter } from '../../../views/characters/store/character.selectors';
+import * as fromActions from '../../../views/characters/store/character.actions';
 
 @Component({
   selector: 'app-character-profile-dialog',

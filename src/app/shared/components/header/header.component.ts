@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { Navigation } from 'src/app/models/navigation.model.';
+import { Navigation } from '../../../core/models/navigation.model.';
 
 const NAVI: Array<Navigation> = [
   {
@@ -46,7 +46,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.router.events
-    .pipe(filter((event) => event instanceof NavigationEnd))  
+    .pipe(filter((event) => event instanceof NavigationEnd))
     .subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.navigation = this.navigation.map(link => {

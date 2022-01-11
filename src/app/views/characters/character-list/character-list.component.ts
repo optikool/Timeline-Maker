@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Character } from 'src/app/models/character.model';
+import { Character } from '../../../core/models/character.model';
 import { CharacterService } from '../../../core/services/character.service';
 import { CharacterState } from '../store';
 import * as fromActions from '../store/character.actions'

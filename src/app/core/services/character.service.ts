@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
 import { ElectronService } from 'ngx-electron';
-import { Character, CharacterGenderList, Family, Parent } from '../../models/character.model';
+import { Character, CharacterGenderList, Family, Parent } from '../models/character.model';
 import { catchError } from 'rxjs/operators';
-import { CharacterState } from '../../views/characters/store';
 
 export let myCharacters: Character[] = [
   {
