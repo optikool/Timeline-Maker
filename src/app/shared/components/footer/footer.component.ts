@@ -7,19 +7,24 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit {
-  createUpdate: string = '';
+  public createUpdate: string;
 
   @Input() public isNew: boolean;
   @Input() public isDisabled: boolean;
   @Output() public submit = new EventEmitter<string>();
   @Output() public reset = new EventEmitter<string>();
 
-  constructor() { }
+  constructor() {
+    this.isNew = true;
+    this.isDisabled = true;
+    this.createUpdate = 'Create';
+  }
 
   ngOnInit(): void {
     console.log('isNew: ', this.isNew);
     console.log('isDisabled: ', this.isDisabled);
     this.createUpdate = this.isNew ? 'Create' : 'Update';
+    console.log('createUpdate: ', this.createUpdate);
   }
 
   onReset(): void {

@@ -16,7 +16,7 @@
         {
             "name": "Character",
             "id": "interface-Character-d1e8bbc1d90e1fa975de4711393d5310a2838f0032312f37daec5167dfe797be4b3d0386b40f71cfaf15aa50d277136ab0410a8d540687b1ae6a993ca1969b64",
-            "file": "src/app/models/character.model.ts",
+            "file": "src/app/core/models/character.model.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
@@ -137,12 +137,12 @@
         },
         {
             "name": "CharacterState",
-            "id": "interface-CharacterState-bdcee139cfe9a8bc90ed526f95a7bacfc98db4a0bc7d01f9f03d067bd27baff493adc2636793157cdde36feab9eb5ca8458b792ef7ae72ff1e8f40882555597e",
+            "id": "interface-CharacterState-394b24811676bf68e78c7861091aeddfece3f10d30d762349baa69719fec13a5c2056fd71a7ad88733fc93ef2cacf9d1addb40396e1ef031cb68abfaf92dfc75",
             "file": "src/app/views/characters/store/index.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import { createReducer, MetaReducer, on } from '@ngrx/store';\nimport { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';\nimport { Character, CharacterGenderList, Family } from 'src/app/models/character.model';\nimport { environment } from '../../../../environments/environment';\nimport * as fromCharacterActions from './character.actions';\n\nexport const characterStateFeatureKey = 'characterState';\n\nexport interface CharacterState {\n  characters: Character[];\n  character: Family;\n  mothers: CharacterGenderList[];\n  fathers: CharacterGenderList[];\n  characterTree: Character[];\n  error?: any;\n}\n\nexport const initialState: CharacterState = {\n  characters: [],\n  character: {\n    id: 0,\n    characterName: '',\n    gender: '',\n    dateOfBirth: '',\n    dateOfDeath:'',\n    fatherId: 0,\n    motherId: 0,\n    father: {\n        id: 0,\n        name: '',\n        gender: 'M'\n    },\n    mother: {\n        id: 0,\n        name: '',\n        gender: 'F'\n    },\n    children: [],\n    fatherAgeAtBirth: null,\n    fatherContinuedToLive: null,\n    reference: '',\n    description: ''\n  },\n  mothers: [],\n  fathers: [],\n  characterTree: [],\n  error: undefined\n};\n\n\nexport const reducers = createReducer(\n  initialState,\n  on(fromCharacterActions.loadCharacterSuccess, (state: CharacterState, action) => {\n    return {\n      ...state,\n      character: action.character\n    }\n  }),\n  on(fromCharacterActions.loadCharactersSuccess, (state: CharacterState, action) => {\n    return {\n      ...state,\n      characters: action.characters\n    }\n  }),\n  on(fromCharacterActions.loadCharactersFailure, (state, action) => {\n    return {\n      ...state,\n      error: action.error\n    }\n  }),\n  on(fromCharacterActions.loadParentSuccess, (state: CharacterState, action) => {\n    return {\n      ...state,\n      character: {\n        ...state.character,\n        father: action.parent,\n        mother: action.parent\n      }\n    }\n\n  }),\n  on(fromCharacterActions.loadParentFailure, (state: CharacterState, action) => {\n    return {\n      ...state,\n      error: action.error\n    }\n  }),\n  on(fromCharacterActions.loadMotherListSuccess, (state: CharacterState, action) => {\n    return {\n      ...state,\n      mothers: action.characters\n    }\n  }),\n  on(fromCharacterActions.loadMotherListFailure, (state: CharacterState, action) => {\n    return {\n      ...state,\n      error: action.error\n    }\n  }),\n  on(fromCharacterActions.loadFatherListSuccess, (state: CharacterState, action) => {\n    return {\n      ...state,\n      fathers: action.characters\n    }\n  }),\n  on(fromCharacterActions.loadFatherListFailure, (state: CharacterState, action) => {\n    return {\n      ...state,\n      error: action.error\n    }\n  }),\n  on(fromCharacterActions.createCharacterSuccess, (state: CharacterState, action) => {\n    console.log('createCharacterSuccess action.characters: ', action.characters);\n    return {\n      ...state,\n      characters: action.characters\n    }\n  }),\n  on(fromCharacterActions.createCharacterFailure, (state: CharacterState, action) => {\n    console.log('createCharacterFailure action.characters: ', action.error);\n    return {\n      ...state,\n      error: action.error\n    }\n  }),\n  on(fromCharacterActions.updateCharacterSuccess, (state: CharacterState, action) => {\n    console.log('updateCharacterSuccess action.characters: ', action.characters);\n    return {\n      ...state,\n      characters: action.characters\n    }\n  }),\n  on(fromCharacterActions.updateCharacterFailure, (state: CharacterState, action) => {\n    console.log('updateCharacterFailure action.characters: ', action.error);\n    return {\n      ...state,\n      error: action.error\n    }\n  }),\n  on(fromCharacterActions.deleteCharacterSuccess, (state: CharacterState, action) => {\n    console.log('deleteCharacterSuccess action.characters: ', action.characters);\n    return {\n      ...state,\n      characters: action.characters\n    }\n  }),\n  on(fromCharacterActions.deleteCharacterFailure, (state: CharacterState, action) => {\n    console.log('deleteCharacterFailure action.characters: ', action.error);\n    return {\n      ...state,\n      error: action.error\n    }\n  }),\n  on(fromCharacterActions.loadCharacterTreeSuccess, (state: CharacterState, action) => {\n    return {\n      ...state,\n      characterTree: action.characterTree\n    }\n  }),\n  on(fromCharacterActions.loadCharacterTreeFailure, (state: CharacterState, action) => {\n    return {\n      ...state,\n      error: action.error\n    }\n  })\n);\n\nexport const metaReducers: MetaReducer<CharacterState>[] = !environment.production ? [] : [];\n",
+            "sourceCode": "import { createReducer, MetaReducer, on } from '@ngrx/store';\nimport { Character, CharacterGenderList, Family } from '../../../core/models/character.model';\nimport { environment } from '../../../../environments/environment';\nimport * as fromCharacterActions from './character.actions';\n\nexport const characterStateFeatureKey = 'characterState';\n\nexport interface CharacterState {\n  characters: Character[];\n  character: Family;\n  mothers: CharacterGenderList[];\n  fathers: CharacterGenderList[];\n  characterTree: Character[];\n  error?: any;\n}\n\nexport const initialState: CharacterState = {\n  characters: [],\n  character: {\n    id: 0,\n    characterName: '',\n    gender: '',\n    dateOfBirth: '',\n    dateOfDeath:'',\n    fatherId: 0,\n    motherId: 0,\n    father: {\n        id: 0,\n        name: '',\n        gender: 'M'\n    },\n    mother: {\n        id: 0,\n        name: '',\n        gender: 'F'\n    },\n    children: [],\n    fatherAgeAtBirth: null,\n    fatherContinuedToLive: null,\n    reference: '',\n    description: ''\n  },\n  mothers: [],\n  fathers: [],\n  characterTree: [],\n  error: undefined\n};\n\n\nexport const reducers = createReducer(\n  initialState,\n  on(fromCharacterActions.loadCharacterSuccess, (state: CharacterState, action) => {\n    return {\n      ...state,\n      character: action.character\n    }\n  }),\n  on(fromCharacterActions.loadCharactersSuccess, (state: CharacterState, action) => {\n    return {\n      ...state,\n      characters: action.characters\n    }\n  }),\n  on(fromCharacterActions.loadCharactersFailure, (state, action) => {\n    return {\n      ...state,\n      error: action.error\n    }\n  }),\n  on(fromCharacterActions.loadParentSuccess, (state: CharacterState, action) => {\n    return {\n      ...state,\n      character: {\n        ...state.character,\n        father: action.parent,\n        mother: action.parent\n      }\n    }\n\n  }),\n  on(fromCharacterActions.loadParentFailure, (state: CharacterState, action) => {\n    return {\n      ...state,\n      error: action.error\n    }\n  }),\n  on(fromCharacterActions.loadMotherListSuccess, (state: CharacterState, action) => {\n    return {\n      ...state,\n      mothers: action.characters\n    }\n  }),\n  on(fromCharacterActions.loadMotherListFailure, (state: CharacterState, action) => {\n    return {\n      ...state,\n      error: action.error\n    }\n  }),\n  on(fromCharacterActions.loadFatherListSuccess, (state: CharacterState, action) => {\n    return {\n      ...state,\n      fathers: action.characters\n    }\n  }),\n  on(fromCharacterActions.loadFatherListFailure, (state: CharacterState, action) => {\n    return {\n      ...state,\n      error: action.error\n    }\n  }),\n  on(fromCharacterActions.createCharacterSuccess, (state: CharacterState, action) => {\n    console.log('createCharacterSuccess action.characters: ', action.characters);\n    return {\n      ...state,\n      characters: action.characters\n    }\n  }),\n  on(fromCharacterActions.createCharacterFailure, (state: CharacterState, action) => {\n    console.log('createCharacterFailure action.characters: ', action.error);\n    return {\n      ...state,\n      error: action.error\n    }\n  }),\n  on(fromCharacterActions.updateCharacterSuccess, (state: CharacterState, action) => {\n    console.log('updateCharacterSuccess action.characters: ', action.characters);\n    return {\n      ...state,\n      characters: action.characters\n    }\n  }),\n  on(fromCharacterActions.updateCharacterFailure, (state: CharacterState, action) => {\n    console.log('updateCharacterFailure action.characters: ', action.error);\n    return {\n      ...state,\n      error: action.error\n    }\n  }),\n  on(fromCharacterActions.deleteCharacterSuccess, (state: CharacterState, action) => {\n    console.log('deleteCharacterSuccess action.characters: ', action.characters);\n    return {\n      ...state,\n      characters: action.characters\n    }\n  }),\n  on(fromCharacterActions.deleteCharacterFailure, (state: CharacterState, action) => {\n    console.log('deleteCharacterFailure action.characters: ', action.error);\n    return {\n      ...state,\n      error: action.error\n    }\n  }),\n  on(fromCharacterActions.loadCharacterTreeSuccess, (state: CharacterState, action) => {\n    return {\n      ...state,\n      characterTree: action.characterTree\n    }\n  }),\n  on(fromCharacterActions.loadCharacterTreeFailure, (state: CharacterState, action) => {\n    return {\n      ...state,\n      error: action.error\n    }\n  })\n);\n\nexport const metaReducers: MetaReducer<CharacterState>[] = !environment.production ? [] : [];\n",
             "properties": [
                 {
                     "name": "character",
@@ -151,7 +151,7 @@
                     "type": "Family",
                     "optional": false,
                     "description": "",
-                    "line": 11
+                    "line": 10
                 },
                 {
                     "name": "characters",
@@ -160,7 +160,7 @@
                     "type": "Character[]",
                     "optional": false,
                     "description": "",
-                    "line": 10
+                    "line": 9
                 },
                 {
                     "name": "characterTree",
@@ -169,7 +169,7 @@
                     "type": "Character[]",
                     "optional": false,
                     "description": "",
-                    "line": 14
+                    "line": 13
                 },
                 {
                     "name": "error",
@@ -178,7 +178,7 @@
                     "type": "any",
                     "optional": true,
                     "description": "",
-                    "line": 15
+                    "line": 14
                 },
                 {
                     "name": "fathers",
@@ -187,7 +187,7 @@
                     "type": "CharacterGenderList[]",
                     "optional": false,
                     "description": "",
-                    "line": 13
+                    "line": 12
                 },
                 {
                     "name": "mothers",
@@ -196,7 +196,7 @@
                     "type": "CharacterGenderList[]",
                     "optional": false,
                     "description": "",
-                    "line": 12
+                    "line": 11
                 }
             ],
             "indexSignatures": [],
@@ -206,7 +206,7 @@
         {
             "name": "Family",
             "id": "interface-Family-d1e8bbc1d90e1fa975de4711393d5310a2838f0032312f37daec5167dfe797be4b3d0386b40f71cfaf15aa50d277136ab0410a8d540687b1ae6a993ca1969b64",
-            "file": "src/app/models/character.model.ts",
+            "file": "src/app/core/models/character.model.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
@@ -238,12 +238,12 @@
         },
         {
             "name": "GenderType",
-            "id": "interface-GenderType-e1ddda64344c281242a912c52152721094227c586b4cf505b32775d4a502da7e115f3e5a337dc24673f5139369c588d536d050c9af888af309259955c549a202",
-            "file": "src/app/components/forms/character-form/character-form.component.ts",
+            "id": "interface-GenderType-6da19bceec88b17a10befe9b58f135646e01573ef3c29430c24cdd38fe2c377b4f0864f2e53b601bbebb0baae18908675ba3a6aec470b9c8d9ee3077c0f9be29",
+            "file": "src/app/features/character-form/character-form.component.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import { Output } from '@angular/core';\nimport { Input } from '@angular/core';\nimport { Component, EventEmitter, OnInit } from '@angular/core';\nimport { FormBuilder, FormGroup, Validators } from '@angular/forms';\nimport { Store } from '@ngrx/store';\nimport { Observable } from 'rxjs';\nimport { Character, CharacterGenderList } from 'src/app/models/character.model';\nimport { CharacterState } from 'src/app/views/characters/store';\nimport { selectFatherList, selectMotherList } from 'src/app/views/characters/store/character.selectors';\n\ninterface GenderType {\n  value: string;\n  name: string;\n}\n@Component({\n  selector: 'app-character-form',\n  templateUrl: './character-form.component.html',\n  styleUrls: ['./character-form.component.scss']\n})\nexport class CharacterFormComponent implements OnInit {\n  registerForm: FormGroup;\n  controlsConfig = {};\n  children: Character[];\n  genderList: GenderType[];\n  submitted:boolean;\n  createUpdate: string = '';\n  fatherList$: Observable<CharacterGenderList[]>;\n  motherList$: Observable<CharacterGenderList[]>;\n\n  @Input() public configData: { [key: string]: any; };\n  @Input() public childrenData: Character[];\n  @Input() public isNew: boolean;\n  @Output() public submit = new EventEmitter<FormGroup>();\n  @Output() public reset = new EventEmitter<FormGroup>();\n\n  constructor(\n    private formBuilder: FormBuilder,\n    private readonly store: Store<CharacterState>\n  ) {\n    this.genderList = [\n      {\n        value: 'M',\n        name: 'Male'\n      },\n      {\n        value: 'F',\n        name: 'Female'\n      }\n    ];\n    this.registerForm = this.formBuilder.group({\n      id: [''],\n      characterName: ['', Validators.required],\n      gender: ['', Validators.required],\n      dateOfBirth: [''],\n      dateOfDeath: [''],\n      fatherId: [''],\n      motherId: [''],\n      fatherAgeAtBirth: [''],\n      fatherContinuedToLive: [''],\n      reference: [''],\n      description: ['']\n    });\n    this.controlsConfig = {\n      id: null,\n      characterName: '',\n      gender: 'M',\n      dateOfBirth: null,\n      dateOfDeath: null,\n      fatherId: 0,\n      motherId: 0,\n      fatherAgeAtBirth: null,\n      fatherContinuedToLive: null,\n      reference: '',\n      description: ''\n    };\n    this.submitted = false;\n    this.fatherList$ = this.store.select(selectFatherList);\n    this.motherList$ = this.store.select(selectMotherList);\n  }\n\n  ngOnInit(): void {\n    this.createUpdate = this.isNew ? 'Create' : 'Update';\n    this.children = this.childrenData;\n    this.controlsConfig = {\n      id: this.configData.id,\n      characterName: this.configData.characterName,\n      gender: this.configData.gender,\n      dateOfBirth: this.configData.dateOfBirth,\n      dateOfDeath: this.configData.dateOfDeath,\n      fatherId: this.configData.fatherId,\n      motherId: this.configData.motherId,\n      fatherAgeAtBirth: this.configData.fatherAgeAtBirth,\n      fatherContinuedToLive: this.configData.fatherContinuedToLive,\n      reference: this.configData.reference,\n      description: this.configData.description\n    };\n\n    this.registerForm.reset(this.controlsConfig);\n  }\n\n  get f() { return this.registerForm && this.registerForm.controls; }\n\n  onSubmit(): void {\n    if (this.registerForm.invalid) {\n      return;\n    }\n\n    this.submit.emit(this.registerForm);\n  }\n\n  onReset(): void {\n    this.reset.emit(this.registerForm);\n  }\n}\n",
+            "sourceCode": "import { Output } from '@angular/core';\nimport { Input } from '@angular/core';\nimport { Component, EventEmitter, OnInit } from '@angular/core';\nimport { FormBuilder, FormGroup, Validators } from '@angular/forms';\nimport { Store } from '@ngrx/store';\nimport { Observable } from 'rxjs';\nimport { Character, CharacterGenderList } from '../../core/models/character.model';\nimport { CharacterState } from '../../views/characters/store';\nimport { selectFatherList, selectMotherList } from '../../views/characters/store/character.selectors';\n\ninterface GenderType {\n  value: string;\n  name: string;\n}\n@Component({\n  selector: 'app-character-form',\n  templateUrl: './character-form.component.html',\n  styleUrls: ['./character-form.component.scss']\n})\nexport class CharacterFormComponent implements OnInit {\n  registerForm: FormGroup;\n  controlsConfig = {};\n  children: Character[];\n  genderList: GenderType[];\n  submitted:boolean;\n  createUpdate: string = '';\n  fatherList$: Observable<CharacterGenderList[]>;\n  motherList$: Observable<CharacterGenderList[]>;\n\n  @Input() public configData: { [key: string]: any; };\n  @Input() public childrenData: Character[];\n  @Output() public submit = new EventEmitter<FormGroup>();\n\n  constructor(\n    private formBuilder: FormBuilder,\n    private readonly store: Store<CharacterState>\n  ) {\n    this.genderList = [\n      {\n        value: 'M',\n        name: 'Male'\n      },\n      {\n        value: 'F',\n        name: 'Female'\n      }\n    ];\n    this.registerForm = this.formBuilder.group({\n      id: [''],\n      characterName: ['', Validators.required],\n      gender: ['', Validators.required],\n      dateOfBirth: [''],\n      dateOfDeath: [''],\n      fatherId: [''],\n      motherId: [''],\n      fatherAgeAtBirth: [''],\n      fatherContinuedToLive: [''],\n      reference: [''],\n      description: ['']\n    });\n    this.controlsConfig = {\n      id: null,\n      characterName: '',\n      gender: 'M',\n      dateOfBirth: null,\n      dateOfDeath: null,\n      fatherId: 0,\n      motherId: 0,\n      fatherAgeAtBirth: null,\n      fatherContinuedToLive: null,\n      reference: '',\n      description: ''\n    };\n    this.submitted = false;\n    this.fatherList$ = this.store.select(selectFatherList);\n    this.motherList$ = this.store.select(selectMotherList);\n  }\n\n  ngOnInit(): void {\n    // this.createUpdate = this.isNew ? 'Create' : 'Update';\n    this.children = this.childrenData;\n    this.controlsConfig = {\n      id: this.configData.id,\n      characterName: this.configData.characterName,\n      gender: this.configData.gender,\n      dateOfBirth: this.configData.dateOfBirth,\n      dateOfDeath: this.configData.dateOfDeath,\n      fatherId: this.configData.fatherId,\n      motherId: this.configData.motherId,\n      fatherAgeAtBirth: this.configData.fatherAgeAtBirth,\n      fatherContinuedToLive: this.configData.fatherContinuedToLive,\n      reference: this.configData.reference,\n      description: this.configData.description\n    };\n\n    this.registerForm.reset(this.controlsConfig);\n  }\n\n  get f() { return this.registerForm && this.registerForm.controls; }\n\n  onSubmit(): void {\n    if (this.registerForm.invalid) {\n      return;\n    }\n\n    this.submit.emit(this.registerForm);\n  }\n\n  // onReset(): void {\n  //   this.reset.emit(this.registerForm);\n  // }\n}\n",
             "properties": [
                 {
                     "name": "name",
@@ -271,7 +271,7 @@
         {
             "name": "Navigation",
             "id": "interface-Navigation-870ede2481b33edc61989c09def80e5b843d959d0c45e0ea4f75303acf25bb989336736a8292130f1ecdc543d155e102d67ac2c866dba6b2c1db9042bc3c3352",
-            "file": "src/app/models/navigation.model..ts",
+            "file": "src/app/core/models/navigation.model..ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
@@ -321,7 +321,7 @@
         {
             "name": "Parent",
             "id": "interface-Parent-d1e8bbc1d90e1fa975de4711393d5310a2838f0032312f37daec5167dfe797be4b3d0386b40f71cfaf15aa50d277136ab0410a8d540687b1ae6a993ca1969b64",
-            "file": "src/app/models/character.model.ts",
+            "file": "src/app/core/models/character.model.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
@@ -375,7 +375,7 @@
     "injectables": [
         {
             "name": "CharacterEffects",
-            "id": "injectable-CharacterEffects-b9121297f7f11753cf6e565db027c9c02c22e639fef11ab797d751ef000e23bf6a791592032d7e3695310ef68f98e162972d68eb28efeaf0ddc0d256587dab34",
+            "id": "injectable-CharacterEffects-313663fb8e0f17c6e250ab1244901b912fdb7edfe56c152479825eefbe212e634ce0ef517e3f7c07e70b50ad41c97120f5736f9904ca08b20777563f5e06d2e2",
             "file": "src/app/views/characters/store/character.effects.ts",
             "properties": [
                 {
@@ -464,7 +464,7 @@
             "deprecationMessage": "",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import { Injectable } from '@angular/core';\nimport { Actions, createEffect, ofType } from '@ngrx/effects';\nimport { CharacterActionTypes }  from './character.actions';\nimport * as fromCharacterActions from './character.actions';\nimport { CharacterService } from 'src/app/services/character.service';\nimport { of } from 'rxjs';\nimport { mergeMap, map, catchError, withLatestFrom } from 'rxjs/operators';\nimport { Character } from 'src/app/models/character.model';\nimport { Store } from '@ngrx/store';\nimport { CharacterState } from './index';\nimport { selectCharacters } from './character.selectors';\n\n@Injectable()\nexport class CharacterEffects {\n  constructor(\n    private actions$: Actions,\n    private store$: Store<CharacterState>,\n    private characterService: CharacterService\n  ) {}\n\n  loadCharacters$ = createEffect(() => this.actions$.pipe(\n    ofType(CharacterActionTypes.LOAD_CHARACTERS),\n    mergeMap(() => this.characterService.getCharacters()\n      .pipe(\n          mergeMap(characters => {\n            return [\n              fromCharacterActions.loadCharactersSuccess({characters}),\n              fromCharacterActions.loadCharacterTree({characters}),\n              fromCharacterActions.loadMotherList(),\n              fromCharacterActions.loadFatherList()\n            ];\n          }),\n          catchError(error => of(fromCharacterActions.loadCharactersFailure({error})))\n      )\n    )\n  ));\n\n  loadCharacter$ = createEffect(() => this.actions$.pipe(\n    ofType(CharacterActionTypes.LOAD_CHARACTER),\n    withLatestFrom(this.store$.select(selectCharacters)),\n    mergeMap(([action, storeState]) => this.characterService.getCharacter(action, storeState)\n      .pipe(\n        map(character => fromCharacterActions.loadCharacterSuccess({character})),\n        catchError(error => of(fromCharacterActions.loadCharacterFailure({error})))\n      )\n    )\n  ));\n\n  loadMothers$ = createEffect(() => this.actions$.pipe(\n    ofType(CharacterActionTypes.LOAD_MOTHER_LIST),\n    mergeMap(() => this.characterService.getGenderList('F')\n      .pipe(\n        map(characters => fromCharacterActions.loadMotherListSuccess({characters})),\n        catchError(error => of(fromCharacterActions.loadMotherListFailure({error})))\n      ))\n  ));\n\n  loadFathers$ = createEffect(() => this.actions$.pipe(\n    ofType(CharacterActionTypes.LOAD_FATHER_LIST),\n    mergeMap(() => this.characterService.getGenderList('M')\n      .pipe(\n        map(characters => fromCharacterActions.loadFatherListSuccess({characters})),\n        catchError(error => of(fromCharacterActions.loadFatherListFailure({error})))\n      ))\n  ));\n\n  createCharacter$ = createEffect(() => this.actions$.pipe(\n    ofType(CharacterActionTypes.CREATE_CHARACTER),\n    mergeMap((character: Character) => this.characterService.createCharacter(character)\n      .pipe(\n        map(characters => fromCharacterActions.createCharacterSuccess({characters})),\n        catchError(error => of(fromCharacterActions.createCharacterFailure({error})))\n      ))\n  ));\n\n  updateCharacter$ = createEffect(() => this.actions$.pipe(\n    ofType(CharacterActionTypes.UPDATE_CHARACTER),\n    mergeMap((character: Character) => this.characterService.updateCharacter(character)\n      .pipe(\n        map(characters => fromCharacterActions.updateCharacterSuccess({characters})),\n        catchError(error => of(fromCharacterActions.updateCharacterFailure({error})))\n      ))\n  ));\n\n  deleteCharacter$ = createEffect(() => this.actions$.pipe(\n    ofType(CharacterActionTypes.DELETE_CHARACTER),\n    mergeMap((data) => this.characterService.deleteCharacter(data)\n      .pipe(\n        map(characters => fromCharacterActions.deleteCharacterSuccess({characters})),\n        catchError(error => of(fromCharacterActions.deleteCharacterFailure({error})))\n      ))\n  ));\n\n  loadCharacterTree$ = createEffect(() => this.actions$.pipe(\n    ofType(CharacterActionTypes.LOAD_CHARACTER_TREE),\n    mergeMap((characters) => this.characterService.generateTree(characters, 0)\n      .pipe(\n        map(characterTree => fromCharacterActions.loadCharacterTreeSuccess({characterTree})),\n        catchError(error => of(fromCharacterActions.loadCharacterTreeFailure({error})))\n      ))\n  ));\n}\n",
+            "sourceCode": "import { Injectable } from '@angular/core';\nimport { Actions, createEffect, ofType } from '@ngrx/effects';\nimport { CharacterActionTypes }  from './character.actions';\nimport * as fromCharacterActions from './character.actions';\nimport { CharacterService } from 'src/app/core/services/character.service';\nimport { of } from 'rxjs';\nimport { mergeMap, map, catchError, withLatestFrom } from 'rxjs/operators';\nimport { Character } from 'src/app/core/models/character.model';\nimport { Store } from '@ngrx/store';\nimport { CharacterState } from './index';\nimport { selectCharacters } from './character.selectors';\n\n@Injectable()\nexport class CharacterEffects {\n  constructor(\n    private actions$: Actions,\n    private store$: Store<CharacterState>,\n    private characterService: CharacterService\n  ) {}\n\n  loadCharacters$ = createEffect(() => this.actions$.pipe(\n    ofType(CharacterActionTypes.LOAD_CHARACTERS),\n    mergeMap(() => this.characterService.getCharacters()\n      .pipe(\n          mergeMap(characters => {\n            return [\n              fromCharacterActions.loadCharactersSuccess({characters}),\n              fromCharacterActions.loadCharacterTree({characters}),\n              fromCharacterActions.loadMotherList(),\n              fromCharacterActions.loadFatherList()\n            ];\n          }),\n          catchError(error => of(fromCharacterActions.loadCharactersFailure({error})))\n      )\n    )\n  ));\n\n  loadCharacter$ = createEffect(() => this.actions$.pipe(\n    ofType(CharacterActionTypes.LOAD_CHARACTER),\n    withLatestFrom(this.store$.select(selectCharacters)),\n    mergeMap(([action, storeState]) => this.characterService.getCharacter(action, storeState)\n      .pipe(\n        map(character => fromCharacterActions.loadCharacterSuccess({character})),\n        catchError(error => of(fromCharacterActions.loadCharacterFailure({error})))\n      )\n    )\n  ));\n\n  loadMothers$ = createEffect(() => this.actions$.pipe(\n    ofType(CharacterActionTypes.LOAD_MOTHER_LIST),\n    mergeMap(() => this.characterService.getGenderList('F')\n      .pipe(\n        map(characters => fromCharacterActions.loadMotherListSuccess({characters})),\n        catchError(error => of(fromCharacterActions.loadMotherListFailure({error})))\n      ))\n  ));\n\n  loadFathers$ = createEffect(() => this.actions$.pipe(\n    ofType(CharacterActionTypes.LOAD_FATHER_LIST),\n    mergeMap(() => this.characterService.getGenderList('M')\n      .pipe(\n        map(characters => fromCharacterActions.loadFatherListSuccess({characters})),\n        catchError(error => of(fromCharacterActions.loadFatherListFailure({error})))\n      ))\n  ));\n\n  createCharacter$ = createEffect(() => this.actions$.pipe(\n    ofType(CharacterActionTypes.CREATE_CHARACTER),\n    mergeMap((character: Character) => this.characterService.createCharacter(character)\n      .pipe(\n        map(characters => fromCharacterActions.createCharacterSuccess({characters})),\n        catchError(error => of(fromCharacterActions.createCharacterFailure({error})))\n      ))\n  ));\n\n  updateCharacter$ = createEffect(() => this.actions$.pipe(\n    ofType(CharacterActionTypes.UPDATE_CHARACTER),\n    mergeMap((character: Character) => this.characterService.updateCharacter(character)\n      .pipe(\n        map(characters => fromCharacterActions.updateCharacterSuccess({characters})),\n        catchError(error => of(fromCharacterActions.updateCharacterFailure({error})))\n      ))\n  ));\n\n  deleteCharacter$ = createEffect(() => this.actions$.pipe(\n    ofType(CharacterActionTypes.DELETE_CHARACTER),\n    mergeMap((data) => this.characterService.deleteCharacter(data)\n      .pipe(\n        map(characters => fromCharacterActions.deleteCharacterSuccess({characters})),\n        catchError(error => of(fromCharacterActions.deleteCharacterFailure({error})))\n      ))\n  ));\n\n  loadCharacterTree$ = createEffect(() => this.actions$.pipe(\n    ofType(CharacterActionTypes.LOAD_CHARACTER_TREE),\n    mergeMap((characters) => this.characterService.generateTree(characters, 0)\n      .pipe(\n        map(characterTree => fromCharacterActions.loadCharacterTreeSuccess({characterTree})),\n        catchError(error => of(fromCharacterActions.loadCharacterTreeFailure({error})))\n      ))\n  ));\n}\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -525,8 +525,8 @@
         },
         {
             "name": "CharacterService",
-            "id": "injectable-CharacterService-1634f7ffe446e80725312863a108ff8d9e949810907a92f17e52d91f58778f97a5add221b1ae4ea8ad300cbcdb42b5b0a28012f90c5f555461d73ebaa41f4f1f",
-            "file": "src/app/services/character.service.ts",
+            "id": "injectable-CharacterService-a3bd490cc1c0e3f247e60aced988fc54bbac1ecd2902c1e31377e1197ee5e2684f9f4fb7df45160983f7f80412b7121dd823a75f48311e21fbdd876f168d4d7f",
+            "file": "src/app/core/services/character.service.ts",
             "properties": [
                 {
                     "name": "characters",
@@ -536,7 +536,7 @@
                     "type": "Character[]",
                     "optional": false,
                     "description": "",
-                    "line": 128,
+                    "line": 127,
                     "modifierKind": [
                         121
                     ]
@@ -549,7 +549,7 @@
                     "type": "boolean",
                     "optional": false,
                     "description": "",
-                    "line": 129,
+                    "line": 128,
                     "modifierKind": [
                         121
                     ]
@@ -569,7 +569,7 @@
                     "optional": false,
                     "returnType": "Observable<Character[]>",
                     "typeParameters": [],
-                    "line": 170,
+                    "line": 169,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -597,7 +597,7 @@
                     "optional": false,
                     "returnType": "Observable<Character[]>",
                     "typeParameters": [],
-                    "line": 205,
+                    "line": 204,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -631,7 +631,7 @@
                     "optional": false,
                     "returnType": "Observable<Character[]>",
                     "typeParameters": [],
-                    "line": 237,
+                    "line": 236,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -674,7 +674,7 @@
                     "optional": false,
                     "returnType": "Observable<Family | undefined>",
                     "typeParameters": [],
-                    "line": 146,
+                    "line": 145,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -704,7 +704,7 @@
                     "optional": false,
                     "returnType": "Observable<Character[]>",
                     "typeParameters": [],
-                    "line": 160,
+                    "line": 159,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -721,7 +721,7 @@
                     "optional": false,
                     "returnType": "Observable<CharacterGenderList[]>",
                     "typeParameters": [],
-                    "line": 220,
+                    "line": 219,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -755,7 +755,7 @@
                     "optional": false,
                     "returnType": "Character[]",
                     "typeParameters": [],
-                    "line": 254,
+                    "line": 253,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -801,7 +801,7 @@
                     "optional": false,
                     "returnType": "Parent",
                     "typeParameters": [],
-                    "line": 244,
+                    "line": 243,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -841,7 +841,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 142,
+                    "line": 141,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -869,7 +869,7 @@
                     "optional": false,
                     "returnType": "Observable<Character[]>",
                     "typeParameters": [],
-                    "line": 186,
+                    "line": 185,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -889,7 +889,7 @@
             "deprecationMessage": "",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import { Injectable } from '@angular/core';\r\nimport { Router } from '@angular/router';\r\nimport { Observable, of, throwError } from 'rxjs';\r\nimport { ElectronService } from 'ngx-electron';\r\nimport { Character, CharacterGenderList, Family, Parent } from '../models/character.model';\r\nimport { catchError } from 'rxjs/operators';\r\nimport { CharacterState } from '../views/characters/store';\r\n\r\nexport let myCharacters: Character[] = [\r\n  {\r\n      id: 1,\r\n      characterName: 'Adam',\r\n      gender: 'M',\r\n      dateOfBirth: '50',\r\n      dateOfDeath: '3096',\r\n      fatherId: 0,\r\n      motherId: 0,\r\n      children: [],\r\n      fatherAgeAtBirth: 130,\r\n      fatherContinuedToLive: 800,\r\n      reference: 'Gen 5:3-5',\r\n      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat.'\r\n  },\r\n  {\r\n      id: 2,\r\n      characterName: 'Eve',\r\n      gender: 'F',\r\n      dateOfBirth: '100',\r\n      dateOfDeath: '3096',\r\n      fatherId: 0,\r\n      motherId: 0,\r\n      children: [],\r\n      fatherAgeAtBirth: 130,\r\n      fatherContinuedToLive: 800,\r\n      reference: 'Gen 5:3-5',\r\n      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis.'\r\n  },\r\n  {\r\n      id: 3,\r\n      characterName: 'Seth',\r\n      gender: 'M',\r\n      dateOfBirth: '2896',\r\n      dateOfDeath: '2984',\r\n      fatherId: 1,\r\n      motherId: 2,\r\n      children: [],\r\n      fatherAgeAtBirth: 105,\r\n      fatherContinuedToLive: 807,\r\n      reference: 'Gen 5:6-8',\r\n      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus'\r\n  },\r\n  {\r\n      id: 4,\r\n      characterName: 'E\\'nosh',\r\n      gender: 'M',\r\n      dateOfBirth: '3791',\r\n      dateOfDeath: '2976',\r\n      fatherId: 3,\r\n      motherId: 0,\r\n      children: [],\r\n      fatherAgeAtBirth: 90,\r\n      fatherContinuedToLive: 815,\r\n      reference: 'Gen 5:9-11',\r\n      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui.'\r\n  },\r\n  {\r\n      id: 5,\r\n      characterName: 'Ca-l\\nan',\r\n      gender: 'M',\r\n      dateOfBirth: '3701',\r\n      dateOfDeath: '2861',\r\n      fatherId: 4,\r\n      motherId: 0,\r\n      children: [],\r\n      fatherAgeAtBirth: 70,\r\n      fatherContinuedToLive: 840,\r\n      reference: 'Gen 5:12-14',\r\n      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat.'\r\n  },\r\n  {\r\n      id: 6,\r\n      characterName: 'Ma-ha\\'la-le-el',\r\n      gender: 'M',\r\n      dateOfBirth: '3631',\r\n      dateOfDeath: '2801',\r\n      fatherId: 5,\r\n      motherId: 0,\r\n      children: [],\r\n      fatherAgeAtBirth: 65,\r\n      fatherContinuedToLive: 830,\r\n      reference: 'Gen 5:15-17',\r\n      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus'\r\n  },\r\n  {\r\n      id: 7,\r\n      characterName: 'Ja\\'red',\r\n      gender: 'M',\r\n      dateOfBirth: '3566',\r\n      dateOfDeath: '2604',\r\n      fatherId: 6,\r\n      motherId: 0,\r\n      children: [],\r\n      fatherAgeAtBirth: 162,\r\n      fatherContinuedToLive: 800,\r\n      reference: 'Gen 5:18-20',\r\n      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus'\r\n  },\r\n  {\r\n      id: 8,\r\n      characterName: 'E\\'noch',\r\n      gender: 'M',\r\n      dateOfBirth: '3404',\r\n      dateOfDeath: '2039',\r\n      fatherId: 7,\r\n      motherId: 0,\r\n      children: [],\r\n      fatherAgeAtBirth: 65,\r\n      fatherContinuedToLive: 300,\r\n      reference: 'Gen 5:21-23',\r\n      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis.'\r\n  }\r\n];\r\n\r\n@Injectable({\r\n  providedIn: 'root'\r\n})\r\nexport class CharacterService {\r\n  private characters: Character[] = [];\r\n  private isElectron: boolean = false;\r\n\r\n  constructor(\r\n    private router: Router,\r\n    private _electronService: ElectronService,\r\n  ) {\r\n    if (this._electronService.ipcRenderer !== null) {\r\n      this.isElectron = true;\r\n    }\r\n    this.characters = myCharacters;\r\n\r\n   }\r\n\r\n  navigateToPage(page: string[]): void {\r\n    this.router.navigate(page);\r\n  }\r\n\r\n  getCharacter(action: { id: number, type: string }, currentCharacters: Character[]): Observable<Family | undefined> {\r\n    const character = currentCharacters.find((data: Character) => action.id === data.id);\r\n    const parentFather: Parent = this.getParent(character?.fatherId, currentCharacters);\r\n    const parentMother: Parent = this.getParent(character?.motherId, currentCharacters);\r\n    const children: Character[] = currentCharacters.filter(child => action.id === child.fatherId || action.id === child.motherId);\r\n\r\n    return of({\r\n      ...character,\r\n      mother: parentMother,\r\n      father: parentFather,\r\n      children\r\n    });\r\n  }\r\n\r\n  getCharacters(): Observable<Character[]> {\r\n    if (this.isElectron) {\r\n      return of(this._electronService.ipcRenderer.sendSync('get-characters')).pipe(\r\n        catchError((error: any) => throwError(error.json))\r\n      );\r\n    } else {\r\n      return of(this.characters);\r\n    }\r\n  }\r\n\r\n  createCharacter(character: Character): Observable<Character[]> {\r\n    if (this.isElectron) {\r\n      return of(this._electronService.ipcRenderer.sendSync('save-character', character)).pipe(\r\n        catchError((error: any) => throwError(error.json))\r\n      );\r\n    } else {\r\n      const newCharacter = {\r\n        ...character,\r\n        id: this.characters.length + 1\r\n      };\r\n\r\n      this.characters = this.characters.concat(newCharacter);\r\n      return of(this.characters);\r\n    }\r\n  }\r\n\r\n  updateCharacter(character: Character): Observable<Character[]> {\r\n\r\n    if (this.isElectron) {\r\n      return of(this._electronService.ipcRenderer.sendSync('update-character', character)).pipe(\r\n        catchError((error: any) => throwError(error.json))\r\n      );\r\n    } else {\r\n      this.characters = this.characters.map((data => {\r\n        if (data.id !== character.id) return data;\r\n        return {\r\n          ...data,\r\n          ...character\r\n        }\r\n      }));\r\n    \r\n      return of(this.characters);\r\n    }\r\n  }\r\n\r\n  deleteCharacter(data: { id: number, type: string}): Observable<Character[]> {\r\n    console.log('deleteCharacter data: ', data);\r\n    if (this.isElectron) {\r\n      return of(this._electronService.ipcRenderer.sendSync('delete-character', data)).pipe(\r\n        catchError((error: any) => {\r\n          console.log(`deleteCharacter error: ${error}`);\r\n          return Observable.throw(error.json)})\r\n      );\r\n    } else {\r\n      this.characters = this.characters.filter((character: Character) => character.id !== data.id);\r\n\r\n      return of(this.characters);\r\n    }\r\n  }\r\n\r\n  getGenderList(gender: string): Observable<CharacterGenderList[]> {\r\n    if (this.isElectron) {\r\n      return of(this._electronService.ipcRenderer.sendSync('get-gender-characters', gender)).pipe(\r\n        catchError((error: any) => Observable.throw(error.json))\r\n      );\r\n    } else {\r\n      const result: CharacterGenderList[] = this.characters.filter((character: Character) => character.gender.toLowerCase() === gender.toLowerCase());\r\n\r\n      return of(result.map(data => {\r\n        return {\r\n          id: data.id,\r\n          characterName: data.characterName\r\n        }\r\n      })); \r\n    }\r\n  }\r\n\r\n  generateTree(characterList: { characters: Character[], type: '' }, parent: number): Observable<Character[]> {\r\n    let out: Character[] = [];\r\n    out = this.getNewTree(characterList.characters, parent);\r\n  \r\n    return of(out);\r\n  }\r\n\r\n  private getParent(id: number, currentCharacters: Character[]): Parent {\r\n    return currentCharacters.map(item => {\r\n      return {\r\n        id: item.id,\r\n        name: item.characterName,\r\n        gender: item.gender\r\n      }\r\n    }).find(item => id === item.id);\r\n  }\r\n\r\n  private getNewTree(characterList: Character[], parent: number): Character[] {\r\n    let out: Character[] = [];\r\n\r\n    for (let i in characterList) {\r\n      if (characterList[i].fatherId == parent) {\r\n        let children: Character[] = this.getNewTree(characterList, characterList[i].id);\r\n        let newCharacter: Character = null;\r\n\r\n        if (children.length) {\r\n          newCharacter = {\r\n            ...characterList[i],\r\n            children\r\n          };\r\n        } else {\r\n          newCharacter = characterList[i];\r\n        }\r\n\r\n        out.push(newCharacter);\r\n      }\r\n    }\r\n\r\n    return out;\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Injectable } from '@angular/core';\r\nimport { Router } from '@angular/router';\r\nimport { Observable, of, throwError } from 'rxjs';\r\nimport { ElectronService } from 'ngx-electron';\r\nimport { Character, CharacterGenderList, Family, Parent } from '../models/character.model';\r\nimport { catchError } from 'rxjs/operators';\r\n\r\nexport let myCharacters: Character[] = [\r\n  {\r\n      id: 1,\r\n      characterName: 'Adam',\r\n      gender: 'M',\r\n      dateOfBirth: '50',\r\n      dateOfDeath: '3096',\r\n      fatherId: 0,\r\n      motherId: 0,\r\n      children: [],\r\n      fatherAgeAtBirth: 130,\r\n      fatherContinuedToLive: 800,\r\n      reference: 'Gen 5:3-5',\r\n      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat.'\r\n  },\r\n  {\r\n      id: 2,\r\n      characterName: 'Eve',\r\n      gender: 'F',\r\n      dateOfBirth: '100',\r\n      dateOfDeath: '3096',\r\n      fatherId: 0,\r\n      motherId: 0,\r\n      children: [],\r\n      fatherAgeAtBirth: 130,\r\n      fatherContinuedToLive: 800,\r\n      reference: 'Gen 5:3-5',\r\n      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis.'\r\n  },\r\n  {\r\n      id: 3,\r\n      characterName: 'Seth',\r\n      gender: 'M',\r\n      dateOfBirth: '2896',\r\n      dateOfDeath: '2984',\r\n      fatherId: 1,\r\n      motherId: 2,\r\n      children: [],\r\n      fatherAgeAtBirth: 105,\r\n      fatherContinuedToLive: 807,\r\n      reference: 'Gen 5:6-8',\r\n      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus'\r\n  },\r\n  {\r\n      id: 4,\r\n      characterName: 'E\\'nosh',\r\n      gender: 'M',\r\n      dateOfBirth: '3791',\r\n      dateOfDeath: '2976',\r\n      fatherId: 3,\r\n      motherId: 0,\r\n      children: [],\r\n      fatherAgeAtBirth: 90,\r\n      fatherContinuedToLive: 815,\r\n      reference: 'Gen 5:9-11',\r\n      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui.'\r\n  },\r\n  {\r\n      id: 5,\r\n      characterName: 'Ca-l\\nan',\r\n      gender: 'M',\r\n      dateOfBirth: '3701',\r\n      dateOfDeath: '2861',\r\n      fatherId: 4,\r\n      motherId: 0,\r\n      children: [],\r\n      fatherAgeAtBirth: 70,\r\n      fatherContinuedToLive: 840,\r\n      reference: 'Gen 5:12-14',\r\n      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat.'\r\n  },\r\n  {\r\n      id: 6,\r\n      characterName: 'Ma-ha\\'la-le-el',\r\n      gender: 'M',\r\n      dateOfBirth: '3631',\r\n      dateOfDeath: '2801',\r\n      fatherId: 5,\r\n      motherId: 0,\r\n      children: [],\r\n      fatherAgeAtBirth: 65,\r\n      fatherContinuedToLive: 830,\r\n      reference: 'Gen 5:15-17',\r\n      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus'\r\n  },\r\n  {\r\n      id: 7,\r\n      characterName: 'Ja\\'red',\r\n      gender: 'M',\r\n      dateOfBirth: '3566',\r\n      dateOfDeath: '2604',\r\n      fatherId: 6,\r\n      motherId: 0,\r\n      children: [],\r\n      fatherAgeAtBirth: 162,\r\n      fatherContinuedToLive: 800,\r\n      reference: 'Gen 5:18-20',\r\n      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus'\r\n  },\r\n  {\r\n      id: 8,\r\n      characterName: 'E\\'noch',\r\n      gender: 'M',\r\n      dateOfBirth: '3404',\r\n      dateOfDeath: '2039',\r\n      fatherId: 7,\r\n      motherId: 0,\r\n      children: [],\r\n      fatherAgeAtBirth: 65,\r\n      fatherContinuedToLive: 300,\r\n      reference: 'Gen 5:21-23',\r\n      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis.'\r\n  }\r\n];\r\n\r\n@Injectable({\r\n  providedIn: 'root'\r\n})\r\nexport class CharacterService {\r\n  private characters: Character[] = [];\r\n  private isElectron: boolean = false;\r\n\r\n  constructor(\r\n    private router: Router,\r\n    private _electronService: ElectronService,\r\n  ) {\r\n    if (this._electronService.ipcRenderer !== null) {\r\n      this.isElectron = true;\r\n    }\r\n    this.characters = myCharacters;\r\n\r\n   }\r\n\r\n  navigateToPage(page: string[]): void {\r\n    this.router.navigate(page);\r\n  }\r\n\r\n  getCharacter(action: { id: number, type: string }, currentCharacters: Character[]): Observable<Family | undefined> {\r\n    const character = currentCharacters.find((data: Character) => action.id === data.id);\r\n    const parentFather: Parent = this.getParent(character?.fatherId, currentCharacters);\r\n    const parentMother: Parent = this.getParent(character?.motherId, currentCharacters);\r\n    const children: Character[] = currentCharacters.filter(child => action.id === child.fatherId || action.id === child.motherId);\r\n\r\n    return of({\r\n      ...character,\r\n      mother: parentMother,\r\n      father: parentFather,\r\n      children\r\n    });\r\n  }\r\n\r\n  getCharacters(): Observable<Character[]> {\r\n    if (this.isElectron) {\r\n      return of(this._electronService.ipcRenderer.sendSync('get-characters')).pipe(\r\n        catchError((error: any) => throwError(error.json))\r\n      );\r\n    } else {\r\n      return of(this.characters);\r\n    }\r\n  }\r\n\r\n  createCharacter(character: Character): Observable<Character[]> {\r\n    if (this.isElectron) {\r\n      return of(this._electronService.ipcRenderer.sendSync('save-character', character)).pipe(\r\n        catchError((error: any) => throwError(error.json))\r\n      );\r\n    } else {\r\n      const newCharacter = {\r\n        ...character,\r\n        id: this.characters.length + 1\r\n      };\r\n\r\n      this.characters = this.characters.concat(newCharacter);\r\n      return of(this.characters);\r\n    }\r\n  }\r\n\r\n  updateCharacter(character: Character): Observable<Character[]> {\r\n\r\n    if (this.isElectron) {\r\n      return of(this._electronService.ipcRenderer.sendSync('update-character', character)).pipe(\r\n        catchError((error: any) => throwError(error.json))\r\n      );\r\n    } else {\r\n      this.characters = this.characters.map((data => {\r\n        if (data.id !== character.id) return data;\r\n        return {\r\n          ...data,\r\n          ...character\r\n        }\r\n      }));\r\n\r\n      return of(this.characters);\r\n    }\r\n  }\r\n\r\n  deleteCharacter(data: { id: number, type: string}): Observable<Character[]> {\r\n    console.log('deleteCharacter data: ', data);\r\n    if (this.isElectron) {\r\n      return of(this._electronService.ipcRenderer.sendSync('delete-character', data)).pipe(\r\n        catchError((error: any) => {\r\n          console.log(`deleteCharacter error: ${error}`);\r\n          return Observable.throw(error.json)})\r\n      );\r\n    } else {\r\n      this.characters = this.characters.filter((character: Character) => character.id !== data.id);\r\n\r\n      return of(this.characters);\r\n    }\r\n  }\r\n\r\n  getGenderList(gender: string): Observable<CharacterGenderList[]> {\r\n    if (this.isElectron) {\r\n      return of(this._electronService.ipcRenderer.sendSync('get-gender-characters', gender)).pipe(\r\n        catchError((error: any) => Observable.throw(error.json))\r\n      );\r\n    } else {\r\n      const result: CharacterGenderList[] = this.characters.filter((character: Character) => character.gender.toLowerCase() === gender.toLowerCase());\r\n\r\n      return of(result.map(data => {\r\n        return {\r\n          id: data.id,\r\n          characterName: data.characterName\r\n        }\r\n      }));\r\n    }\r\n  }\r\n\r\n  generateTree(characterList: { characters: Character[], type: '' }, parent: number): Observable<Character[]> {\r\n    let out: Character[] = [];\r\n    out = this.getNewTree(characterList.characters, parent);\r\n\r\n    return of(out);\r\n  }\r\n\r\n  private getParent(id: number, currentCharacters: Character[]): Parent {\r\n    return currentCharacters.map(item => {\r\n      return {\r\n        id: item.id,\r\n        name: item.characterName,\r\n        gender: item.gender\r\n      }\r\n    }).find(item => id === item.id);\r\n  }\r\n\r\n  private getNewTree(characterList: Character[], parent: number): Character[] {\r\n    let out: Character[] = [];\r\n\r\n    for (let i in characterList) {\r\n      if (characterList[i].fatherId == parent) {\r\n        let children: Character[] = this.getNewTree(characterList, characterList[i].id);\r\n        let newCharacter: Character = null;\r\n\r\n        if (children.length) {\r\n          newCharacter = {\r\n            ...characterList[i],\r\n            children\r\n          };\r\n        } else {\r\n          newCharacter = characterList[i];\r\n        }\r\n\r\n        out.push(newCharacter);\r\n      }\r\n    }\r\n\r\n    return out;\r\n  }\r\n}\r\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -909,7 +909,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 129,
+                "line": 128,
                 "jsdoctags": [
                     {
                         "name": "router",
@@ -936,7 +936,7 @@
         {
             "name": "FakeElectronService",
             "id": "injectable-FakeElectronService-4b22a09435eb82518829e4db840117374880f8fc0580416e36e227de6031d627701994915e51c88f399fe8876388ee912a736e335dffbe641013290fdd8282f8",
-            "file": "src/app/services/fake-electron.service.ts",
+            "file": "src/app/core/services/fake-electron.service.ts",
             "properties": [
                 {
                     "name": "channels",
@@ -992,8 +992,8 @@
     "guards": [
         {
             "name": "CharacterResolver",
-            "id": "injectable-CharacterResolver-acad3c109c31e5c6d4cd2dcbb883441e194c46ec96beabdba8a40d6520c604cb060c28eab5af9127ffb370038369ef3c11f5e5e6e67ebe891542a09df886b79c",
-            "file": "src/app/resolvers/character.resolver.ts",
+            "id": "injectable-CharacterResolver-3c216e38efdffc9ba2dd2ccf7f78024524e76cbfe477d884d53a01eb706e8c96b90b3026c2e557d44e1d6374f1de60bea1a8ff867ad5ab430eb43dfe1b684074",
+            "file": "src/app/core/resolvers/character.resolver.ts",
             "properties": [],
             "methods": [
                 {
@@ -1015,7 +1015,7 @@
                     "optional": false,
                     "returnType": "Observable<string>",
                     "typeParameters": [],
-                    "line": 22,
+                    "line": 20,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -1044,7 +1044,7 @@
             "deprecationMessage": "",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import { Injectable } from '@angular/core';\nimport {\n  Resolve,\n  RouterStateSnapshot,\n  ActivatedRouteSnapshot\n} from '@angular/router';\nimport { Store } from '@ngrx/store';\nimport { Observable, of } from 'rxjs';\nimport { CharacterEditComponent } from '../views/characters/character-edit/character-edit.component';\nimport { CharacterNewComponent } from '../views/characters/character-new/character-new.component';\nimport { CharacterState } from '../views/characters/store';\nimport * as fromActions from '../views/characters/store/character.actions';\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class CharacterResolver implements Resolve<string> {\n  constructor(\n    private readonly store: Store<CharacterState>\n  ) {}\n\n  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<string> {\n    const id: number =  parseInt(route.paramMap.get('id'));\n    this.store.dispatch(fromActions.loadCharacters());\n    this.store.dispatch(fromActions.loadCharacter({id: id}));\n    return of('NONE');\n  }\n}\n",
+            "sourceCode": "import { Injectable } from '@angular/core';\nimport {\n  Resolve,\n  RouterStateSnapshot,\n  ActivatedRouteSnapshot\n} from '@angular/router';\nimport { Store } from '@ngrx/store';\nimport { Observable, of } from 'rxjs';\nimport { CharacterState } from '../../views/characters/store';\nimport * as fromActions from '../../views/characters/store/character.actions';\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class CharacterResolver implements Resolve<string> {\n  constructor(\n    private readonly store: Store<CharacterState>\n  ) {}\n\n  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<string> {\n    const id: number =  parseInt(route.paramMap.get('id'));\n    this.store.dispatch(fromActions.loadCharacters());\n    this.store.dispatch(fromActions.loadCharacter({id: id}));\n    return of('NONE');\n  }\n}\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -1058,7 +1058,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 17,
+                "line": 15,
                 "jsdoctags": [
                     {
                         "name": "store",
@@ -1075,8 +1075,8 @@
         },
         {
             "name": "CharactersResolver",
-            "id": "injectable-CharactersResolver-d99c938a02ce35b5a9a5a4e9c6da059b78dc07ac57fd12f74723aedc14456b7431fb92c215e0d3875b37dadb2c328a1aeb225a5928c1aef799c4e54c3b7ed338",
-            "file": "src/app/resolvers/characters.resolver.ts",
+            "id": "injectable-CharactersResolver-9f5aa3e7466e0189a3d16d182658a74bc172ef22649c4b057c0f944945af28ee6207675c1b24df08f2272112ff87e60661251cc66ed1cfee4e6268be87284a15",
+            "file": "src/app/core/resolvers/characters.resolver.ts",
             "properties": [],
             "methods": [
                 {
@@ -1098,7 +1098,7 @@
                     "optional": false,
                     "returnType": "Observable<string>",
                     "typeParameters": [],
-                    "line": 21,
+                    "line": 20,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -1127,7 +1127,7 @@
             "deprecationMessage": "",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import { Injectable } from '@angular/core';\nimport {\n  Resolve,\n  RouterStateSnapshot,\n  ActivatedRouteSnapshot\n} from '@angular/router';\nimport { Observable, of } from 'rxjs';\nimport { Store } from '@ngrx/store';\nimport { CharacterState } from '../views/characters/store';\nimport * as fromActions from '../views/characters/store/character.actions';\nimport { CharacterListComponent } from '../views/characters/character-list/character-list.component';\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class CharactersResolver implements Resolve<string> {\n  constructor(\n    private readonly store: Store<CharacterState>\n  ) {}\n\n  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<string> {\n    this.store.dispatch(fromActions.loadCharacters());\n    return of('NONE');\n  }\n}\n",
+            "sourceCode": "import { Injectable } from '@angular/core';\nimport {\n  Resolve,\n  RouterStateSnapshot,\n  ActivatedRouteSnapshot\n} from '@angular/router';\nimport { Observable, of } from 'rxjs';\nimport { Store } from '@ngrx/store';\nimport { CharacterState } from '../../views/characters/store';\nimport * as fromActions from '../../views/characters/store/character.actions';\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class CharactersResolver implements Resolve<string> {\n  constructor(\n    private readonly store: Store<CharacterState>\n  ) {}\n\n  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<string> {\n    this.store.dispatch(fromActions.loadCharacters());\n    return of('NONE');\n  }\n}\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -1141,7 +1141,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 16,
+                "line": 15,
                 "jsdoctags": [
                     {
                         "name": "store",
@@ -1158,8 +1158,8 @@
         },
         {
             "name": "HomeResolver",
-            "id": "injectable-HomeResolver-a9a6fd7ab1793066b28b5e0a7d641858af19254292d311a4297b9ace88274b655d55cb1f522187fc04e1a09ce37645e80c304abc25f13a426d503bc97459f00c",
-            "file": "src/app/resolvers/home.resolver.ts",
+            "id": "injectable-HomeResolver-040cfc82a0d62808a4965ee9ec310a638bfecc27dcb0456fad4ec340e8205a304616d1f2bdaa28c9400ae3e37c2be0b8a143c9a16b69f5a20a44ae8eda39b86d",
+            "file": "src/app/core/resolvers/home.resolver.ts",
             "properties": [],
             "methods": [
                 {
@@ -1210,7 +1210,7 @@
             "deprecationMessage": "",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import { Injectable } from '@angular/core';\nimport {\n  Resolve,\n  RouterStateSnapshot,\n  ActivatedRouteSnapshot\n} from '@angular/router';\nimport { Observable, of } from 'rxjs';\nimport { Store } from '@ngrx/store';\nimport { CharacterState } from '../views/characters/store';\nimport * as fromActions from '../views/characters/store/character.actions';\nimport { HomeComponent } from '../views/home/home.component';\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class HomeResolver implements Resolve<string> {\n  constructor(\n    private readonly store: Store<CharacterState>\n  ) { }\n\n  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<string> {\n    this.store.dispatch(fromActions.loadCharacters());\n    return of('NONE');\n  }\n}\n",
+            "sourceCode": "import { Injectable } from '@angular/core';\nimport {\n  Resolve,\n  RouterStateSnapshot,\n  ActivatedRouteSnapshot\n} from '@angular/router';\nimport { Observable, of } from 'rxjs';\nimport { Store } from '@ngrx/store';\nimport { CharacterState } from '../../views/characters/store';\nimport * as fromActions from '../../views/characters/store/character.actions';\nimport { HomeComponent } from '../../views/home/home.component';\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class HomeResolver implements Resolve<string> {\n  constructor(\n    private readonly store: Store<CharacterState>\n  ) { }\n\n  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<string> {\n    this.store.dispatch(fromActions.loadCharacters());\n    return of('NONE');\n  }\n}\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -1241,8 +1241,8 @@
         },
         {
             "name": "TimelineResolver",
-            "id": "injectable-TimelineResolver-74831cf04c68b8e7ffbfeb7d2137cfa9f598c264f07240f6ea1691f2864045c6df86e54fb754214ce699c6c2ce0e175f0d3122e840b80c11dfd1f69cf2f84dcb",
-            "file": "src/app/resolvers/timeline.resolver.ts",
+            "id": "injectable-TimelineResolver-022a2ab0ca02932ed7e91e47e4c9ef5b5f9669b9553989747571f0301e6b32c053d98264ad1b7eb631fe383bc2ca0aadbd596758412ed4d3749e099dacb712d4",
+            "file": "src/app/core/resolvers/timeline.resolver.ts",
             "properties": [],
             "methods": [
                 {
@@ -1264,7 +1264,7 @@
                     "optional": false,
                     "returnType": "Observable<string>",
                     "typeParameters": [],
-                    "line": 21,
+                    "line": 20,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -1293,7 +1293,7 @@
             "deprecationMessage": "",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import { Injectable } from '@angular/core';\nimport {\n  Resolve,\n  RouterStateSnapshot,\n  ActivatedRouteSnapshot\n} from '@angular/router';\nimport { Observable, of } from 'rxjs';\nimport { Store } from '@ngrx/store';\nimport { CharacterState } from '../views/characters/store';\nimport * as fromActions from '../views/characters/store/character.actions';\nimport { TimelineComponent } from '../views/timeline/timeline.component';\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class TimelineResolver implements Resolve<string> {\n  constructor(\n    private readonly store: Store<CharacterState>\n  ) { }\n\n  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<string> {\n    this.store.dispatch(fromActions.loadCharacters());\n    return of('NONE');\n  }\n}\n",
+            "sourceCode": "import { Injectable } from '@angular/core';\nimport {\n  Resolve,\n  RouterStateSnapshot,\n  ActivatedRouteSnapshot\n} from '@angular/router';\nimport { Observable, of } from 'rxjs';\nimport { Store } from '@ngrx/store';\nimport { CharacterState } from '../../views/characters/store';\nimport * as fromActions from '../../views/characters/store/character.actions';\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class TimelineResolver implements Resolve<string> {\n  constructor(\n    private readonly store: Store<CharacterState>\n  ) { }\n\n  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<string> {\n    this.store.dispatch(fromActions.loadCharacters());\n    return of('NONE');\n  }\n}\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -1307,7 +1307,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 16,
+                "line": 15,
                 "jsdoctags": [
                     {
                         "name": "store",
@@ -1371,7 +1371,7 @@
         {
             "name": "Channel",
             "id": "class-Channel-4b22a09435eb82518829e4db840117374880f8fc0580416e36e227de6031d627701994915e51c88f399fe8876388ee912a736e335dffbe641013290fdd8282f8",
-            "file": "src/app/services/fake-electron.service.ts",
+            "file": "src/app/core/services/fake-electron.service.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "class",
@@ -1453,7 +1453,7 @@
         {
             "name": "Message",
             "id": "class-Message-4b22a09435eb82518829e4db840117374880f8fc0580416e36e227de6031d627701994915e51c88f399fe8876388ee912a736e335dffbe641013290fdd8282f8",
-            "file": "src/app/services/fake-electron.service.ts",
+            "file": "src/app/core/services/fake-electron.service.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "class",
@@ -1654,7 +1654,7 @@
         },
         {
             "name": "CharacterEditComponent",
-            "id": "component-CharacterEditComponent-6bce61f25ec562d579b444cde20dfa3b7518fce8786f843d494d04442acf22ea8f76fb2ab6102918db4528d44f9093e1559fdeb15babf7224a8704853b888948",
+            "id": "component-CharacterEditComponent-926929fadece7c15b3f4e4742ffb8e54878894065af8d12eabbe35890e979ba94a83717e2633cb067dbede1d12d259cbf15218921ed84e4d83a403d68345600a",
             "file": "src/app/views/characters/character-edit/character-edit.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1843,7 +1843,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, OnInit } from '@angular/core';\r\nimport { FormGroup } from '@angular/forms';\r\nimport { select, Store } from '@ngrx/store';\r\nimport { Observable, Subject } from 'rxjs';\r\nimport { Character, Family } from 'src/app/models/character.model';\r\nimport { CharacterState } from '../store';\r\nimport * as fromActions from '../store/character.actions';\r\nimport { CharacterService } from 'src/app/services/character.service';\r\nimport { take, takeUntil } from 'rxjs/operators';\r\nimport { selectCharacter } from '../store/character.selectors';\r\n\r\n@Component({\r\n  selector: 'app-character-edit',\r\n  templateUrl: './character-edit.component.html',\r\n  styleUrls: ['./character-edit.component.scss']\r\n})\r\nexport class CharacterEditComponent implements OnInit {\r\n  controlsConfig = {};\r\n  submitted: boolean;\r\n  isNew: boolean;\r\n  children: Character[];\r\n  ngDestroy$ = new Subject();\r\n  submitObservable$: Observable<Character>;\r\n\r\n  constructor(\r\n    private characerService: CharacterService,\r\n    private readonly store: Store<CharacterState>\r\n  ) {\r\n    this.submitted = false;\r\n    this.isNew = false;\r\n    this.children =[];\r\n  }\r\n\r\n  ngOnInit(): void {\r\n    this.store.pipe(select(selectCharacter))\r\n      .pipe(takeUntil(this.ngDestroy$))\r\n      .subscribe((data: Family) => {\r\n        this.children = data.children;\r\n        this.controlsConfig = {\r\n          id: data.id,\r\n          characterName: data.characterName,\r\n          gender: data.gender,\r\n          dateOfBirth: data.dateOfBirth,\r\n          dateOfDeath: data.dateOfDeath,\r\n          fatherId: data.fatherId,\r\n          motherId: data.motherId,\r\n          fatherAgeAtBirth: data.fatherAgeAtBirth,\r\n          fatherContinuedToLive: data.fatherContinuedToLive,\r\n          reference: data.reference,\r\n          description: data.description\r\n        };\r\n      });\r\n  }\r\n\r\n  ngOnDestroy(): void {\r\n    this.ngDestroy$.next(true);\r\n    this.ngDestroy$.complete();\r\n  }\r\n\r\n  onSubmit(registerForm: FormGroup): void {\r\n    this.submitted = true;\r\n    console.log(`CharacterEditComponent onSubmit: ${registerForm.value}`);\r\n    this.store.dispatch(fromActions.updateCharacter(registerForm.value))\r\n    this.store\r\n      .pipe(takeUntil(this.ngDestroy$))\r\n      .pipe(take(1))\r\n      .subscribe((response) => {\r\n        if (!response.error) {\r\n          this.submitted = false;\r\n          registerForm.reset();\r\n          this.navigateToPage(['/characters']);\r\n        }\r\n      });\r\n  }\r\n\r\n  onReset(registerForm: FormGroup): void {\r\n    this.submitted = false;\r\n    registerForm.reset();\r\n    this.navigateToPage(['/characters']);\r\n  }\r\n\r\n  navigateToPage(page: string[]): void {\r\n    this.characerService.navigateToPage(page);\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\r\nimport { FormGroup } from '@angular/forms';\r\nimport { select, Store } from '@ngrx/store';\r\nimport { Observable, Subject } from 'rxjs';\r\nimport { Character, Family } from 'src/app/core/models/character.model';\r\nimport { CharacterState } from '../store';\r\nimport * as fromActions from '../store/character.actions';\r\nimport { CharacterService } from '../../../core/services/character.service';\r\nimport { take, takeUntil } from 'rxjs/operators';\r\nimport { selectCharacter } from '../store/character.selectors';\r\n\r\n@Component({\r\n  selector: 'app-character-edit',\r\n  templateUrl: './character-edit.component.html',\r\n  styleUrls: ['./character-edit.component.scss']\r\n})\r\nexport class CharacterEditComponent implements OnInit {\r\n  controlsConfig = {};\r\n  submitted: boolean;\r\n  isNew: boolean;\r\n  children: Character[];\r\n  ngDestroy$ = new Subject();\r\n  submitObservable$: Observable<Character>;\r\n\r\n  constructor(\r\n    private characerService: CharacterService,\r\n    private readonly store: Store<CharacterState>\r\n  ) {\r\n    this.submitted = false;\r\n    this.isNew = false;\r\n    this.children =[];\r\n  }\r\n\r\n  ngOnInit(): void {\r\n    this.store.pipe(select(selectCharacter))\r\n      .pipe(takeUntil(this.ngDestroy$))\r\n      .subscribe((data: Family) => {\r\n        this.children = data.children;\r\n        this.controlsConfig = {\r\n          id: data.id,\r\n          characterName: data.characterName,\r\n          gender: data.gender,\r\n          dateOfBirth: data.dateOfBirth,\r\n          dateOfDeath: data.dateOfDeath,\r\n          fatherId: data.fatherId,\r\n          motherId: data.motherId,\r\n          fatherAgeAtBirth: data.fatherAgeAtBirth,\r\n          fatherContinuedToLive: data.fatherContinuedToLive,\r\n          reference: data.reference,\r\n          description: data.description\r\n        };\r\n      });\r\n  }\r\n\r\n  ngOnDestroy(): void {\r\n    this.ngDestroy$.next(true);\r\n    this.ngDestroy$.complete();\r\n  }\r\n\r\n  onSubmit(registerForm: FormGroup): void {\r\n    this.submitted = true;\r\n    console.log(`CharacterEditComponent onSubmit: ${registerForm.value}`);\r\n    this.store.dispatch(fromActions.updateCharacter(registerForm.value))\r\n    this.store\r\n      .pipe(takeUntil(this.ngDestroy$))\r\n      .pipe(take(1))\r\n      .subscribe((response) => {\r\n        if (!response.error) {\r\n          this.submitted = false;\r\n          registerForm.reset();\r\n          this.navigateToPage(['/characters']);\r\n        }\r\n      });\r\n  }\r\n\r\n  onReset(registerForm: FormGroup): void {\r\n    this.submitted = false;\r\n    registerForm.reset();\r\n    this.navigateToPage(['/characters']);\r\n  }\r\n\r\n  navigateToPage(page: string[]): void {\r\n    this.characerService.navigateToPage(page);\r\n  }\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -1896,12 +1896,12 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<mat-toolbar>\r\n  <span>Edit Character</span>\r\n</mat-toolbar>\r\n<app-character-form \r\n    [configData]=\"controlsConfig\"\r\n    [childrenData]=\"children\"\r\n    [isNew]=\"isNew\"\r\n    (submit)=\"onSubmit($event)\" \r\n    (reset)=\"onReset($event)\">\r\n</app-character-form>\r\n"
+            "templateData": "<mat-toolbar>\r\n  <span class=\"character-edit-header\">Edit Character</span>\r\n</mat-toolbar>\r\n<app-character-form\r\n    [configData]=\"controlsConfig\"\r\n    [childrenData]=\"children\">\r\n</app-character-form>\r\n<app-footer\r\n  [isNew]=\"isNew\"\r\n  (submit)=\"onSubmit($event)\"\r\n  (reset)=\"onReset($event)\"></app-footer>\r\n"
         },
         {
             "name": "CharacterFormComponent",
-            "id": "component-CharacterFormComponent-e1ddda64344c281242a912c52152721094227c586b4cf505b32775d4a502da7e115f3e5a337dc24673f5139369c588d536d050c9af888af309259955c549a202",
-            "file": "src/app/components/forms/character-form/character-form.component.ts",
+            "id": "component-CharacterFormComponent-6da19bceec88b17a10befe9b58f135646e01573ef3c29430c24cdd38fe2c377b4f0864f2e53b601bbebb0baae18908675ba3a6aec470b9c8d9ee3077c0f9be29",
+            "file": "src/app/features/character-form/character-form.component.ts",
             "encapsulation": [],
             "entryComponents": [],
             "inputs": [],
@@ -1932,31 +1932,15 @@
                     "line": 30,
                     "type": "literal type",
                     "decorators": []
-                },
-                {
-                    "name": "isNew",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "line": 32,
-                    "type": "boolean",
-                    "decorators": []
                 }
             ],
             "outputsClass": [
-                {
-                    "name": "reset",
-                    "defaultValue": "new EventEmitter<FormGroup>()",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "line": 34,
-                    "type": "EventEmitter"
-                },
                 {
                     "name": "submit",
                     "defaultValue": "new EventEmitter<FormGroup>()",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 33,
+                    "line": 32,
                     "type": "EventEmitter"
                 }
             ],
@@ -2043,17 +2027,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 81,
-                    "deprecated": false,
-                    "deprecationMessage": ""
-                },
-                {
-                    "name": "onReset",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 111,
+                    "line": 79,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -2063,7 +2037,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 103,
+                    "line": 101,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -2075,7 +2049,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Output } from '@angular/core';\nimport { Input } from '@angular/core';\nimport { Component, EventEmitter, OnInit } from '@angular/core';\nimport { FormBuilder, FormGroup, Validators } from '@angular/forms';\nimport { Store } from '@ngrx/store';\nimport { Observable } from 'rxjs';\nimport { Character, CharacterGenderList } from 'src/app/models/character.model';\nimport { CharacterState } from 'src/app/views/characters/store';\nimport { selectFatherList, selectMotherList } from 'src/app/views/characters/store/character.selectors';\n\ninterface GenderType {\n  value: string;\n  name: string;\n}\n@Component({\n  selector: 'app-character-form',\n  templateUrl: './character-form.component.html',\n  styleUrls: ['./character-form.component.scss']\n})\nexport class CharacterFormComponent implements OnInit {\n  registerForm: FormGroup;\n  controlsConfig = {};\n  children: Character[];\n  genderList: GenderType[];\n  submitted:boolean;\n  createUpdate: string = '';\n  fatherList$: Observable<CharacterGenderList[]>;\n  motherList$: Observable<CharacterGenderList[]>;\n\n  @Input() public configData: { [key: string]: any; };\n  @Input() public childrenData: Character[];\n  @Input() public isNew: boolean;\n  @Output() public submit = new EventEmitter<FormGroup>();\n  @Output() public reset = new EventEmitter<FormGroup>();\n\n  constructor(\n    private formBuilder: FormBuilder,\n    private readonly store: Store<CharacterState>\n  ) {\n    this.genderList = [\n      {\n        value: 'M',\n        name: 'Male'\n      },\n      {\n        value: 'F',\n        name: 'Female'\n      }\n    ];\n    this.registerForm = this.formBuilder.group({\n      id: [''],\n      characterName: ['', Validators.required],\n      gender: ['', Validators.required],\n      dateOfBirth: [''],\n      dateOfDeath: [''],\n      fatherId: [''],\n      motherId: [''],\n      fatherAgeAtBirth: [''],\n      fatherContinuedToLive: [''],\n      reference: [''],\n      description: ['']\n    });\n    this.controlsConfig = {\n      id: null,\n      characterName: '',\n      gender: 'M',\n      dateOfBirth: null,\n      dateOfDeath: null,\n      fatherId: 0,\n      motherId: 0,\n      fatherAgeAtBirth: null,\n      fatherContinuedToLive: null,\n      reference: '',\n      description: ''\n    };\n    this.submitted = false;\n    this.fatherList$ = this.store.select(selectFatherList);\n    this.motherList$ = this.store.select(selectMotherList);\n  }\n\n  ngOnInit(): void {\n    this.createUpdate = this.isNew ? 'Create' : 'Update';\n    this.children = this.childrenData;\n    this.controlsConfig = {\n      id: this.configData.id,\n      characterName: this.configData.characterName,\n      gender: this.configData.gender,\n      dateOfBirth: this.configData.dateOfBirth,\n      dateOfDeath: this.configData.dateOfDeath,\n      fatherId: this.configData.fatherId,\n      motherId: this.configData.motherId,\n      fatherAgeAtBirth: this.configData.fatherAgeAtBirth,\n      fatherContinuedToLive: this.configData.fatherContinuedToLive,\n      reference: this.configData.reference,\n      description: this.configData.description\n    };\n\n    this.registerForm.reset(this.controlsConfig);\n  }\n\n  get f() { return this.registerForm && this.registerForm.controls; }\n\n  onSubmit(): void {\n    if (this.registerForm.invalid) {\n      return;\n    }\n\n    this.submit.emit(this.registerForm);\n  }\n\n  onReset(): void {\n    this.reset.emit(this.registerForm);\n  }\n}\n",
+            "sourceCode": "import { Output } from '@angular/core';\nimport { Input } from '@angular/core';\nimport { Component, EventEmitter, OnInit } from '@angular/core';\nimport { FormBuilder, FormGroup, Validators } from '@angular/forms';\nimport { Store } from '@ngrx/store';\nimport { Observable } from 'rxjs';\nimport { Character, CharacterGenderList } from '../../core/models/character.model';\nimport { CharacterState } from '../../views/characters/store';\nimport { selectFatherList, selectMotherList } from '../../views/characters/store/character.selectors';\n\ninterface GenderType {\n  value: string;\n  name: string;\n}\n@Component({\n  selector: 'app-character-form',\n  templateUrl: './character-form.component.html',\n  styleUrls: ['./character-form.component.scss']\n})\nexport class CharacterFormComponent implements OnInit {\n  registerForm: FormGroup;\n  controlsConfig = {};\n  children: Character[];\n  genderList: GenderType[];\n  submitted:boolean;\n  createUpdate: string = '';\n  fatherList$: Observable<CharacterGenderList[]>;\n  motherList$: Observable<CharacterGenderList[]>;\n\n  @Input() public configData: { [key: string]: any; };\n  @Input() public childrenData: Character[];\n  @Output() public submit = new EventEmitter<FormGroup>();\n\n  constructor(\n    private formBuilder: FormBuilder,\n    private readonly store: Store<CharacterState>\n  ) {\n    this.genderList = [\n      {\n        value: 'M',\n        name: 'Male'\n      },\n      {\n        value: 'F',\n        name: 'Female'\n      }\n    ];\n    this.registerForm = this.formBuilder.group({\n      id: [''],\n      characterName: ['', Validators.required],\n      gender: ['', Validators.required],\n      dateOfBirth: [''],\n      dateOfDeath: [''],\n      fatherId: [''],\n      motherId: [''],\n      fatherAgeAtBirth: [''],\n      fatherContinuedToLive: [''],\n      reference: [''],\n      description: ['']\n    });\n    this.controlsConfig = {\n      id: null,\n      characterName: '',\n      gender: 'M',\n      dateOfBirth: null,\n      dateOfDeath: null,\n      fatherId: 0,\n      motherId: 0,\n      fatherAgeAtBirth: null,\n      fatherContinuedToLive: null,\n      reference: '',\n      description: ''\n    };\n    this.submitted = false;\n    this.fatherList$ = this.store.select(selectFatherList);\n    this.motherList$ = this.store.select(selectMotherList);\n  }\n\n  ngOnInit(): void {\n    // this.createUpdate = this.isNew ? 'Create' : 'Update';\n    this.children = this.childrenData;\n    this.controlsConfig = {\n      id: this.configData.id,\n      characterName: this.configData.characterName,\n      gender: this.configData.gender,\n      dateOfBirth: this.configData.dateOfBirth,\n      dateOfDeath: this.configData.dateOfDeath,\n      fatherId: this.configData.fatherId,\n      motherId: this.configData.motherId,\n      fatherAgeAtBirth: this.configData.fatherAgeAtBirth,\n      fatherContinuedToLive: this.configData.fatherContinuedToLive,\n      reference: this.configData.reference,\n      description: this.configData.description\n    };\n\n    this.registerForm.reset(this.controlsConfig);\n  }\n\n  get f() { return this.registerForm && this.registerForm.controls; }\n\n  onSubmit(): void {\n    if (this.registerForm.invalid) {\n      return;\n    }\n\n    this.submit.emit(this.registerForm);\n  }\n\n  // onReset(): void {\n  //   this.reset.emit(this.registerForm);\n  // }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -2103,7 +2077,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 34,
+                "line": 32,
                 "jsdoctags": [
                     {
                         "name": "formBuilder",
@@ -2135,7 +2109,7 @@
                         "name": "f",
                         "type": "",
                         "returnType": "",
-                        "line": 101
+                        "line": 99
                     }
                 }
             },
@@ -2143,7 +2117,7 @@
         },
         {
             "name": "CharacterListComponent",
-            "id": "component-CharacterListComponent-adb1fe4ea352f10752295f17127bcd1e7d57fbbd67d13aeeb460a75a135f592022f93f25b52498397b8f01083bd47100281259854937ebe148cdca18798cd90c",
+            "id": "component-CharacterListComponent-8803cfca7eaffea3d0a6debb8f3de67e3205b58698c5a7a4388e2b2c9d24b73bb626051ebdbbc83f3d23073208fd847d9d1ad7cc0a1df341c923a775ba5cd04a",
             "file": "src/app/views/characters/character-list/character-list.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2176,7 +2150,7 @@
                 },
                 {
                     "name": "displayedColumns",
-                    "defaultValue": "[\n    'id',\n    'characterName', \n    'dateOfBirth', \n    'dateOfDeath',\n    'fatherName',\n    'motherName',\n    'sonName',\n    'fatherAgeAtBirth',\n    'fatherContinuedToLive',\n    'fatherContinuedToLive',\n    'reference',\n    'actions'\n  ]",
+                    "defaultValue": "[\n    'id',\n    'characterName',\n    'dateOfBirth',\n    'dateOfDeath',\n    'fatherName',\n    'motherName',\n    'sonName',\n    'fatherAgeAtBirth',\n    'fatherContinuedToLive',\n    'fatherContinuedToLive',\n    'reference',\n    'actions'\n  ]",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "string[]",
@@ -2202,7 +2176,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 53,
+                    "line": 54,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -2273,7 +2247,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport { select, Store } from '@ngrx/store';\nimport { Character } from 'src/app/models/character.model';\nimport { CharacterService } from 'src/app/services/character.service';\nimport { CharacterState } from '../store';\nimport * as fromActions from '../store/character.actions'\nimport { selectCharacters } from '../store/character.selectors';\n\n@Component({\n  selector: 'app-character-list',\n  templateUrl: './character-list.component.html',\n  styleUrls: ['./character-list.component.scss']\n})\nexport class CharacterListComponent implements OnInit {\n  public dataSource: Character[];\n  public displayedColumns: string[] = [\n    'id',\n    'characterName', \n    'dateOfBirth', \n    'dateOfDeath',\n    'fatherName',\n    'motherName',\n    'sonName',\n    'fatherAgeAtBirth',\n    'fatherContinuedToLive',\n    'fatherContinuedToLive',\n    'reference',\n    'actions'\n  ];\n\n  constructor(\n    private characerService: CharacterService,\n    private store: Store<CharacterState>) {\n      this.dataSource = [];\n    }\n\n  ngOnInit(): void {\n    \n    this.loadCharacters();\n  }\n\n  loadCharacters(): void {\n    this.store.pipe(select(selectCharacters))\n      .subscribe(data => {\n        this.dataSource = data;\n      });\n  }\n\n  navigateToPage(page: string[]): void {\n    this.characerService.navigateToPage(page);\n  }\n\n  deleteCharacter(id: number): void {\n    this.store.dispatch(fromActions.deleteCharacter({id}));\n  }\n}\n",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport { select, Store } from '@ngrx/store';\nimport { Character } from '../../../core/models/character.model';\nimport { CharacterService } from '../../../core/services/character.service';\nimport { CharacterState } from '../store';\nimport * as fromActions from '../store/character.actions'\nimport { selectCharacters } from '../store/character.selectors';\n\n@Component({\n  selector: 'app-character-list',\n  templateUrl: './character-list.component.html',\n  styleUrls: ['./character-list.component.scss']\n})\nexport class CharacterListComponent implements OnInit {\n  public dataSource: Character[];\n  public displayedColumns: string[] = [\n    'id',\n    'characterName',\n    'dateOfBirth',\n    'dateOfDeath',\n    'fatherName',\n    'motherName',\n    'sonName',\n    'fatherAgeAtBirth',\n    'fatherContinuedToLive',\n    'fatherContinuedToLive',\n    'reference',\n    'actions'\n  ];\n\n  constructor(\n    private characerService: CharacterService,\n    private store: Store<CharacterState>) {\n      this.dataSource = [];\n    }\n\n  ngOnInit(): void {\n\n    this.loadCharacters();\n  }\n\n  loadCharacters(): void {\n    this.store.pipe(select(selectCharacters))\n      .subscribe(data => {\n        this.dataSource = data;\n      });\n  }\n\n  navigateToPage(page: string[]): void {\n    console.log('navigateToPage page: ', page);\n    this.characerService.navigateToPage(page);\n  }\n\n  deleteCharacter(id: number): void {\n    this.store.dispatch(fromActions.deleteCharacter({id}));\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -2330,7 +2304,7 @@
         },
         {
             "name": "CharacterNewComponent",
-            "id": "component-CharacterNewComponent-72c3cb976cdcbce31f56b7424178b493e365b26052a9bcd17c0e0b5783317ab35c97dfafdb93251ece82bbb9813a6fc1815b64caa1e455e3d2d1ba7425d8c8c6",
+            "id": "component-CharacterNewComponent-4a2174401eec2e4af8cfa5075b93303e3c9208200a41f2c91d1813da5124b6892b5be81e5a40729fd8b36e7cac3e90dcca2df992181c01c919cfd52bf874a3ef",
             "file": "src/app/views/characters/character-new/character-new.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2510,7 +2484,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport { FormGroup } from '@angular/forms';\nimport { Store } from '@ngrx/store';\nimport { Subject } from 'rxjs';\nimport { take, takeUntil } from 'rxjs/operators';\nimport { Character } from 'src/app/models/character.model';\nimport { CharacterService } from 'src/app/services/character.service';\nimport { CharacterState } from '../store';\nimport * as fromActions from '../store/character.actions';\n\n@Component({\n  selector: 'app-character-new',\n  templateUrl: './character-new.component.html',\n  styleUrls: ['./character-new.component.scss']\n})\nexport class CharacterNewComponent implements OnInit {\n  controlsConfig = {};\n  children: Character[];\n  submitted: boolean;\n  isNew: boolean;\n  ngOnDestroy$ = new Subject();\n\n  constructor(\n    private characerService: CharacterService,\n    private readonly store: Store<CharacterState>\n  ) {\n    this.submitted = false;\n    this.isNew = true;\n    this.children =[];\n  }\n\n  ngOnInit(): void {\n    this.controlsConfig = {\n      id: null,\n      characterName: '',\n      gender: 'M',\n      dateOfBirth: null,\n      dateOfDeath: null,\n      fatherId: null,\n      motherId: null,\n      fatherAgeAtBirth: null,\n      fatherContinuedToLive: null,\n      reference: '',\n      description: ''\n    };\n  }\n\n  ngOnDestroy(): void {\n    this.ngOnDestroy$.next(true);\n    this.ngOnDestroy$.complete();\n  }\n\n  onSubmit(registerForm: FormGroup): void {\n    this.submitted = true;\n    registerForm.value.fatherId = !registerForm.value.fatherId ? 0 : registerForm.value.fatherId;\n    registerForm.value.motherId = !registerForm.value.motherId ? 0 : registerForm.value.motherId;\n    console.log(`CharacterNewComponent onSubmit: ${registerForm.value}`);\n    this.store.dispatch(fromActions.createCharacter(registerForm.value))\n    this.store\n      .pipe(takeUntil(this.ngOnDestroy$))\n      .pipe(take(1))\n      .subscribe((response) => {\n        if (!response.error) {\n          this.submitted = false;\n          registerForm.reset();\n          this.navigateToPage(['/characters']);\n        }\n      });\n  }\n\n  onReset(registerForm: FormGroup): void {\n    this.submitted = false;\n    registerForm.reset();\n    this.navigateToPage(['/characters']);\n  }\n\n  navigateToPage(page: string[]): void {\n    this.characerService.navigateToPage(page);\n  }\n}\n",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport { FormGroup } from '@angular/forms';\nimport { Store } from '@ngrx/store';\nimport { Subject } from 'rxjs';\nimport { take, takeUntil } from 'rxjs/operators';\nimport { Character } from '../../../core/models/character.model';\nimport { CharacterService } from '../../../core/services/character.service';\nimport { CharacterState } from '../store';\nimport * as fromActions from '../store/character.actions';\n\n@Component({\n  selector: 'app-character-new',\n  templateUrl: './character-new.component.html',\n  styleUrls: ['./character-new.component.scss']\n})\nexport class CharacterNewComponent implements OnInit {\n  controlsConfig = {};\n  children: Character[];\n  submitted: boolean;\n  isNew: boolean;\n  ngOnDestroy$ = new Subject();\n\n  constructor(\n    private characerService: CharacterService,\n    private readonly store: Store<CharacterState>\n  ) {\n    this.submitted = false;\n    this.isNew = true;\n    this.children =[];\n  }\n\n  ngOnInit(): void {\n    this.controlsConfig = {\n      id: null,\n      characterName: '',\n      gender: 'M',\n      dateOfBirth: null,\n      dateOfDeath: null,\n      fatherId: null,\n      motherId: null,\n      fatherAgeAtBirth: null,\n      fatherContinuedToLive: null,\n      reference: '',\n      description: ''\n    };\n  }\n\n  ngOnDestroy(): void {\n    this.ngOnDestroy$.next(true);\n    this.ngOnDestroy$.complete();\n  }\n\n  onSubmit(registerForm: FormGroup): void {\n    this.submitted = true;\n    registerForm.value.fatherId = !registerForm.value.fatherId ? 0 : registerForm.value.fatherId;\n    registerForm.value.motherId = !registerForm.value.motherId ? 0 : registerForm.value.motherId;\n    console.log(`CharacterNewComponent onSubmit: ${registerForm.value}`);\n    this.store.dispatch(fromActions.createCharacter(registerForm.value))\n    this.store\n      .pipe(takeUntil(this.ngOnDestroy$))\n      .pipe(take(1))\n      .subscribe((response) => {\n        if (!response.error) {\n          this.submitted = false;\n          registerForm.reset();\n          this.navigateToPage(['/characters']);\n        }\n      });\n  }\n\n  onReset(registerForm: FormGroup): void {\n    this.submitted = false;\n    registerForm.reset();\n    this.navigateToPage(['/characters']);\n  }\n\n  navigateToPage(page: string[]): void {\n    this.characerService.navigateToPage(page);\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -2563,12 +2537,12 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<mat-toolbar>\n  <span>New Character</span>\n</mat-toolbar>\n<app-character-form \n    [configData]=\"controlsConfig\"\n    [childrenData]=\"children\"\n    [isNew]=\"isNew\"\n    (submit)=\"onSubmit($event)\" \n    (reset)=\"onReset($event)\">\n</app-character-form>\n"
+            "templateData": "<mat-toolbar>\n  <span class=\"character-new-header\">New Character</span>\n</mat-toolbar>\n<app-character-form\n    [configData]=\"controlsConfig\"\n    [childrenData]=\"children\">\n</app-character-form>\n<app-footer\n  [isNew]=\"isNew\"\n  (submit)=\"onSubmit($event)\"\n  (reset)=\"onReset($event)\"></app-footer>\n"
         },
         {
             "name": "CharacterProfileDialogComponent",
-            "id": "component-CharacterProfileDialogComponent-38a785eed3c447400000fe1576fbd4f835a94b40a4116869d9b8859488369e2832df8e80218c2c4a3e22fe71f87caf112c71166a1749e2ad76cae33eaa1686e6",
-            "file": "src/app/modals/character-profile-dialog/character-profile-dialog.component.ts",
+            "id": "component-CharacterProfileDialogComponent-fa1f7f1f5c53830bf83e612309eab7dd69d64a6b4d3fb0a1b4c6d04c01a8843a6654cc9d3ed10f578c4a65d9f089d64c6c565d04e986cddde0b9948533b54623",
+            "file": "src/app/core/modals/character-profile-dialog/character-profile-dialog.component.ts",
             "encapsulation": [],
             "entryComponents": [],
             "inputs": [],
@@ -2605,7 +2579,13 @@
                     "type": "MatDialogRef<CharacterProfileDialogComponent>",
                     "optional": false,
                     "description": "",
-                    "line": 21,
+                    "line": 22,
+                    "decorators": [
+                        {
+                            "name": "Inject",
+                            "stringifiedArguments": "MAT_DIALOG_DATA"
+                        }
+                    ],
                     "modifierKind": [
                         123
                     ]
@@ -2631,7 +2611,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 44,
+                    "line": 45,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -2648,7 +2628,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 39,
+                    "line": 40,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -2669,7 +2649,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 34,
+                    "line": 35,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -2679,7 +2659,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 25,
+                    "line": 26,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -2691,7 +2671,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport { MatDialogRef } from '@angular/material/dialog';\nimport { select, Store } from '@ngrx/store';\nimport { Subject } from 'rxjs';\nimport { takeUntil } from 'rxjs/operators';\nimport { Family } from 'src/app/models/character.model';\nimport { CharacterState } from 'src/app/views/characters/store';\nimport { selectCharacter } from 'src/app/views/characters/store/character.selectors';\nimport * as fromActions from '../../views/characters/store/character.actions';\n\n@Component({\n  selector: 'app-character-profile-dialog',\n  templateUrl: './character-profile-dialog.component.html',\n  styleUrls: ['./character-profile-dialog.component.css']\n})\nexport class CharacterProfileDialogComponent implements OnInit {\n  public characterProfile: Family;\n  private ngDestroy$ = new Subject();\n\n  constructor(\n    public dialogRef: MatDialogRef<CharacterProfileDialogComponent>,\n    private readonly store: Store<CharacterState>\n  ) { }\n\n  ngOnInit(): void {\n    this.store.pipe(select(selectCharacter))\n      .pipe(takeUntil(this.ngDestroy$))\n      .subscribe((data: Family) => {\n        console.log('data: ', data);\n        this.characterProfile = data;\n      });\n  }\n\n  ngOnDestroy(): void {\n    this.ngDestroy$.next(true);\n    this.ngDestroy$.complete();\n  }\n\n  loadProfile(id: number): void {\n    console.log('Loading character id: ', id);\n    this.store.dispatch(fromActions.loadCharacter({id: id}));\n  }\n\n  closeDialog(): void {\n    this.dialogRef.close();\n  }\n}\n",
+            "sourceCode": "import { Component, Inject, OnInit } from '@angular/core';\nimport { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';\nimport { select, Store } from '@ngrx/store';\nimport { Subject } from 'rxjs';\nimport { takeUntil } from 'rxjs/operators';\nimport { Family } from '../../models/character.model';\nimport { CharacterState } from '../../../views/characters/store';\nimport { selectCharacter } from '../../../views/characters/store/character.selectors';\nimport * as fromActions from '../../../views/characters/store/character.actions';\n\n@Component({\n  selector: 'app-character-profile-dialog',\n  templateUrl: './character-profile-dialog.component.html',\n  styleUrls: ['./character-profile-dialog.component.css']\n})\nexport class CharacterProfileDialogComponent implements OnInit {\n  public characterProfile: Family;\n  private ngDestroy$ = new Subject();\n\n  constructor(\n    // public dialogRef: MatDialogRef<CharacterProfileDialogComponent>,\n    @Inject(MAT_DIALOG_DATA) public dialogRef: MatDialogRef<CharacterProfileDialogComponent>,\n    private readonly store: Store<CharacterState>\n  ) { }\n\n  ngOnInit(): void {\n    this.store.pipe(select(selectCharacter))\n      .pipe(takeUntil(this.ngDestroy$))\n      .subscribe((data: Family) => {\n        console.log('data: ', data);\n        this.characterProfile = data;\n      });\n  }\n\n  ngOnDestroy(): void {\n    this.ngDestroy$.next(true);\n    this.ngDestroy$.complete();\n  }\n\n  loadProfile(id: number): void {\n    console.log('Loading character id: ', id);\n    this.store.dispatch(fromActions.loadCharacter({id: id}));\n  }\n\n  closeDialog(): void {\n    this.dialogRef.close();\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -2748,8 +2728,8 @@
         },
         {
             "name": "FooterComponent",
-            "id": "component-FooterComponent-34c8e7fa6dc0988958a19f96bb6ddf3d2ab038d9a43c5d3ce32c5af18fa60a617b522b7860a34e2592aeb8132cbd731c0888fe1e49b66d37755d013d2b58cc14",
-            "file": "src/app/components/footer/footer.component.ts",
+            "id": "component-FooterComponent-1b71f16420137c0b5e64a64e01f025dd17b64a05ef5b21d86dce82294da4ba2071a2ecb85f8fe5ec6bf41c00ebec35d1eab61c77e70dc59893d29ec4426865ea",
+            "file": "src/app/shared/components/footer/footer.component.ts",
             "encapsulation": [],
             "entryComponents": [],
             "inputs": [],
@@ -2757,45 +2737,69 @@
             "providers": [],
             "selector": "app-footer",
             "styleUrls": [
-                "./footer.component.css"
+                "./footer.component.scss"
             ],
             "styles": [],
             "templateUrl": [
                 "./footer.component.html"
             ],
             "viewProviders": [],
-            "inputsClass": [],
-            "outputsClass": [],
+            "inputsClass": [
+                {
+                    "name": "isDisabled",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 13,
+                    "type": "boolean",
+                    "decorators": []
+                },
+                {
+                    "name": "isNew",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 12,
+                    "type": "boolean",
+                    "decorators": []
+                }
+            ],
+            "outputsClass": [
+                {
+                    "name": "reset",
+                    "defaultValue": "new EventEmitter<string>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 15,
+                    "type": "EventEmitter"
+                },
+                {
+                    "name": "submit",
+                    "defaultValue": "new EventEmitter<string>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 14,
+                    "type": "EventEmitter"
+                }
+            ],
             "propertiesClass": [
                 {
                     "name": "createUpdate",
-                    "defaultValue": "'Create'",
+                    "defaultValue": "''",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 9
+                    "line": 10
                 }
             ],
             "methodsClass": [
-                {
-                    "name": "isDisabled",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "boolean",
-                    "typeParameters": [],
-                    "line": 16,
-                    "deprecated": false,
-                    "deprecationMessage": ""
-                },
                 {
                     "name": "ngOnInit",
                     "args": [],
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 13,
+                    "line": 19,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -2805,7 +2809,17 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 20,
+                    "line": 25,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "onSubmit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 29,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -2817,12 +2831,12 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, OnInit } from '@angular/core';\n\n@Component({\n  selector: 'app-footer',\n  templateUrl: './footer.component.html',\n  styleUrls: ['./footer.component.css']\n})\nexport class FooterComponent implements OnInit {\n  createUpdate = 'Create';\n\n  constructor() { }\n\n  ngOnInit(): void {\n  }\n\n  isDisabled(): boolean {\n    return true;\n  }\n\n  onReset(): void {\n\n  }\n}\n",
+            "sourceCode": "import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';\nimport { FormGroup } from '@angular/forms';\n\n@Component({\n  selector: 'app-footer',\n  templateUrl: './footer.component.html',\n  styleUrls: ['./footer.component.scss']\n})\nexport class FooterComponent implements OnInit {\n  createUpdate: string = '';\n\n  @Input() public isNew: boolean;\n  @Input() public isDisabled: boolean;\n  @Output() public submit = new EventEmitter<string>();\n  @Output() public reset = new EventEmitter<string>();\n\n  constructor() { }\n\n  ngOnInit(): void {\n    console.log('isNew: ', this.isNew);\n    console.log('isDisabled: ', this.isDisabled);\n    this.createUpdate = this.isNew ? 'Create' : 'Update';\n  }\n\n  onReset(): void {\n    this.reset.emit('reset');\n  }\n\n  onSubmit(): void {\n    this.submit.emit('submit');\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": "",
-                    "styleUrl": "./footer.component.css"
+                    "data": ".footer-container {\r\n    display: flex;\r\n    justify-content: flex-end;\r\n    position: fixed;\r\n    bottom: 0;\r\n    box-shadow: 0px -3px 5px -1px rgb(0 0 0 / 20%), 0px -6px 10px 0px rgb(0 0 0 / 14%), 0px -1px 18px 0px rgb(0 0 0 / 12%);\r\n}",
+                    "styleUrl": "./footer.component.scss"
                 }
             ],
             "stylesData": "",
@@ -2832,12 +2846,12 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "args": [],
-                "line": 9
+                "line": 15
             },
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<mat-card class=\"mat-elevation-z\">\n    <mat-card-content>\n        <!-- <form [formGroup]=\"registerForm\" (ngSubmit)=\"onSubmit()\" class=\"mat-elevation-z8\"> -->\n            <mat-grid-list cols=\"1\" rowHeight=\"50px\" gutterSize=\"5px\">\n                <mat-grid-tile class=\"full-width-footer\">\n                    <button mat-raised-button type=\"submit\" [disabled]=\"isDisabled\" color=\"primary\"\n                        class=\"footer-button\">{{createUpdate}}</button>\n                    <button mat-raised-button type=\"reset\" (click)=\"onReset()\" color=\"warn\"\n                        class=\"footer-button\">Cancel</button>\n                </mat-grid-tile>\n            </mat-grid-list>\n        <!-- </form> -->\n    </mat-card-content>\n</mat-card>"
+            "templateData": "<mat-toolbar class=\"footer-container mat-elevation-z6\">\n    <button mat-raised-button type=\"submit\" [disabled]=\"isDisabled\" color=\"primary\" class=\"footer-button\">{{createUpdate}}</button>&nbsp;&nbsp;\n    <button mat-raised-button type=\"reset\" (click)=\"onReset()\" color=\"warn\" class=\"footer-button\">Cancel</button>\n</mat-toolbar>\n"
         },
         {
             "name": "HeaderComponent",
@@ -2914,8 +2928,8 @@
         },
         {
             "name": "HeaderComponent",
-            "id": "component-HeaderComponent-684163c49ef3e16ccf9abd93e83d15ef66f1cf779310a1d59af117448e9368eda21c11f9172769d2f88e4f296d19e122980a77da037c8900913c74a79e1ef571-1",
-            "file": "src/app/components/header/header.component.ts",
+            "id": "component-HeaderComponent-f41412b30eae12d078752110f1b75c7c49c4007651f4da2a5c657faa5d079b1c10d0b9a14f84646025891eb3532dbbb66bf887ee4a0434a4107c7d50f5bbf97c-1",
+            "file": "src/app/shared/components/header/header.component.ts",
             "encapsulation": [],
             "entryComponents": [],
             "inputs": [],
@@ -2993,7 +3007,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport { Router, NavigationEnd } from '@angular/router';\nimport { filter } from 'rxjs/operators';\nimport { Navigation } from 'src/app/models/navigation.model.';\n\nconst NAVI: Array<Navigation> = [\n  {\n    id: 1,\n    name: 'Home',\n    url: ['/'],\n    isActive: false\n  },\n  {\n    id: 2,\n    name: 'Timeline',\n    url: ['/time-line'],\n    isActive: false\n  },\n  {\n    id: 3,\n    name: 'Characters',\n    url: ['/characters'],\n    isActive: false\n  },\n  {\n    id: 4,\n    name: 'Help',\n    url: ['/help'],\n    isActive: false\n  }\n];\n\n@Component({\n  selector: 'app-header',\n  templateUrl: './header.component.html',\n  styleUrls: ['./header.component.scss']\n})\nexport class HeaderComponent implements OnInit {\n  public navigation: Array<Navigation>;\n\n  constructor(\n    private router: Router\n  ) {\n    this.navigation = NAVI;\n  }\n\n  ngOnInit(): void {\n    this.router.events\n    .pipe(filter((event) => event instanceof NavigationEnd))  \n    .subscribe((event) => {\n      if (event instanceof NavigationEnd) {\n        this.navigation = this.navigation.map(link => {\n          return {\n            ...link,\n            isActive: link.url.includes(event.url)\n          }\n        });\n      }\n    });\n  }\n\n  navigateToPage(page: string[]): void {\n    this.router.navigate(page);\n  }\n}\n",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport { Router, NavigationEnd } from '@angular/router';\nimport { filter } from 'rxjs/operators';\nimport { Navigation } from '../../../core/models/navigation.model.';\n\nconst NAVI: Array<Navigation> = [\n  {\n    id: 1,\n    name: 'Home',\n    url: ['/'],\n    isActive: false\n  },\n  {\n    id: 2,\n    name: 'Timeline',\n    url: ['/time-line'],\n    isActive: false\n  },\n  {\n    id: 3,\n    name: 'Characters',\n    url: ['/characters'],\n    isActive: false\n  },\n  {\n    id: 4,\n    name: 'Help',\n    url: ['/help'],\n    isActive: false\n  }\n];\n\n@Component({\n  selector: 'app-header',\n  templateUrl: './header.component.html',\n  styleUrls: ['./header.component.scss']\n})\nexport class HeaderComponent implements OnInit {\n  public navigation: Array<Navigation>;\n\n  constructor(\n    private router: Router\n  ) {\n    this.navigation = NAVI;\n  }\n\n  ngOnInit(): void {\n    this.router.events\n    .pipe(filter((event) => event instanceof NavigationEnd))\n    .subscribe((event) => {\n      if (event instanceof NavigationEnd) {\n        this.navigation = this.navigation.map(link => {\n          return {\n            ...link,\n            isActive: link.url.includes(event.url)\n          }\n        });\n      }\n    });\n  }\n\n  navigateToPage(page: string[]): void {\n    this.router.navigate(page);\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -3325,7 +3339,7 @@
         },
         {
             "name": "TimelineComponent",
-            "id": "component-TimelineComponent-1ed69162aaf930408411a23f8ac3a2aee03d7e325cf3777f471a982d46d32b7b5a0f00a10cc52cc91f06a45289ae652ce1a03a8b69ee00ad54cd9d767562ea50",
+            "id": "component-TimelineComponent-03bdc4942c9b79643bcf59256db7801bab84c7b9a7b7b826f399c9b2a5fb6565e29bcde1feb511d317c0ffaadb8671ed205ad338f5fbe9e2a5fdfa0608600780",
             "file": "src/app/views/timeline/timeline.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -3424,7 +3438,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport { MatDialog } from '@angular/material/dialog';\nimport { select, Store } from '@ngrx/store';\nimport { Subject } from 'rxjs';\nimport { takeUntil } from 'rxjs/operators';\nimport { CharacterProfileDialogComponent } from 'src/app/modals/character-profile-dialog/character-profile-dialog.component';\nimport { Character } from 'src/app/models/character.model';\nimport { CharacterState } from '../characters/store';\nimport { selectCharacterTree } from '../characters/store/character.selectors';\nimport * as fromActions from '../characters/store/character.actions';\n\n@Component({\n  selector: 'app-timeline',\n  templateUrl: './timeline.component.html',\n  styleUrls: ['./timeline.component.scss']\n})\nexport class TimelineComponent implements OnInit {\n  public dataSource: Character[];\n  ngOnDestroy$ = new Subject();\n  \n  constructor(\n    private store: Store<CharacterState>,\n    private dialog: MatDialog\n    ) {\n      this.dataSource = [];\n    }\n\n  ngOnInit(): void {\n    this.store.pipe(select(selectCharacterTree))\n      .pipe(takeUntil(this.ngOnDestroy$))\n      .subscribe(data => {\n        this.dataSource = data;\n      });\n  }\n\n  ngOnDestroy(): void {\n    this.ngOnDestroy$.next(true);\n    this.ngOnDestroy$.complete();\n  }\n\n  openDialog(id: number): void {\n    this.store.dispatch(fromActions.loadCharacter({id: id}));\n    const dialogRef = this.dialog.open(CharacterProfileDialogComponent, {\n      width: '600px',\n      autoFocus: false,\n      disableClose: true\n    });\n\n    dialogRef.afterClosed().subscribe(result => {\n      console.log('The dialog was closed: ', result);\n    });\n  }\n}\n",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport { MatDialog } from '@angular/material/dialog';\nimport { select, Store } from '@ngrx/store';\nimport { Subject } from 'rxjs';\nimport { takeUntil } from 'rxjs/operators';\nimport { CharacterProfileDialogComponent } from '../../core/modals/character-profile-dialog/character-profile-dialog.component';\nimport { Character } from 'src/app/core/models/character.model';\nimport { CharacterState } from '../characters/store';\nimport { selectCharacterTree } from '../characters/store/character.selectors';\nimport * as fromActions from '../characters/store/character.actions';\n\n@Component({\n  selector: 'app-timeline',\n  templateUrl: './timeline.component.html',\n  styleUrls: ['./timeline.component.scss']\n})\nexport class TimelineComponent implements OnInit {\n  public dataSource: Character[];\n  ngOnDestroy$ = new Subject();\n\n  constructor(\n    private store: Store<CharacterState>,\n    private dialog: MatDialog\n    ) {\n      this.dataSource = [];\n    }\n\n  ngOnInit(): void {\n    this.store.pipe(select(selectCharacterTree))\n      .pipe(takeUntil(this.ngOnDestroy$))\n      .subscribe(data => {\n        this.dataSource = data;\n      });\n  }\n\n  ngOnDestroy(): void {\n    this.ngOnDestroy$.next(true);\n    this.ngOnDestroy$.complete();\n  }\n\n  openDialog(id: number): void {\n    this.store.dispatch(fromActions.loadCharacter({id: id}));\n    const dialogRef = this.dialog.open(CharacterProfileDialogComponent, {\n      width: '600px',\n      autoFocus: false,\n      disableClose: true\n    });\n\n    dialogRef.afterClosed().subscribe(result => {\n      console.log('The dialog was closed: ', result);\n    });\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -3483,13 +3497,13 @@
     "modules": [
         {
             "name": "AnimationsModule",
-            "id": "module-AnimationsModule-044f8c12e6408babdcede628d95bf2031752b3789ddefbe4b352c91f3b2a114be9e5afa9554a04f58486a93fe824227a6e83c61e9fcf6a5062c439c268b4b106",
+            "id": "module-AnimationsModule-e38acd3a52c14a758f4b54e4250a7891f09fbd7bf7d01ceda2045b93b26699d572c486329f29068ba4dc6adf4b918572e7d9e5151de8299cfee13c7e25e005ea",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
-            "file": "src/app/animations/animations.module.ts",
+            "file": "src/app/core/animations/animations.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\n\n\n\n@NgModule({\n  declarations: [],\n  imports: [\n    CommonModule\n  ]\n})\nexport class AnimationsModule { }\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\n\n@NgModule({\n  declarations: [],\n  imports: [\n    CommonModule\n  ]\n})\nexport class AnimationsModule { }\n",
             "children": [
                 {
                     "type": "providers",
@@ -3519,13 +3533,13 @@
         },
         {
             "name": "AppModule",
-            "id": "module-AppModule-c15791a25f90b24b1c9d30375e4cdedee90caaffe35dab0c9c262d458539de1d5facadfca3abb6dcc5236c50079258079fb77b0797efc64e2533e86a79d56068",
+            "id": "module-AppModule-2b00bf3fac6521881b9faa9245b0f9d47f3593955e0cc5e5762ebf51ed1ea2a723c5499bd628b2180ac6e3e91088e6ba37f05d7e1f6db5309aec73485886578c",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "src/app/app.module.ts",
             "methods": [],
-            "sourceCode": "import { BrowserModule } from '@angular/platform-browser';\nimport { NgModule } from '@angular/core';\nimport { BrowserAnimationsModule } from '@angular/platform-browser/animations';\n\nimport { AppRoutingModule } from './app-routing.module';\nimport { AppComponent } from './app.component';\nimport { StoreModule } from '@ngrx/store';\nimport { reducers, metaReducers } from './store/reducers';\n\nimport { AnimationsModule } from './animations/animations.module';\nimport { ComponentsModule } from './components/components.module';\nimport { MaterialsModule } from './materials/materials.module';\nimport { ModalsModule } from './modals/modals.module';\nimport { ViewsModule } from './views/views.module';\nimport { StoreDevtoolsModule } from '@ngrx/store-devtools';\nimport { environment } from '../environments/environment';\nimport { EffectsModule } from '@ngrx/effects';\nimport { ReactiveFormsModule } from '@angular/forms';\nimport { FlexLayoutModule } from '@angular/flex-layout';\nimport { NgxElectronModule } from 'ngx-electron';\n\n@NgModule({\n  declarations: [\n    AppComponent,\n    \n  ],\n  imports: [\n    BrowserModule,\n    BrowserAnimationsModule,\n    ReactiveFormsModule,\n    AppRoutingModule,\n    AnimationsModule,\n    MaterialsModule,\n    ModalsModule,\n    FlexLayoutModule,\n    ComponentsModule,\n    NgxElectronModule,\n    ViewsModule,\n    StoreModule.forRoot(reducers, {\n      metaReducers,\n      runtimeChecks: {\n        strictStateImmutability: true,\n        strictActionImmutability: true\n      }\n    }),\n    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),\n    EffectsModule.forRoot([]),\n  ],\n  exports: [\n    ReactiveFormsModule\n  ],\n  providers: [],\n  bootstrap: [AppComponent]\n})\nexport class AppModule { }\n",
+            "sourceCode": "import { BrowserModule } from '@angular/platform-browser';\nimport { NgModule } from '@angular/core';\nimport { BrowserAnimationsModule } from '@angular/platform-browser/animations';\n\nimport { AppRoutingModule } from './app-routing.module';\nimport { AppComponent } from './app.component';\nimport { StoreModule } from '@ngrx/store';\nimport { reducers, metaReducers } from './store/reducers';\n\nimport { ViewsModule } from './views/views.module';\nimport { StoreDevtoolsModule } from '@ngrx/store-devtools';\nimport { environment } from '../environments/environment';\nimport { EffectsModule } from '@ngrx/effects';\nimport { ReactiveFormsModule } from '@angular/forms';\nimport { FlexLayoutModule } from '@angular/flex-layout';\nimport { NgxElectronModule } from 'ngx-electron';\nimport { SharedModule } from './shared/shared.module';\nimport { FeaturesModule } from './features/features.module';\nimport { CoreModule } from './core/core.module';\n\n@NgModule({\n  declarations: [\n    AppComponent,\n\n  ],\n  imports: [\n    BrowserModule,\n    BrowserAnimationsModule,\n    ReactiveFormsModule,\n    AppRoutingModule,\n    FlexLayoutModule,\n    SharedModule,\n    FeaturesModule,\n    NgxElectronModule,\n    CoreModule,\n    ViewsModule,\n    StoreModule.forRoot(reducers, {\n      metaReducers,\n      runtimeChecks: {\n        strictStateImmutability: true,\n        strictActionImmutability: true\n      }\n    }),\n    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),\n    EffectsModule.forRoot([]),\n  ],\n  exports: [\n    ReactiveFormsModule\n  ],\n  providers: [],\n  bootstrap: [AppComponent]\n})\nexport class AppModule { }\n",
             "children": [
                 {
                     "type": "providers",
@@ -3543,16 +3557,16 @@
                     "type": "imports",
                     "elements": [
                         {
-                            "name": "AnimationsModule"
-                        },
-                        {
                             "name": "AppRoutingModule"
                         },
                         {
-                            "name": "MaterialsModule"
+                            "name": "CoreModule"
                         },
                         {
-                            "name": "ModalsModule"
+                            "name": "FeaturesModule"
+                        },
+                        {
+                            "name": "SharedModule"
                         },
                         {
                             "name": "ViewsModule"
@@ -3579,13 +3593,13 @@
         },
         {
             "name": "AppRoutingModule",
-            "id": "module-AppRoutingModule-05a80afc62fa4284bd9ccc12ae3176929dc6cbea8d699f3800b46e624034b6602b4abc211c082c5d5c501a7093c75618e637745b3e62e3e29ac5f39e3804b676",
+            "id": "module-AppRoutingModule-eb31e4acd24959dfb579b54432cdb3126929b401b59155349bd1ab27836d66f2e00dbb1e4653024ce5aa27ddbcc97b724cee51ff6797973025af767203d95d32",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "src/app/app-routing.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { Routes, RouterModule } from '@angular/router';\n\n// Components\nimport { HomeComponent } from './views/home/home.component';\nimport { CharacterEditComponent } from './views/characters/character-edit/character-edit.component';\nimport { CharacterListComponent } from './views/characters/character-list/character-list.component';\nimport { CharacterNewComponent } from './views/characters/character-new/character-new.component';\nimport { HelpComponent } from './views/help/help.component';\nimport { TimelineComponent } from './views/timeline/timeline.component';\nimport { PageNotFoundComponent } from './views/page-not-found/page-not-found.component';\n\n// Resolvers\nimport { CharacterResolver } from './resolvers/character.resolver';\nimport { CharactersResolver } from './resolvers/characters.resolver';\nimport { HomeResolver } from './resolvers/home.resolver';\nimport { TimelineResolver } from './resolvers/timeline.resolver';\n\nexport const routes: Routes = [\n  { \n    path: 'characters', \n    component: CharacterListComponent, \n    resolve: {\n      characters: CharactersResolver\n    }\n  },\n  {\n    path: 'character-new',\n    component: CharacterNewComponent,\n    resolve: {\n      character: CharacterResolver\n    }\n  },\n  { \n    path: 'character-edit/:id', \n    component: CharacterEditComponent,\n    resolve: {\n      character: CharacterResolver\n    }\n  },\n  { \n    path: 'time-line',\n    component: TimelineComponent,\n    resolve: {\n      characters: TimelineResolver\n    }\n  },\n  { \n    path: 'help',\n    component: HelpComponent\n  },\n  { \n    path: '', \n    component: HomeComponent,\n    resolve: {\n      home: HomeResolver\n    }\n  },\n  {\n    path: '**',\n    component: PageNotFoundComponent\n  }\n];\n\n@NgModule({\n  imports: [RouterModule.forRoot(routes)],\n  exports: [RouterModule]\n})\nexport class AppRoutingModule { }\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { Routes, RouterModule } from '@angular/router';\n\n// Components\nimport { HomeComponent } from './views/home/home.component';\nimport { CharacterEditComponent } from './views/characters/character-edit/character-edit.component';\nimport { CharacterListComponent } from './views/characters/character-list/character-list.component';\nimport { CharacterNewComponent } from './views/characters/character-new/character-new.component';\nimport { HelpComponent } from './views/help/help.component';\nimport { TimelineComponent } from './views/timeline/timeline.component';\nimport { PageNotFoundComponent } from './views/page-not-found/page-not-found.component';\n\n// Resolvers\nimport { CharacterResolver } from './core/resolvers/character.resolver';\nimport { CharactersResolver } from './core/resolvers/characters.resolver';\nimport { HomeResolver } from './core/resolvers/home.resolver';\nimport { TimelineResolver } from './core/resolvers/timeline.resolver';\n\nexport const routes: Routes = [\n  {\n    path: 'characters',\n    component: CharacterListComponent,\n    resolve: {\n      characters: CharactersResolver\n    }\n  },\n  {\n    path: 'character-new',\n    component: CharacterNewComponent,\n    resolve: {\n      character: CharacterResolver\n    }\n  },\n  {\n    path: 'character-edit/:id',\n    component: CharacterEditComponent,\n    resolve: {\n      character: CharacterResolver\n    }\n  },\n  {\n    path: 'time-line',\n    component: TimelineComponent,\n    resolve: {\n      characters: TimelineResolver\n    }\n  },\n  {\n    path: 'help',\n    component: HelpComponent\n  },\n  {\n    path: '',\n    component: HomeComponent,\n    resolve: {\n      home: HomeResolver\n    }\n  },\n  {\n    path: '**',\n    component: PageNotFoundComponent\n  }\n];\n\n@NgModule({\n  imports: [RouterModule.forRoot(routes)],\n  exports: [RouterModule]\n})\nexport class AppRoutingModule { }\n",
             "children": [
                 {
                     "type": "providers",
@@ -3615,13 +3629,13 @@
         },
         {
             "name": "CharactersModule",
-            "id": "module-CharactersModule-bacc311a672c27d74136fbcf993401da075a88f183c8081b67edace596c86ee20406547b00caacaf242dbfabdebe1f34c5f905a6715f806290cf5e361c97db76",
+            "id": "module-CharactersModule-9545d1cfa423c3c9163e50e26b863f9311190e3a8615ed9c31c3601fdf8852ab3f955fc4d84a0adb32bbba4856d6636b6c258c6ecd75446123f5cdbf182917b2",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "src/app/views/characters/characters.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { StoreModule } from '@ngrx/store';\nimport * as fromCharacterState from './store';\nimport { CharacterListComponent } from './character-list/character-list.component';\nimport { CharacterNewComponent } from './character-new/character-new.component';\nimport { CharacterEditComponent } from './character-edit/character-edit.component';\nimport { EffectsModule } from '@ngrx/effects';\nimport { CharacterEffects } from './store/character.effects';\nimport { MaterialsModule } from '../../materials/materials.module';\nimport { ComponentsModule } from 'src/app/components/components.module';\nimport { ReactiveFormsModule } from '@angular/forms';\nimport { FlexLayoutModule } from '@angular/flex-layout';\n\n@NgModule({\n  declarations: [\n    CharacterListComponent,\n    CharacterNewComponent,\n    CharacterEditComponent\n  ],\n  imports: [\n    CommonModule,\n    FlexLayoutModule,\n    StoreModule.forFeature(\n      fromCharacterState.characterStateFeatureKey,\n      fromCharacterState.reducers,\n      { metaReducers: fromCharacterState.metaReducers }\n    ),\n    EffectsModule.forFeature([CharacterEffects]),\n    MaterialsModule,\n    ReactiveFormsModule,\n    ComponentsModule\n  ]\n})\nexport class CharactersModule { }\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { StoreModule } from '@ngrx/store';\nimport * as fromCharacterState from './store';\nimport { CharacterListComponent } from './character-list/character-list.component';\nimport { CharacterNewComponent } from './character-new/character-new.component';\nimport { CharacterEditComponent } from './character-edit/character-edit.component';\nimport { EffectsModule } from '@ngrx/effects';\nimport { CharacterEffects } from './store/character.effects';\nimport { MaterialsModule } from '../../core/materials/materials.module';\nimport { ReactiveFormsModule } from '@angular/forms';\nimport { FlexLayoutModule } from '@angular/flex-layout';\nimport { SharedModule } from 'src/app/shared/shared.module';\nimport { FeaturesModule } from 'src/app/features/features.module';\n\n@NgModule({\n  declarations: [\n    CharacterListComponent,\n    CharacterNewComponent,\n    CharacterEditComponent\n  ],\n  imports: [\n    CommonModule,\n    FlexLayoutModule,\n    StoreModule.forFeature(\n      fromCharacterState.characterStateFeatureKey,\n      fromCharacterState.reducers,\n      { metaReducers: fromCharacterState.metaReducers }\n    ),\n    EffectsModule.forFeature([CharacterEffects]),\n    MaterialsModule,\n    ReactiveFormsModule,\n    SharedModule,\n    FeaturesModule\n  ]\n})\nexport class CharactersModule { }\n",
             "children": [
                 {
                     "type": "providers",
@@ -3645,7 +3659,13 @@
                     "type": "imports",
                     "elements": [
                         {
+                            "name": "FeaturesModule"
+                        },
+                        {
                             "name": "MaterialsModule"
+                        },
+                        {
+                            "name": "SharedModule"
                         }
                     ]
                 },
@@ -3664,14 +3684,60 @@
             ]
         },
         {
-            "name": "ComponentsModule",
-            "id": "module-ComponentsModule-1fa01c4897fbef1f12455ea3fdf6cbc8d2a09f7cc42a13db5bda86c65bc657f5bd86a1f8a1cd689010a53bc2ae55e30a97eaa6e679c28e28acbebf0ba641aa2b",
+            "name": "CoreModule",
+            "id": "module-CoreModule-764d4c74897ba3cb52165f77259bd4a692f85c58c9d74d45218a3506bfd49536d7497d99658d3e1fda8e9ba00e4ae335912180b42b5cef1a490316456ba40c97",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
-            "file": "src/app/components/components.module.ts",
+            "file": "src/app/core/core.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { ReactiveFormsModule } from '@angular/forms';\nimport { HeaderComponent } from './header/header.component';\nimport { FooterComponent } from './footer/footer.component';\nimport { CharacterFormComponent } from './forms/character-form/character-form.component';\nimport { LayoutModule } from '@angular/cdk/layout';\nimport { MaterialsModule } from '../materials/materials.module';\n\n@NgModule({\n  declarations: [\n    HeaderComponent,\n    FooterComponent,\n    CharacterFormComponent\n  ],\n  imports: [\n    CommonModule,\n    ReactiveFormsModule,\n    LayoutModule,\n    MaterialsModule\n  ],\n  exports: [\n    HeaderComponent,\n    FooterComponent,\n    CharacterFormComponent\n  ]\n})\nexport class ComponentsModule { }\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { CharacterService } from './services/character.service';\nimport { MaterialsModule } from './materials/materials.module';\nimport { ModalsModule } from './modals/modals.module';\nimport { AnimationsModule } from './animations/animations.module';\n\n\n\n@NgModule({\n  declarations: [\n  ],\n  imports: [\n    CommonModule,\n    MaterialsModule,\n    ModalsModule,\n    AnimationsModule\n  ],\n  exports: [\n  ]\n})\nexport class CoreModule { }\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": []
+                },
+                {
+                    "type": "imports",
+                    "elements": [
+                        {
+                            "name": "AnimationsModule"
+                        },
+                        {
+                            "name": "MaterialsModule"
+                        },
+                        {
+                            "name": "ModalsModule"
+                        }
+                    ]
+                },
+                {
+                    "type": "exports",
+                    "elements": []
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
+            "name": "FeaturesModule",
+            "id": "module-FeaturesModule-9522711a29390750fb95a4bd6a780d72021f32242e79194da48d25ad5ee68db39ea773feef6f7e69154546bb4452ab0dd54cb882f0d656cfd07527ea1a801dcd",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "src/app/features/features.module.ts",
+            "methods": [],
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { CharacterFormComponent } from './character-form/character-form.component';\nimport { MaterialsModule } from '../core/materials/materials.module';\nimport { ReactiveFormsModule } from '@angular/forms';\n\n\n\n@NgModule({\n  declarations: [\n    CharacterFormComponent\n  ],\n  imports: [\n    CommonModule,\n    MaterialsModule,\n    ReactiveFormsModule\n  ],\n  exports: [\n    CharacterFormComponent\n  ]\n})\nexport class FeaturesModule { }\n",
             "children": [
                 {
                     "type": "providers",
@@ -3682,12 +3748,6 @@
                     "elements": [
                         {
                             "name": "CharacterFormComponent"
-                        },
-                        {
-                            "name": "FooterComponent"
-                        },
-                        {
-                            "name": "HeaderComponent"
                         }
                     ]
                 },
@@ -3704,9 +3764,6 @@
                     "elements": [
                         {
                             "name": "CharacterFormComponent"
-                        },
-                        {
-                            "name": "FooterComponent"
                         }
                     ]
                 },
@@ -3722,13 +3779,13 @@
         },
         {
             "name": "MaterialsModule",
-            "id": "module-MaterialsModule-5638fe95c49028353df744e4b8fe0d533886796db2b76ec88d629d448e2315bf0b6fa55d51bfc4040e8178d7702136e1ee4bc23aa06299d6d087945756a85aee",
+            "id": "module-MaterialsModule-c5d371abf746c9e0edf4f2963d3eac0d67687c17917f6b61d859ea1e3bf727b44d33a66f16a39f441fb8b265e526b31f4cb509b5967758df542e6cd9a69459a2",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
-            "file": "src/app/materials/materials.module.ts",
+            "file": "src/app/core/materials/materials.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\r\nimport { A11yModule } from '@angular/cdk/a11y';\r\nimport { ClipboardModule } from '@angular/cdk/clipboard';\r\nimport { DragDropModule } from '@angular/cdk/drag-drop';\r\nimport { PortalModule } from '@angular/cdk/portal';\r\nimport { ScrollingModule } from '@angular/cdk/scrolling';\r\nimport { CdkStepperModule } from '@angular/cdk/stepper';\r\nimport { CdkTableModule } from '@angular/cdk/table';\r\nimport { CdkTreeModule } from '@angular/cdk/tree';\r\nimport { MatAutocompleteModule } from '@angular/material/autocomplete';\r\nimport { MatBadgeModule } from '@angular/material/badge';\r\nimport { MatBottomSheetModule } from '@angular/material/bottom-sheet';\r\nimport { MatButtonModule } from '@angular/material/button';\r\nimport { MatButtonToggleModule } from '@angular/material/button-toggle';\r\nimport { MatCardModule } from '@angular/material/card';\r\nimport { MatCheckboxModule } from '@angular/material/checkbox';\r\nimport { MatChipsModule } from '@angular/material/chips';\r\nimport { MatStepperModule } from '@angular/material/stepper';\r\nimport { MatDatepickerModule } from '@angular/material/datepicker';\r\nimport { MatDialogModule } from '@angular/material/dialog';\r\nimport { MatDividerModule } from '@angular/material/divider';\r\nimport { MatExpansionModule } from '@angular/material/expansion';\r\nimport { MatGridListModule } from '@angular/material/grid-list';\r\nimport { MatIconModule } from '@angular/material/icon';\r\nimport { MatInputModule } from '@angular/material/input';\r\nimport { MatListModule } from '@angular/material/list';\r\nimport { MatMenuModule } from '@angular/material/menu';\r\nimport { MatNativeDateModule, MatRippleModule } from '@angular/material/core';\r\nimport { MatPaginatorModule } from '@angular/material/paginator';\r\nimport { MatProgressBarModule } from '@angular/material/progress-bar';\r\nimport { MatProgressSpinnerModule } from '@angular/material/progress-spinner';\r\nimport { MatRadioModule } from '@angular/material/radio';\r\nimport { MatSelectModule } from '@angular/material/select';\r\nimport { MatSidenavModule } from '@angular/material/sidenav';\r\nimport { MatSliderModule } from '@angular/material/slider';\r\nimport { MatSlideToggleModule } from '@angular/material/slide-toggle';\r\nimport { MatSnackBarModule } from '@angular/material/snack-bar';\r\nimport { MatSortModule } from '@angular/material/sort';\r\nimport { MatTableModule, MatTableDataSource } from '@angular/material/table';\r\nimport { MatTabsModule } from '@angular/material/tabs';\r\nimport { MatToolbarModule } from '@angular/material/toolbar';\r\nimport { MatTooltipModule } from '@angular/material/tooltip';\r\nimport { MatTreeModule } from '@angular/material/tree';\r\nimport { OverlayModule } from '@angular/cdk/overlay';\r\n\r\n@NgModule({\r\n  exports: [\r\n    A11yModule,\r\n    ClipboardModule,\r\n    CdkStepperModule,\r\n    CdkTableModule,\r\n    CdkTreeModule,\r\n    DragDropModule,\r\n    MatAutocompleteModule,\r\n    MatBadgeModule,\r\n    MatBottomSheetModule,\r\n    MatButtonModule,\r\n    MatButtonToggleModule,\r\n    MatCardModule,\r\n    MatCheckboxModule,\r\n    MatChipsModule,\r\n    MatStepperModule,\r\n    MatDatepickerModule,\r\n    MatDialogModule,\r\n    MatDividerModule,\r\n    MatExpansionModule,\r\n    MatGridListModule,\r\n    MatIconModule,\r\n    MatInputModule,\r\n    MatListModule,\r\n    MatMenuModule,\r\n    MatNativeDateModule,\r\n    MatPaginatorModule,\r\n    MatProgressBarModule,\r\n    MatProgressSpinnerModule,\r\n    MatRadioModule,\r\n    MatRippleModule,\r\n    MatSelectModule,\r\n    MatSidenavModule,\r\n    MatSliderModule,\r\n    MatSlideToggleModule,\r\n    MatSnackBarModule,\r\n    MatSortModule,\r\n    MatTableModule,\r\n    // MatTableDataSource,\r\n    MatTabsModule,\r\n    MatToolbarModule,\r\n    MatTooltipModule,\r\n    MatTreeModule,\r\n    OverlayModule,\r\n    PortalModule,\r\n    ScrollingModule,\r\n  ]\r\n})\r\nexport class MaterialsModule { }",
+            "sourceCode": "import { NgModule } from '@angular/core';\r\nimport { A11yModule } from '@angular/cdk/a11y';\r\nimport { ClipboardModule } from '@angular/cdk/clipboard';\r\nimport { DragDropModule } from '@angular/cdk/drag-drop';\r\nimport { PortalModule } from '@angular/cdk/portal';\r\nimport { ScrollingModule } from '@angular/cdk/scrolling';\r\nimport { CdkStepperModule } from '@angular/cdk/stepper';\r\nimport { CdkTableModule } from '@angular/cdk/table';\r\nimport { CdkTreeModule } from '@angular/cdk/tree';\r\nimport { MatAutocompleteModule } from '@angular/material/autocomplete';\r\nimport { MatBadgeModule } from '@angular/material/badge';\r\nimport { MatBottomSheetModule } from '@angular/material/bottom-sheet';\r\nimport { MatButtonModule } from '@angular/material/button';\r\nimport { MatButtonToggleModule } from '@angular/material/button-toggle';\r\nimport { MatCardModule } from '@angular/material/card';\r\nimport { MatCheckboxModule } from '@angular/material/checkbox';\r\nimport { MatChipsModule } from '@angular/material/chips';\r\nimport { MatStepperModule } from '@angular/material/stepper';\r\nimport { MatDatepickerModule } from '@angular/material/datepicker';\r\nimport { MatDialogModule } from '@angular/material/dialog';\r\nimport { MatDividerModule } from '@angular/material/divider';\r\nimport { MatExpansionModule } from '@angular/material/expansion';\r\nimport { MatGridListModule } from '@angular/material/grid-list';\r\nimport { MatIconModule } from '@angular/material/icon';\r\nimport { MatInputModule } from '@angular/material/input';\r\nimport { MatListModule } from '@angular/material/list';\r\nimport { MatMenuModule } from '@angular/material/menu';\r\nimport { MatNativeDateModule, MatRippleModule } from '@angular/material/core';\r\nimport { MatPaginatorModule } from '@angular/material/paginator';\r\nimport { MatProgressBarModule } from '@angular/material/progress-bar';\r\nimport { MatProgressSpinnerModule } from '@angular/material/progress-spinner';\r\nimport { MatRadioModule } from '@angular/material/radio';\r\nimport { MatSelectModule } from '@angular/material/select';\r\nimport { MatSidenavModule } from '@angular/material/sidenav';\r\nimport { MatSliderModule } from '@angular/material/slider';\r\nimport { MatSlideToggleModule } from '@angular/material/slide-toggle';\r\nimport { MatSnackBarModule } from '@angular/material/snack-bar';\r\nimport { MatSortModule } from '@angular/material/sort';\r\nimport { MatTableModule } from '@angular/material/table';\r\nimport { MatTabsModule } from '@angular/material/tabs';\r\nimport { MatToolbarModule } from '@angular/material/toolbar';\r\nimport { MatTooltipModule } from '@angular/material/tooltip';\r\nimport { MatTreeModule } from '@angular/material/tree';\r\nimport { OverlayModule } from '@angular/cdk/overlay';\r\n\r\n@NgModule({\r\n  imports: [\r\n    A11yModule,\r\n    ClipboardModule,\r\n    CdkStepperModule,\r\n    CdkTableModule,\r\n    CdkTreeModule,\r\n    DragDropModule,\r\n    MatAutocompleteModule,\r\n    MatBadgeModule,\r\n    MatBottomSheetModule,\r\n    MatButtonModule,\r\n    MatButtonToggleModule,\r\n    MatCardModule,\r\n    MatCheckboxModule,\r\n    MatChipsModule,\r\n    MatStepperModule,\r\n    MatDatepickerModule,\r\n    MatDialogModule,\r\n    MatDividerModule,\r\n    MatExpansionModule,\r\n    MatGridListModule,\r\n    MatIconModule,\r\n    MatInputModule,\r\n    MatListModule,\r\n    MatMenuModule,\r\n    MatNativeDateModule,\r\n    MatPaginatorModule,\r\n    MatProgressBarModule,\r\n    MatProgressSpinnerModule,\r\n    MatRadioModule,\r\n    MatRippleModule,\r\n    MatSelectModule,\r\n    MatSidenavModule,\r\n    MatSliderModule,\r\n    MatSlideToggleModule,\r\n    MatSnackBarModule,\r\n    MatSortModule,\r\n    MatTableModule,\r\n    // MatTableDataSource,\r\n    MatTabsModule,\r\n    MatToolbarModule,\r\n    MatTooltipModule,\r\n    MatTreeModule,\r\n    OverlayModule,\r\n    PortalModule,\r\n    ScrollingModule,\r\n  ],\r\n  exports: [\r\n    A11yModule,\r\n    ClipboardModule,\r\n    CdkStepperModule,\r\n    CdkTableModule,\r\n    CdkTreeModule,\r\n    DragDropModule,\r\n    MatAutocompleteModule,\r\n    MatBadgeModule,\r\n    MatBottomSheetModule,\r\n    MatButtonModule,\r\n    MatButtonToggleModule,\r\n    MatCardModule,\r\n    MatCheckboxModule,\r\n    MatChipsModule,\r\n    MatStepperModule,\r\n    MatDatepickerModule,\r\n    MatDialogModule,\r\n    MatDividerModule,\r\n    MatExpansionModule,\r\n    MatGridListModule,\r\n    MatIconModule,\r\n    MatInputModule,\r\n    MatListModule,\r\n    MatMenuModule,\r\n    MatNativeDateModule,\r\n    MatPaginatorModule,\r\n    MatProgressBarModule,\r\n    MatProgressSpinnerModule,\r\n    MatRadioModule,\r\n    MatRippleModule,\r\n    MatSelectModule,\r\n    MatSidenavModule,\r\n    MatSliderModule,\r\n    MatSlideToggleModule,\r\n    MatSnackBarModule,\r\n    MatSortModule,\r\n    MatTableModule,\r\n    // MatTableDataSource,\r\n    MatTabsModule,\r\n    MatToolbarModule,\r\n    MatTooltipModule,\r\n    MatTreeModule,\r\n    OverlayModule,\r\n    PortalModule,\r\n    ScrollingModule,\r\n  ]\r\n})\r\nexport class MaterialsModule { }\r\n",
             "children": [
                 {
                     "type": "providers",
@@ -3758,13 +3815,13 @@
         },
         {
             "name": "ModalsModule",
-            "id": "module-ModalsModule-2b9529d2f9638db72953771957edb3598cf035c12895d2fa4284bb7dd6ef0e100a49d0806430e7305927f54017e2e0ce1daaa63689fc071617b04a58763c73ae",
+            "id": "module-ModalsModule-9fdbf64c2790f074f643d29e2f693cfe6c173874f875e4b083c4152ae4237411a0252d165dd7707d31b4c09496274e7911c3b1dcfeb5648f594d0d28c47a98ea",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
-            "file": "src/app/modals/modals.module.ts",
+            "file": "src/app/core/modals/modals.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { CharacterProfileDialogComponent } from './character-profile-dialog/character-profile-dialog.component';\nimport { FlexLayoutModule } from '@angular/flex-layout';\nimport { MaterialsModule } from '../materials/materials.module';\n\n\n\n@NgModule({\n  declarations: [\n    CharacterProfileDialogComponent\n  ],\n  imports: [\n    CommonModule,\n    MaterialsModule,\n    FlexLayoutModule\n  ]\n})\nexport class ModalsModule { }\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { CharacterProfileDialogComponent } from './character-profile-dialog/character-profile-dialog.component';\nimport { FlexLayoutModule } from '@angular/flex-layout';\nimport { MaterialsModule } from '../../core/materials/materials.module';\n\n\n\n@NgModule({\n  declarations: [\n    CharacterProfileDialogComponent\n  ],\n  imports: [\n    CommonModule,\n    MaterialsModule,\n    FlexLayoutModule\n  ]\n})\nexport class ModalsModule { }\n",
             "children": [
                 {
                     "type": "providers",
@@ -3801,14 +3858,65 @@
             ]
         },
         {
+            "name": "SharedModule",
+            "id": "module-SharedModule-7cd966aaa48a3c8603a9d2768073392176a4d60570a8ff7c61c2f58c8891e0a8bf9a5b8492bc63b7dcf6f39c6a55d73a3a36b48b2d0261919d2aece92347cb05",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "src/app/shared/shared.module.ts",
+            "methods": [],
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { FooterComponent } from './components/footer/footer.component';\nimport { HeaderComponent } from './components/header/header.component';\nimport { LayoutModule } from '@angular/cdk/layout';\nimport { ReactiveFormsModule } from '@angular/forms';\nimport { MaterialsModule } from '../core/materials/materials.module';\n\n@NgModule({\n  declarations: [\n    HeaderComponent,\n    FooterComponent,\n  ],\n  imports: [\n    CommonModule,\n    MaterialsModule,\n    ReactiveFormsModule,\n    LayoutModule\n  ],\n  exports: [\n    FooterComponent,\n    HeaderComponent\n  ]\n})\nexport class SharedModule { }\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "FooterComponent"
+                        },
+                        {
+                            "name": "HeaderComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": [
+                        {
+                            "name": "MaterialsModule"
+                        }
+                    ]
+                },
+                {
+                    "type": "exports",
+                    "elements": [
+                        {
+                            "name": "FooterComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
             "name": "ViewsModule",
-            "id": "module-ViewsModule-a41bbed6df315ab97bf2fb33e603d44b2ec76fa922a6ea27a6c5a27b96e67e77ea98f6f958f7d94b50472a14b1b588e56c60fd1c847b78f105a454b1c1d35a0d",
+            "id": "module-ViewsModule-6da75462397e4c46b3f707ded3c76ea85568ab89bb267c0f483be986148d5da241e4a018a36539f7c54a79c595877d6e5c67d9005e932e2a10dbbf6a6f70251d",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "src/app/views/views.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { MaterialsModule } from '../materials/materials.module';\nimport { CharactersModule } from './characters/characters.module';\nimport { HomeComponent } from './home/home.component';\nimport { HelpComponent } from './help/help.component';\nimport { TimelineComponent } from './timeline/timeline.component';\nimport { PageNotFoundComponent } from './page-not-found/page-not-found.component';\n\n@NgModule({\n  declarations: [\n    HelpComponent,\n    PageNotFoundComponent,\n    TimelineComponent,\n    HomeComponent\n  ],\n  imports: [\n    CommonModule,\n    MaterialsModule,\n    CharactersModule\n  ],\n  exports: [\n    HelpComponent,\n    PageNotFoundComponent,\n    TimelineComponent,\n    HomeComponent\n  ]\n})\nexport class ViewsModule { }\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { MaterialsModule } from '../core/materials/materials.module';\nimport { CharactersModule } from './characters/characters.module';\nimport { HomeComponent } from './home/home.component';\nimport { HelpComponent } from './help/help.component';\nimport { TimelineComponent } from './timeline/timeline.component';\nimport { PageNotFoundComponent } from './page-not-found/page-not-found.component';\n\n@NgModule({\n  declarations: [\n    HelpComponent,\n    PageNotFoundComponent,\n    TimelineComponent,\n    HomeComponent\n  ],\n  imports: [\n    CommonModule,\n    MaterialsModule,\n    CharactersModule\n  ],\n  exports: [\n    HelpComponent,\n    PageNotFoundComponent,\n    TimelineComponent,\n    HomeComponent\n  ]\n})\nexport class ViewsModule { }\n",
             "children": [
                 {
                     "type": "providers",
@@ -4266,7 +4374,7 @@
                 "name": "myCharacters",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/services/character.service.ts",
+                "file": "src/app/core/services/character.service.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Character[]",
@@ -4276,7 +4384,7 @@
                 "name": "NAVI",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/header/header.component.ts",
+                "file": "src/app/shared/components/header/header.component.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Array<Navigation>",
@@ -4325,7 +4433,7 @@
                 "name": "routerMock",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/header/header.component.stories.ts",
+                "file": "src/app/shared/components/header/header.component.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "object",
@@ -4479,7 +4587,7 @@
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
                 "rawtype": "Omit<Character | \"gender\" | \"children\" | \"dateOfBirth\" | \"dateOfDeath\" | \"fatherId\" | \"motherId\" | \"fatherAgeAtBirth\" | \"fatherContinuedToLive\" | \"reference\" | \"description\">",
-                "file": "src/app/models/character.model.ts",
+                "file": "src/app/core/models/character.model.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "description": "",
@@ -5213,36 +5321,36 @@
                     "defaultValue": "{}"
                 }
             ],
-            "src/app/services/character.service.ts": [
+            "src/app/core/services/character.service.ts": [
                 {
                     "name": "myCharacters",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/services/character.service.ts",
+                    "file": "src/app/core/services/character.service.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Character[]",
                     "defaultValue": "[\r\n  {\r\n      id: 1,\r\n      characterName: 'Adam',\r\n      gender: 'M',\r\n      dateOfBirth: '50',\r\n      dateOfDeath: '3096',\r\n      fatherId: 0,\r\n      motherId: 0,\r\n      children: [],\r\n      fatherAgeAtBirth: 130,\r\n      fatherContinuedToLive: 800,\r\n      reference: 'Gen 5:3-5',\r\n      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat.'\r\n  },\r\n  {\r\n      id: 2,\r\n      characterName: 'Eve',\r\n      gender: 'F',\r\n      dateOfBirth: '100',\r\n      dateOfDeath: '3096',\r\n      fatherId: 0,\r\n      motherId: 0,\r\n      children: [],\r\n      fatherAgeAtBirth: 130,\r\n      fatherContinuedToLive: 800,\r\n      reference: 'Gen 5:3-5',\r\n      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis.'\r\n  },\r\n  {\r\n      id: 3,\r\n      characterName: 'Seth',\r\n      gender: 'M',\r\n      dateOfBirth: '2896',\r\n      dateOfDeath: '2984',\r\n      fatherId: 1,\r\n      motherId: 2,\r\n      children: [],\r\n      fatherAgeAtBirth: 105,\r\n      fatherContinuedToLive: 807,\r\n      reference: 'Gen 5:6-8',\r\n      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus'\r\n  },\r\n  {\r\n      id: 4,\r\n      characterName: 'E\\'nosh',\r\n      gender: 'M',\r\n      dateOfBirth: '3791',\r\n      dateOfDeath: '2976',\r\n      fatherId: 3,\r\n      motherId: 0,\r\n      children: [],\r\n      fatherAgeAtBirth: 90,\r\n      fatherContinuedToLive: 815,\r\n      reference: 'Gen 5:9-11',\r\n      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui.'\r\n  },\r\n  {\r\n      id: 5,\r\n      characterName: 'Ca-l\\nan',\r\n      gender: 'M',\r\n      dateOfBirth: '3701',\r\n      dateOfDeath: '2861',\r\n      fatherId: 4,\r\n      motherId: 0,\r\n      children: [],\r\n      fatherAgeAtBirth: 70,\r\n      fatherContinuedToLive: 840,\r\n      reference: 'Gen 5:12-14',\r\n      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat.'\r\n  },\r\n  {\r\n      id: 6,\r\n      characterName: 'Ma-ha\\'la-le-el',\r\n      gender: 'M',\r\n      dateOfBirth: '3631',\r\n      dateOfDeath: '2801',\r\n      fatherId: 5,\r\n      motherId: 0,\r\n      children: [],\r\n      fatherAgeAtBirth: 65,\r\n      fatherContinuedToLive: 830,\r\n      reference: 'Gen 5:15-17',\r\n      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus'\r\n  },\r\n  {\r\n      id: 7,\r\n      characterName: 'Ja\\'red',\r\n      gender: 'M',\r\n      dateOfBirth: '3566',\r\n      dateOfDeath: '2604',\r\n      fatherId: 6,\r\n      motherId: 0,\r\n      children: [],\r\n      fatherAgeAtBirth: 162,\r\n      fatherContinuedToLive: 800,\r\n      reference: 'Gen 5:18-20',\r\n      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus'\r\n  },\r\n  {\r\n      id: 8,\r\n      characterName: 'E\\'noch',\r\n      gender: 'M',\r\n      dateOfBirth: '3404',\r\n      dateOfDeath: '2039',\r\n      fatherId: 7,\r\n      motherId: 0,\r\n      children: [],\r\n      fatherAgeAtBirth: 65,\r\n      fatherContinuedToLive: 300,\r\n      reference: 'Gen 5:21-23',\r\n      description: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis.'\r\n  }\r\n]"
                 }
             ],
-            "src/app/components/header/header.component.ts": [
+            "src/app/shared/components/header/header.component.ts": [
                 {
                     "name": "NAVI",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/components/header/header.component.ts",
+                    "file": "src/app/shared/components/header/header.component.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Array<Navigation>",
                     "defaultValue": "[\n  {\n    id: 1,\n    name: 'Home',\n    url: ['/'],\n    isActive: false\n  },\n  {\n    id: 2,\n    name: 'Timeline',\n    url: ['/time-line'],\n    isActive: false\n  },\n  {\n    id: 3,\n    name: 'Characters',\n    url: ['/characters'],\n    isActive: false\n  },\n  {\n    id: 4,\n    name: 'Help',\n    url: ['/help'],\n    isActive: false\n  }\n]"
                 }
             ],
-            "src/app/components/header/header.component.stories.ts": [
+            "src/app/shared/components/header/header.component.stories.ts": [
                 {
                     "name": "routerMock",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/components/header/header.component.stories.ts",
+                    "file": "src/app/shared/components/header/header.component.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "object",
@@ -5515,13 +5623,13 @@
             ]
         },
         "groupedTypeAliases": {
-            "src/app/models/character.model.ts": [
+            "src/app/core/models/character.model.ts": [
                 {
                     "name": "CharacterGenderList",
                     "ctype": "miscellaneous",
                     "subtype": "typealias",
                     "rawtype": "Omit<Character | \"gender\" | \"children\" | \"dateOfBirth\" | \"dateOfDeath\" | \"fatherId\" | \"motherId\" | \"fatherAgeAtBirth\" | \"fatherContinuedToLive\" | \"reference\" | \"description\">",
-                    "file": "src/app/models/character.model.ts",
+                    "file": "src/app/core/models/character.model.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "description": "",
@@ -5611,63 +5719,7 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/components/footer/footer.component.ts",
-                "type": "component",
-                "linktype": "component",
-                "name": "FooterComponent",
-                "coveragePercent": 0,
-                "coverageCount": "0/6",
-                "status": "low"
-            },
-            {
-                "filePath": "src/app/components/forms/character-form/character-form.component.ts",
-                "type": "component",
-                "linktype": "component",
-                "name": "CharacterFormComponent",
-                "coveragePercent": 0,
-                "coverageCount": "0/18",
-                "status": "low"
-            },
-            {
-                "filePath": "src/app/components/forms/character-form/character-form.component.ts",
-                "type": "interface",
-                "linktype": "interface",
-                "name": "GenderType",
-                "coveragePercent": 0,
-                "coverageCount": "0/3",
-                "status": "low"
-            },
-            {
-                "filePath": "src/app/components/header/header.component.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "routerMock",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/app/components/header/header.component.ts",
-                "type": "component",
-                "linktype": "component",
-                "name": "HeaderComponent",
-                "coveragePercent": 0,
-                "coverageCount": "0/5",
-                "status": "low"
-            },
-            {
-                "filePath": "src/app/components/header/header.component.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "NAVI",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/app/modals/character-profile-dialog/character-profile-dialog.component.ts",
+                "filePath": "src/app/core/modals/character-profile-dialog/character-profile-dialog.component.ts",
                 "type": "component",
                 "linktype": "component",
                 "name": "CharacterProfileDialogComponent",
@@ -5676,7 +5728,7 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/models/character.model.ts",
+                "filePath": "src/app/core/models/character.model.ts",
                 "type": "interface",
                 "linktype": "interface",
                 "name": "Character",
@@ -5685,7 +5737,7 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/models/character.model.ts",
+                "filePath": "src/app/core/models/character.model.ts",
                 "type": "interface",
                 "linktype": "interface",
                 "name": "Family",
@@ -5694,7 +5746,7 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/models/character.model.ts",
+                "filePath": "src/app/core/models/character.model.ts",
                 "type": "interface",
                 "linktype": "interface",
                 "name": "Parent",
@@ -5703,7 +5755,7 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/models/navigation.model..ts",
+                "filePath": "src/app/core/models/navigation.model..ts",
                 "type": "interface",
                 "linktype": "interface",
                 "name": "Navigation",
@@ -5712,7 +5764,7 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/resolvers/character.resolver.ts",
+                "filePath": "src/app/core/resolvers/character.resolver.ts",
                 "type": "guard",
                 "linktype": "guard",
                 "name": "CharacterResolver",
@@ -5721,7 +5773,7 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/resolvers/characters.resolver.ts",
+                "filePath": "src/app/core/resolvers/characters.resolver.ts",
                 "type": "guard",
                 "linktype": "guard",
                 "name": "CharactersResolver",
@@ -5730,7 +5782,7 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/resolvers/home.resolver.ts",
+                "filePath": "src/app/core/resolvers/home.resolver.ts",
                 "type": "guard",
                 "linktype": "guard",
                 "name": "HomeResolver",
@@ -5739,7 +5791,7 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/resolvers/timeline.resolver.ts",
+                "filePath": "src/app/core/resolvers/timeline.resolver.ts",
                 "type": "guard",
                 "linktype": "guard",
                 "name": "TimelineResolver",
@@ -5748,7 +5800,7 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/services/character.service.ts",
+                "filePath": "src/app/core/services/character.service.ts",
                 "type": "injectable",
                 "linktype": "injectable",
                 "name": "CharacterService",
@@ -5757,7 +5809,7 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/services/character.service.ts",
+                "filePath": "src/app/core/services/character.service.ts",
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
@@ -5767,7 +5819,7 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/services/fake-electron.service.ts",
+                "filePath": "src/app/core/services/fake-electron.service.ts",
                 "type": "class",
                 "linktype": "classe",
                 "name": "Channel",
@@ -5776,7 +5828,7 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/services/fake-electron.service.ts",
+                "filePath": "src/app/core/services/fake-electron.service.ts",
                 "type": "class",
                 "linktype": "classe",
                 "name": "Message",
@@ -5785,12 +5837,68 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/services/fake-electron.service.ts",
+                "filePath": "src/app/core/services/fake-electron.service.ts",
                 "type": "injectable",
                 "linktype": "injectable",
                 "name": "FakeElectronService",
                 "coveragePercent": 0,
                 "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/features/character-form/character-form.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "CharacterFormComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/15",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/features/character-form/character-form.component.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "GenderType",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/shared/components/footer/footer.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "FooterComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/10",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/shared/components/header/header.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "routerMock",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/shared/components/header/header.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "HeaderComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/shared/components/header/header.component.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "NAVI",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
                 "status": "low"
             },
             {
