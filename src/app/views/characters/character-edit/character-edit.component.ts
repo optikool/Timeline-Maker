@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { Character, Family } from 'src/app/models/character.model';
+import { Character, Family } from 'src/app/core/models/character.model';
 import { CharacterState } from '../store';
 import * as fromActions from '../store/character.actions';
-import { CharacterService } from 'src/app/services/character.service';
+import { CharacterService } from '../../../core/services/character.service';
 import { take, takeUntil } from 'rxjs/operators';
 import { selectCharacter } from '../store/character.selectors';
 

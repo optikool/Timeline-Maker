@@ -1,0 +1,118 @@
+
+<mat-card class="mat-elevation-z">
+    <mat-card-content>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="mat-elevation-z8">
+        <mat-grid-list cols="2" rowHeight="100px" gutterSize="5px">
+            <mat-grid-tile>
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Name</mat-label>
+                    <input formControlName="characterName" matInput placeholder="Character Name">
+                    <mat-hint>Name of the character to be added to the timeline.</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Gender</mat-label>
+                    <mat-select formControlName="gender">
+                        <mat-option *ngFor="let gen of genderList" [value]="gen.value">
+                            {{ gen.name }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint>Gnder of Character.</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
+        </mat-grid-list>
+        <mat-grid-list cols="2" rowHeight="100px" gutterSize="5px">
+            <mat-grid-tile>
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Date of Birth</mat-label>
+                    <input formControlName="dateOfBirth" matInput placeholder="Character Date of Birth">
+                    <mat-hint>Date of birth of character.</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Date of Death</mat-label>
+                    <input formControlName="dateOfDeath" matInput placeholder="Character Date of Death">
+                    <mat-hint>Date of death of character.</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
+        </mat-grid-list>
+        <mat-grid-list cols="2" rowHeight="100px" gutterSize="5px">
+            <mat-grid-tile>
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Father</mat-label>
+                    <mat-select formControlName="fatherId">
+                        <mat-option>--</mat-option>
+                        <mat-option *ngFor="let father of fatherList$ | async" [value]="father.id">
+                        {{ father.characterName }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint>Father of Character.</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Mother</mat-label>
+                    <mat-select formControlName="motherId">
+                        <mat-option>--</mat-option>
+                        <mat-option *ngFor="let mother of motherList$ | async" [value]="mother.id">
+                        {{ mother.characterName }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint>Mother of Character.</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
+        </mat-grid-list>
+        <mat-grid-list cols="2" rowHeight="100px" gutterSize="5px">
+            <mat-grid-tile>
+                <fieldset class="full-width fieldset-style">
+                    <legend>Children</legend>
+                    <mat-list>
+                        <mat-list-item class="fieldset-list-style" role="list" *ngFor="let child of children">
+                            {{ child.characterName }}
+                        </mat-list-item>
+                    </mat-list>
+                </fieldset>
+            </mat-grid-tile>
+        </mat-grid-list>        
+        <mat-grid-list cols="2" rowHeight="100px" gutterSize="5px">
+            <mat-grid-tile>
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Father Age at Birth</mat-label>
+                    <input formControlName="fatherAgeAtBirth" matInput placeholder="Character's Father Age at Birth">
+                    <mat-hint>Father's Age at Character Birth.</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Lived Till</mat-label>
+                    <input formControlName="fatherContinuedToLive" matInput placeholder="Character's Father continued to live till">
+                </mat-form-field>
+            </mat-grid-tile>
+        </mat-grid-list>
+        <mat-grid-list cols="2" rowHeight="100px" gutterSize="5px">
+            <mat-grid-tile>
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Reference</mat-label>
+                    <input formControlName="reference" matInput placeholder="Character Reference">
+                </mat-form-field>
+            </mat-grid-tile>
+        </mat-grid-list>
+        <mat-grid-list cols="1" rowHeight="175px" gutterSize="5px">
+            <mat-grid-tile>
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Description</mat-label>
+                    <textarea formControlName="description" matInput placeholder="Description for character."></textarea>
+                </mat-form-field>
+            </mat-grid-tile>
+        </mat-grid-list>
+        <!-- <mat-grid-list cols="1" rowHeight="50px" gutterSize="5px">
+            <mat-grid-tile class="full-width-footer">
+                <button mat-raised-button type="submit" [disabled]="registerForm.invalid" color="primary" class="footer-button">{{createUpdate}}</button>
+                <button mat-raised-button type="reset" (click)="onReset()" color="warn" class="footer-button">Cancel</button>
+            </mat-grid-tile>
+        </mat-grid-list> -->
+    </form>
+    </mat-card-content>
+</mat-card>

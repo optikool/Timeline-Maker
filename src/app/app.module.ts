@@ -7,10 +7,6 @@ import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './store/reducers';
 
-import { AnimationsModule } from './animations/animations.module';
-import { ComponentsModule } from './components/components.module';
-import { MaterialsModule } from './materials/materials.module';
-import { ModalsModule } from './modals/modals.module';
 import { ViewsModule } from './views/views.module';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
@@ -18,23 +14,25 @@ import { EffectsModule } from '@ngrx/effects';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxElectronModule } from 'ngx-electron';
+import { SharedModule } from './shared/shared.module';
+import { FeaturesModule } from './features/features.module';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    
+
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    AnimationsModule,
-    MaterialsModule,
-    ModalsModule,
     FlexLayoutModule,
-    ComponentsModule,
+    SharedModule,
+    FeaturesModule,
     NgxElectronModule,
+    CoreModule,
     ViewsModule,
     StoreModule.forRoot(reducers, {
       metaReducers,

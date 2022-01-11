@@ -3,8 +3,8 @@ import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { Character } from 'src/app/models/character.model';
-import { CharacterService } from 'src/app/services/character.service';
+import { Character } from '../../../core/models/character.model';
+import { CharacterService } from '../../../core/services/character.service';
 import { CharacterState } from '../store';
 import * as fromActions from '../store/character.actions';
 

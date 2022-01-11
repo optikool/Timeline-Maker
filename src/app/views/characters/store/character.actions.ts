@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Character, CharacterGenderList, Family, Parent } from 'src/app/models/character.model';
+import { Character, CharacterGenderList, Family, Parent } from 'src/app/core/models/character.model';
 
 export enum CharacterActionTypes {
   LOAD_CHARACTERS = '[Character List Component] Load Characters',
