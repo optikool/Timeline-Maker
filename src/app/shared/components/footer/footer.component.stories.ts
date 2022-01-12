@@ -18,14 +18,16 @@ const Template: Story = (args) => ({
   props: args,
 });
 
-export const Primary= Template.bind({});
-Primary.args = {
+export const ButtonEnabled= Template.bind({});
+ButtonEnabled.args = {
   isNew: true,
-  isDisabled: false
+  isDisabled: false,
+  createUpdate: 'Create'
 };
 
-export const Secondary= Template.bind({});
-Secondary.args = {
+export const ButtonDisabled= Template.bind({});
+ButtonDisabled.args = {
   isNew: false,
-  isDisabled: true
+  isDisabled: true,
+  createUpdate: 'Update'
 };
